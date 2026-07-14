@@ -277,6 +277,7 @@
     <a href="#cues">Cue table</a>
     <a href="#patterns">The patterns</a>
     <a href="#sorting">Sorting</a>
+    <a href="#pictures">Mental pictures</a>
     <a href="#gym">Recognition gym (all 150)</a>
     <a href="#mystery">Mystery set</a>
     <a href="#worked">Worked examples</a>
@@ -953,6 +954,189 @@ while i < n:
     </article>
 
     <p style="margin-top:18px; font-size:13.5px; color:var(--muted); max-width:68ch;">Two more sorts hide inside patterns you already know: <b style="color:var(--ink);">heapsort</b> is just the heap pattern run to completion (Top K, Kth in a Stream, Last Stone Weight), and <b style="color:var(--ink);">patience sorting</b> is the O(n log n) trick behind Longest Increasing Subsequence. And remember the quietest cue of all: <b style="color:var(--ink);">“sort first” unlocks whole families</b> — 3Sum, Merge Intervals, Meeting Rooms, Non-Overlapping Intervals, Car Fleet, Hand of Straights all start with one <code>sort()</code>.</p>
+  </section>
+
+  <!-- ============ MENTAL PICTURES ============ -->
+  <section id="pictures">
+    <h2>More mental pictures — the structures you rebuild from memory</h2>
+    <p style="color:var(--muted); font-size:14.5px; max-width:66ch;">Six structures that come up constantly but are easiest to remember as a single picture. If you can redraw the picture on the whiteboard, the code writes itself.</p>
+
+    <!-- TRIE -->
+    <article class="pattern a">
+      <header><h3>Trie — one stored prefix serves every word</h3></header>
+      <div class="cuewords"><span>startsWith</span><span>autocomplete</span><span>many words, shared prefixes</span></div>
+      <p class="thought">A hashmap stores “cat” and “car” twice; a trie stores the shared c-a once. Prefix query = just walk the path.</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 190" role="img" aria-label="Trie storing cat, car, and code: shared prefix letters are stored once">
+          <line x1="76" y1="95" x2="124" y2="95" class="edge"/>
+          <line x1="152" y1="84" x2="206" y2="63" class="edge"/>
+          <line x1="152" y1="106" x2="206" y2="128" class="edge"/>
+          <line x1="236" y1="50" x2="294" y2="39" class="edge"/>
+          <line x1="236" y1="62" x2="294" y2="76" class="edge"/>
+          <line x1="236" y1="135" x2="294" y2="135" class="edge"/>
+          <line x1="326" y1="135" x2="374" y2="135" class="edge"/>
+          <circle cx="60" cy="95" r="16" class="nodec"/><text x="60" y="100" class="ct" style="font-size:10px; fill:var(--faint);">root</text>
+          <circle cx="140" cy="95" r="16" class="nodec" fill="var(--amber-bg)" stroke="var(--amber)" stroke-width="2.5"/><text x="140" y="100" class="ct">c</text>
+          <circle cx="222" cy="55" r="16" class="nodec" fill="var(--amber-bg)" stroke="var(--amber)" stroke-width="2.5"/><text x="222" y="60" class="ct">a</text>
+          <circle cx="310" cy="35" r="16" class="nodec"/><text x="310" y="40" class="ct">t</text>
+          <circle cx="310" cy="80" r="16" class="nodec"/><text x="310" y="85" class="ct">r</text>
+          <circle cx="222" cy="135" r="16" class="nodec"/><text x="222" y="140" class="ct">o</text>
+          <circle cx="310" cy="135" r="16" class="nodec"/><text x="310" y="140" class="ct">d</text>
+          <circle cx="390" cy="135" r="16" class="nodec"/><text x="390" y="140" class="ct">e</text>
+          <text x="336" y="32" class="note note-g">● cat</text>
+          <text x="336" y="84" class="note note-g">● car</text>
+          <text x="416" y="139" class="note note-g">● code</text>
+          <text x="470" y="52" class="note note-a">cat + car share c-a —</text>
+          <text x="470" y="70" class="note note-a">stored once</text>
+          <text x="470" y="102" class="note">startsWith("ca") =</text>
+          <text x="470" y="120" class="note">walk c → a, done</text>
+          <text x="470" y="152" class="note">● = word-end flag</text>
+        </svg>
+      </div>
+      <div class="drill"><span class="lbl">Drill</span><span>Implement Trie</span><span>Design Add &amp; Search Words</span><span>Word Search II</span></div>
+    </article>
+
+    <!-- UNION FIND -->
+    <article class="pattern g">
+      <header><h3>Union-Find — forests that merge</h3></header>
+      <div class="cuewords"><span>connected?</span><span>groups over time</span><span>cycle in undirected graph</span></div>
+      <p class="thought">Every group is a tree pointing at its root. find = climb to the root; union = hang one root under the other.</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 190" role="img" aria-label="Union-Find: two parent-pointer trees, and union attaching one root beneath the other">
+          <line x1="82" y1="110" x2="112" y2="66" class="edge"/>
+          <line x1="158" y1="110" x2="128" y2="66" class="edge"/>
+          <line x1="300" y1="104" x2="300" y2="66" class="edge"/>
+          <circle cx="120" cy="50" r="16" class="nodec" fill="var(--green-bg)" stroke="var(--green)" stroke-width="2.5"/><text x="120" y="55" class="ct">1</text>
+          <circle cx="74" cy="124" r="16" class="nodec"/><text x="74" y="129" class="ct">2</text>
+          <circle cx="166" cy="124" r="16" class="nodec"/><text x="166" y="129" class="ct">3</text>
+          <circle cx="300" cy="50" r="16" class="nodec" fill="var(--green-bg)" stroke="var(--green)" stroke-width="2.5"/><text x="300" y="55" class="ct">4</text>
+          <circle cx="300" cy="120" r="16" class="nodec"/><text x="300" y="125" class="ct">5</text>
+          <path d="M 284 44 C 230 20 160 26 138 42" class="arrow arrow-g dash" marker-end="url(#ah-uf)"/>
+          <text x="150" y="18" class="note note-g">union(3, 5): hang root 4 under root 1</text>
+          <text x="420" y="56" class="note">find(x): follow parents to the root —</text>
+          <text x="420" y="74" class="note">same root ⇔ same group</text>
+          <text x="420" y="102" class="note note-g">an edge whose two ends already</text>
+          <text x="420" y="120" class="note note-g">share a root closes a CYCLE</text>
+          <text x="420" y="148" class="note mono">path compression → ~O(1)</text>
+          <defs><marker id="ah-uf" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--green)"/></marker></defs>
+        </svg>
+      </div>
+      <div class="drill"><span class="lbl">Drill</span><span>Number of Connected Components</span><span>Graph Valid Tree</span><span>Redundant Connection</span><span>Min Cost to Connect All Points (Kruskal)</span></div>
+    </article>
+
+    <!-- TOPO SORT -->
+    <article class="pattern g">
+      <header><h3>Topological sort — peel the free nodes</h3></header>
+      <div class="cuewords"><span>prerequisites</span><span>build order</span><span>can you finish?</span></div>
+      <p class="thought">Anything with indegree 0 has no unmet prerequisites — peel it, decrement its neighbors, repeat. Leftovers at the end = a cycle.</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 180" role="img" aria-label="Topological sort: peel indegree-zero nodes A and B, unlocking C then D">
+          <path d="M 106 66 L 212 88" class="arrow" marker-end="url(#ah-topo)"/>
+          <path d="M 106 128 L 212 104" class="arrow" marker-end="url(#ah-topo)"/>
+          <path d="M 266 96 L 372 96" class="arrow" marker-end="url(#ah-topo)"/>
+          <circle cx="88" cy="60" r="18" class="nodec" fill="var(--green-bg)" stroke="var(--green)" stroke-width="2.5"/><text x="88" y="65" class="ct">A</text>
+          <circle cx="88" cy="134" r="18" class="nodec" fill="var(--green-bg)" stroke="var(--green)" stroke-width="2.5"/><text x="88" y="139" class="ct">B</text>
+          <circle cx="240" cy="96" r="18" class="nodec"/><text x="240" y="101" class="ct">C</text>
+          <circle cx="392" cy="96" r="18" class="nodec"/><text x="392" y="101" class="ct">D</text>
+          <text x="88" y="28" class="note note-g" text-anchor="middle">indeg 0 — free!</text>
+          <text x="240" y="64" class="note" text-anchor="middle">indeg 2</text>
+          <text x="392" y="64" class="note" text-anchor="middle">indeg 1</text>
+          <text x="88" y="170" class="note note-g" text-anchor="middle">indeg 0 — free!</text>
+          <text x="470" y="72" class="note">peel order:</text>
+          <text x="470" y="94" class="note mono" style="font-weight:700; fill:var(--ink);">A  B  C  D</text>
+          <text x="470" y="126" class="note note-r">peeled &lt; n at the end</text>
+          <text x="470" y="144" class="note note-r">→ cycle → impossible</text>
+          <defs><marker id="ah-topo" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/></marker></defs>
+        </svg>
+      </div>
+      <div class="drill"><span class="lbl">Drill</span><span>Course Schedule I &amp; II</span><span>Alien Dictionary</span></div>
+    </article>
+
+    <!-- TWO HEAPS -->
+    <article class="pattern a">
+      <header><h3>Two heaps — the median lives at the boundary</h3></header>
+      <div class="cuewords"><span>median of a stream</span><span>balance two halves</span></div>
+      <p class="thought">Max-heap holds the small half, min-heap the large half — the two roots face each other across the median.</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 180" role="img" aria-label="Two heaps: a max-heap of the small half and min-heap of the large half meet at the median">
+          <polygon points="60,140 250,140 250,52" fill="var(--amber-bg)" stroke="var(--amber)" stroke-width="1.5"/>
+          <polygon points="580,140 390,140 390,52" fill="var(--blue-bg)" stroke="var(--blue)" stroke-width="1.5"/>
+          <circle cx="250" cy="62" r="17" class="nodec" stroke="var(--amber)" stroke-width="2.5"/><text x="250" y="67" class="ct">5</text>
+          <circle cx="390" cy="62" r="17" class="nodec" stroke="var(--blue)" stroke-width="2.5"/><text x="390" y="67" class="ct">7</text>
+          <text x="140" y="120" class="note note-a" text-anchor="middle">max-heap</text>
+          <text x="140" y="136" class="note" text-anchor="middle">small half</text>
+          <text x="500" y="120" class="note note-b" text-anchor="middle">min-heap</text>
+          <text x="500" y="136" class="note" text-anchor="middle">large half</text>
+          <text x="320" y="40" class="ct" style="font-size:12px; fill:var(--green);" text-anchor="middle">median = (5+7)/2</text>
+          <line x1="320" y1="50" x2="320" y2="140" class="arrow arrow-g dash"/>
+          <text x="320" y="166" class="note" text-anchor="middle">keep sizes within 1 — rebalance by moving one root across</text>
+        </svg>
+      </div>
+      <div class="drill"><span class="lbl">Drill</span><span>Find Median from Data Stream</span><span>Sliding Window Median</span><span>IPO</span></div>
+    </article>
+
+    <!-- LRU -->
+    <article class="pattern v">
+      <header><h3>LRU Cache — two structures covering each other’s weakness</h3></header>
+      <div class="cuewords"><span>O(1) get + put</span><span>evict least-recently-used</span><span>design</span></div>
+      <p class="thought">The hashmap finds any node instantly; the doubly linked list reorders and evicts instantly. Neither can do it alone.</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 190" role="img" aria-label="LRU cache: a hashmap pointing into a doubly linked list ordered from most to least recently used">
+          <rect x="40" y="44" width="120" height="112" rx="10" class="cell"/>
+          <text x="100" y="34" class="note" text-anchor="middle">hashmap</text>
+          <text x="100" y="76" class="ct" style="font-size:12px;">k1 →</text>
+          <text x="100" y="106" class="ct" style="font-size:12px;">k2 →</text>
+          <text x="100" y="136" class="ct" style="font-size:12px;">k3 →</text>
+          <rect x="250" y="72" width="80" height="44" rx="8" class="cell-hot-g"/><text x="290" y="99" class="ct">A</text>
+          <rect x="370" y="72" width="80" height="44" rx="8" class="cell"/><text x="410" y="99" class="ct">B</text>
+          <rect x="490" y="72" width="80" height="44" rx="8" class="cell" stroke="var(--rust)"/><text x="530" y="99" class="ct">C</text>
+          <path d="M 334 86 L 366 86" class="arrow"/><path d="M 366 102 L 334 102" class="arrow"/>
+          <path d="M 454 86 L 486 86" class="arrow"/><path d="M 486 102 L 454 102" class="arrow"/>
+          <path d="M 164 72 C 200 66 220 76 246 86" class="arrow arrow-v"/>
+          <path d="M 164 102 C 220 102 300 130 372 112" class="arrow arrow-v"/>
+          <path d="M 164 132 C 260 160 420 150 492 112" class="arrow arrow-v"/>
+          <text x="290" y="56" class="note note-g" text-anchor="middle">head = just used</text>
+          <text x="530" y="56" class="note note-r" text-anchor="middle">tail = evict me</text>
+          <text x="320" y="178" class="note" text-anchor="middle">on every get/put: map finds the node → unlink → relink at head</text>
+        </svg>
+      </div>
+      <div class="drill"><span class="lbl">Drill</span><span>LRU Cache</span><span>LFU Cache</span><span>Insert Delete GetRandom O(1) (map + array)</span></div>
+    </article>
+
+    <!-- LCS GRID -->
+    <article class="pattern r">
+      <header><h3>The 2-D DP grid — every two-sequence problem is this table</h3></header>
+      <div class="cuewords"><span>compare two strings</span><span>LCS · edit distance</span><span>align / transform</span></div>
+      <p class="thought">Cell (i, j) = the answer for prefix i of one string vs prefix j of the other. Match → 1 + diagonal. Else → best neighbor.</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 210" role="img" aria-label="LCS dynamic programming table for abc versus ace, with the diagonal match move highlighted">
+          <text x="40" y="24" class="note">LCS("abc", "ace") — answer lands in the bottom-right</text>
+          <text x="150" y="62" class="ct" style="fill:var(--muted);">a</text>
+          <text x="190" y="62" class="ct" style="fill:var(--muted);">b</text>
+          <text x="230" y="62" class="ct" style="fill:var(--muted);">c</text>
+          <text x="110" y="102" class="ct" style="fill:var(--muted);">a</text>
+          <text x="110" y="142" class="ct" style="fill:var(--muted);">c</text>
+          <text x="110" y="182" class="ct" style="fill:var(--muted);">e</text>
+          <rect x="130" y="76" width="40" height="40" class="cell-hot-g"/><text x="150" y="101" class="ct">1</text>
+          <rect x="170" y="76" width="40" height="40" class="cell"/><text x="190" y="101" class="ct">1</text>
+          <rect x="210" y="76" width="40" height="40" class="cell"/><text x="230" y="101" class="ct">1</text>
+          <rect x="130" y="116" width="40" height="40" class="cell"/><text x="150" y="141" class="ct">1</text>
+          <rect x="170" y="116" width="40" height="40" class="cell"/><text x="190" y="141" class="ct">1</text>
+          <rect x="210" y="116" width="40" height="40" class="cell-hot-g"/><text x="230" y="141" class="ct">2</text>
+          <rect x="130" y="156" width="40" height="40" class="cell"/><text x="150" y="181" class="ct">1</text>
+          <rect x="170" y="156" width="40" height="40" class="cell"/><text x="190" y="181" class="ct">1</text>
+          <rect x="210" y="156" width="40" height="40" class="cell" stroke="var(--rust)" stroke-width="2.5"/><text x="230" y="181" class="ct" style="fill:var(--rust);">2</text>
+          <path d="M 196 108 L 214 124" class="arrow arrow-g" marker-end="url(#ah-lcs)"/>
+          <text x="310" y="96" class="note note-g">"a" == "a", "c" == "c" →</text>
+          <text x="310" y="114" class="note note-g">match: 1 + diagonal ↘</text>
+          <text x="310" y="146" class="note">no match: max(left, up)</text>
+          <text x="310" y="178" class="note note-r">same table, new rules = Edit Distance,</text>
+          <text x="310" y="196" class="note note-r">Distinct Subsequences, Interleaving String</text>
+          <defs><marker id="ah-lcs" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--green)"/></marker></defs>
+        </svg>
+      </div>
+      <div class="drill"><span class="lbl">Drill</span><span>Longest Common Subsequence</span><span>Edit Distance</span><span>Distinct Subsequences</span><span>Interleaving String</span></div>
+    </article>
   </section>
 
   <!-- ============ RECOGNITION GYM ============ -->

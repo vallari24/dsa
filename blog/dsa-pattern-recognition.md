@@ -425,6 +425,55 @@ The four famous skeletons:
 
 ---
 
+# More mental pictures — structures you rebuild from memory
+
+If you can redraw the picture on the whiteboard, the code writes itself.
+
+**Trie** — one stored prefix serves every word; `startsWith` = walk the path
+```
+  root ── c ── a ── t ●   (cat)
+              └──── r ●   (car)     cat + car share c-a, stored ONCE
+         └── o ── d ── e ●  (code)  ● = word-end flag
+```
+
+**Union-Find** — forests that merge; same root ⇔ same group
+```
+      1           4        union(3,5): hang root 4 under root 1
+     / \          |        find(x): climb parents to the root (compress!)
+    2   3         5        edge joining two same-root nodes → CYCLE
+```
+
+**Topological sort** — peel the free nodes
+```
+  A(indeg 0) ──→ C(indeg 2) ──→ D(indeg 1)
+  B(indeg 0) ──↗
+  peel order: A B C D · peeled < n at the end → cycle → impossible
+```
+
+**Two heaps** — the median lives at the boundary
+```
+   small half  ▲ 5   |   7 ▼  large half      median = (5+7)/2
+   (max-heap)        |        (min-heap)      keep sizes within 1
+```
+
+**LRU Cache** — two structures covering each other's weakness
+```
+  hashmap ──→ [A] ⇄ [B] ⇄ [C]
+  key→node   head=just used   tail=evict me
+  get/put O(1): map FINDS the node, list REORDERS it
+```
+
+**The 2-D DP grid** — every two-sequence problem is this table
+```
+  LCS("abc","ace"):     a  b  c
+                     a  1  1  1     match → 1 + diagonal ↘
+                     c  1  1  2     else  → max(left, up)
+                     e  1  1 [2] ← answer bottom-right
+  same table, new rules = Edit Distance, Distinct Subsequences
+```
+
+---
+
 # Sorting — steal the algorithm, skip the sort
 
 No interviewer asks you to implement mergesort. But the **machinery inside each sort** is a reusable pattern that solves famous problems on its own.
