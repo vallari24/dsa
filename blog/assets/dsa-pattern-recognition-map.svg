@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1200" viewBox="0 0 1600 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Name the Shape: complete DSA interview pattern map</title>
+  <desc id="desc">A visual map connecting interview clues to twenty common algorithm patterns across sequences, ordered data, linked structures, graphs, and optimization.</desc>
+  <defs>
+    <style>
+      .bg{fill:#f6f7f2}.ink{fill:#13231c}.muted{fill:#59675f}.line{stroke:#cfd6ce;stroke-width:2}.route{fill:none;stroke-width:6;stroke-linecap:round}.t{font:800 48px Inter,system-ui,sans-serif}.sub{font:500 20px Inter,system-ui,sans-serif}.kicker{font:800 15px Inter,system-ui,sans-serif;letter-spacing:2px}.lane{font:800 25px Inter,system-ui,sans-serif}.q{font:750 18px Inter,system-ui,sans-serif}.p{font:650 15px Inter,system-ui,sans-serif}.tiny{font:600 13px Inter,system-ui,sans-serif}.card{fill:#fff;stroke:#d8ded7;stroke-width:2}.pill{fill:#fff;stroke-width:2}.white{fill:#fff}.seq{stroke:#d94f3d}.ord{stroke:#d69a16}.link{stroke:#3085a4}.graph{stroke:#2a8a61}.choice{stroke:#7857a6}.seqf{fill:#d94f3d}.ordf{fill:#d69a16}.linkf{fill:#3085a4}.graphf{fill:#2a8a61}.choicef{fill:#7857a6}.softseq{fill:#fff1ee}.softord{fill:#fff7df}.softlink{fill:#eaf6fa}.softgraph{fill:#eaf7f0}.softchoice{fill:#f3eef9}.mono{font:700 14px ui-monospace,SFMono-Regular,Menlo,monospace}
+    </style>
+    <filter id="shadow" x="-10%" y="-20%" width="120%" height="150%"><feDropShadow dx="0" dy="5" stdDeviation="8" flood-color="#183326" flood-opacity=".08"/></filter>
+  </defs>
+  <rect class="bg" width="1600" height="1200"/>
+  <text class="t ink" x="70" y="78">NAME THE SHAPE</text>
+  <text class="sub muted" x="70" y="116">Strip away the story. Identify what changes, what must be remembered, and what must stay true.</text>
+
+  <g transform="translate(70 150)" filter="url(#shadow)">
+    <rect width="1460" height="112" rx="12" fill="#13231c"/>
+    <text class="kicker" x="30" y="35" fill="#a9b9af">THE 20-SECOND SCAN</text>
+    <text class="q white" x="30" y="76">1  Output shape?</text><text class="p" x="205" y="76" fill="#cbd7cf">pair / range / path / order / count / top K / all choices</text>
+    <text class="q white" x="720" y="76">2  Input structure?</text><text class="p" x="915" y="76" fill="#cbd7cf">sorted / contiguous / tree / graph / stream</text>
+    <text class="q white" x="30" y="101">3  Repeated work?</text><text class="p" x="205" y="101" fill="#cbd7cf">searching past / recomputing range / revisiting state</text>
+    <text class="q white" x="720" y="101">4  Constraint?</text><text class="p" x="858" y="101" fill="#cbd7cf">n tells you O(n), O(n log n), O(2^n)</text>
+  </g>
+
+  <!-- lane 1 -->
+  <path class="route seq" d="M105 330H1495"/>
+  <circle class="seqf" cx="105" cy="330" r="13"/>
+  <text class="lane ink" x="70" y="309">SEQUENCE</text><text class="tiny muted" x="222" y="309">array · string · contiguous positions</text>
+  <g transform="translate(70 350)">
+    <g><rect class="card" width="270" height="116" rx="9"/><rect class="softseq" width="270" height="34" rx="9"/><text class="q ink" x="16" y="24">Seen / count / complement?</text><text class="p ink" x="16" y="61">HASH MAP / SET</text><text class="tiny muted" x="16" y="84">state: useful past</text><text class="mono" x="16" y="105" fill="#d94f3d">Two Sum · Anagrams</text></g>
+    <g transform="translate(290)"><rect class="card" width="270" height="116" rx="9"/><rect class="softseq" width="270" height="34" rx="9"/><text class="q ink" x="16" y="24">Sorted pair / both ends?</text><text class="p ink" x="16" y="61">TWO POINTERS</text><text class="tiny muted" x="16" y="84">invariant: discarded side fails</text><text class="mono" x="16" y="105" fill="#d94f3d">3Sum · Container</text></g>
+    <g transform="translate(580)"><rect class="card" width="270" height="116" rx="9"/><rect class="softseq" width="270" height="34" rx="9"/><text class="q ink" x="16" y="24">Best contiguous chunk?</text><text class="p ink" x="16" y="61">SLIDING WINDOW</text><text class="tiny muted" x="16" y="84">state: current valid range</text><text class="mono" x="16" y="105" fill="#d94f3d">Longest Substring</text></g>
+    <g transform="translate(870)"><rect class="card" width="270" height="116" rx="9"/><rect class="softseq" width="270" height="34" rx="9"/><text class="q ink" x="16" y="24">Same range fact repeatedly?</text><text class="p ink" x="16" y="61">PREFIX / SUFFIX</text><text class="tiny muted" x="16" y="84">state: cumulative history</text><text class="mono" x="16" y="105" fill="#d94f3d">Range Sum · Rain</text></g>
+    <g transform="translate(1160)"><rect class="card" width="270" height="116" rx="9"/><rect class="softseq" width="270" height="34" rx="9"/><text class="q ink" x="16" y="24">Nearest greater / smaller?</text><text class="p ink" x="16" y="61">MONOTONIC STACK</text><text class="tiny muted" x="16" y="84">state: unresolved staircase</text><text class="mono" x="16" y="105" fill="#d94f3d">Temperatures · Histogram</text></g>
+  </g>
+
+  <!-- lane 2 -->
+  <path class="route ord" d="M105 536H1495"/>
+  <circle class="ordf" cx="105" cy="536" r="13"/>
+  <text class="lane ink" x="70" y="515">ORDER &amp; SELECTION</text><text class="tiny muted" x="335" y="515">sorted facts · boundaries · repeated best</text>
+  <g transform="translate(70 556)">
+    <g><rect class="card" width="342" height="116" rx="9"/><rect class="softord" width="342" height="34" rx="9"/><text class="q ink" x="16" y="24">Sorted or monotonic yes/no?</text><text class="p ink" x="16" y="61">BINARY SEARCH</text><text class="tiny muted" x="16" y="84">invariant: answer remains in [lo, hi]</text><text class="mono" x="16" y="105" fill="#a87200">First True · Search Answer</text></g>
+    <g transform="translate(362)"><rect class="card" width="342" height="116" rx="9"/><rect class="softord" width="342" height="34" rx="9"/><text class="q ink" x="16" y="24">Top K / repeatedly smallest?</text><text class="p ink" x="16" y="61">HEAP / PRIORITY QUEUE</text><text class="tiny muted" x="16" y="84">state: best candidate always on top</text><text class="mono" x="16" y="105" fill="#a87200">Top K · Merge K Lists</text></g>
+    <g transform="translate(724)"><rect class="card" width="342" height="116" rx="9"/><rect class="softord" width="342" height="34" rx="9"/><text class="q ink" x="16" y="24">Overlapping ranges?</text><text class="p ink" x="16" y="61">SORT + INTERVAL SWEEP</text><text class="tiny muted" x="16" y="84">state: last merged end / active count</text><text class="mono" x="16" y="105" fill="#a87200">Merge · Meeting Rooms</text></g>
+    <g transform="translate(1086)"><rect class="card" width="342" height="116" rx="9"/><rect class="softord" width="342" height="34" rx="9"/><text class="q ink" x="16" y="24">Local choice never hurts future?</text><text class="p ink" x="16" y="61">GREEDY</text><text class="tiny muted" x="16" y="84">proof: exchange or stays-ahead</text><text class="mono" x="16" y="105" fill="#a87200">Jump Game · Scheduling</text></g>
+  </g>
+
+  <!-- lane 3 -->
+  <path class="route link" d="M105 742H1495"/>
+  <circle class="linkf" cx="105" cy="742" r="13"/>
+  <text class="lane ink" x="70" y="721">LINKED &amp; NESTED</text><text class="tiny muted" x="310" y="721">identity · order of resolution · prefixes</text>
+  <g transform="translate(70 762)">
+    <g><rect class="card" width="342" height="116" rx="9"/><rect class="softlink" width="342" height="34" rx="9"/><text class="q ink" x="16" y="24">Cycle / middle / kth from end?</text><text class="p ink" x="16" y="61">FAST–SLOW POINTERS</text><text class="tiny muted" x="16" y="84">state: pointers moving at different rates</text><text class="mono" x="16" y="105" fill="#227493">Cycle · Middle · Duplicate</text></g>
+    <g transform="translate(362)"><rect class="card" width="342" height="116" rx="9"/><rect class="softlink" width="342" height="34" rx="9"/><text class="q ink" x="16" y="24">Last opened resolves first?</text><text class="p ink" x="16" y="61">STACK</text><text class="tiny muted" x="16" y="84">state: unresolved work in LIFO order</text><text class="mono" x="16" y="105" fill="#227493">Parentheses · RPN</text></g>
+    <g transform="translate(724)"><rect class="card" width="342" height="116" rx="9"/><rect class="softlink" width="342" height="34" rx="9"/><text class="q ink" x="16" y="24">Need O(1) lookup + ordering?</text><text class="p ink" x="16" y="61">MAP + LINKED LIST</text><text class="tiny muted" x="16" y="84">state: identity plus recency order</text><text class="mono" x="16" y="105" fill="#227493">LRU Cache</text></g>
+    <g transform="translate(1086)"><rect class="card" width="342" height="116" rx="9"/><rect class="softlink" width="342" height="34" rx="9"/><text class="q ink" x="16" y="24">Many prefix queries?</text><text class="p ink" x="16" y="61">TRIE</text><text class="tiny muted" x="16" y="84">state: shared character prefixes</text><text class="mono" x="16" y="105" fill="#227493">Word Search II · Autocomplete</text></g>
+  </g>
+
+  <!-- lanes 4 and 5 compact -->
+  <g transform="translate(70 948)">
+    <rect class="card" width="710" height="170" rx="12"/>
+    <rect class="softgraph" width="710" height="44" rx="12"/>
+    <text class="lane ink" x="20" y="30">CONNECTED WORLD</text><text class="tiny muted" x="320" y="29">tree · graph · grid</text>
+    <text class="q ink" x="20" y="76">Path / component</text><text class="p" x="20" y="101" fill="#2a8a61">DFS</text><text class="tiny muted" x="68" y="101">deep exploration</text>
+    <text class="q ink" x="220" y="76">Fewest unweighted edges</text><text class="p" x="220" y="101" fill="#2a8a61">BFS</text><text class="tiny muted" x="263" y="101">level order</text>
+    <text class="q ink" x="520" y="76">Dependencies</text><text class="p" x="520" y="101" fill="#2a8a61">TOPO SORT</text>
+    <text class="q ink" x="20" y="138">Dynamic groups</text><text class="p" x="20" y="160" fill="#2a8a61">UNION-FIND</text>
+    <text class="q ink" x="220" y="138">Weighted shortest path</text><text class="p" x="220" y="160" fill="#2a8a61">DIJKSTRA</text>
+    <text class="q ink" x="450" y="138">Cheapest connection</text><text class="p" x="450" y="160" fill="#2a8a61">MST: PRIM / KRUSKAL</text>
+  </g>
+  <g transform="translate(800 948)">
+    <rect class="card" width="730" height="170" rx="12"/>
+    <rect class="softchoice" width="730" height="44" rx="12"/>
+    <text class="lane ink" x="20" y="30">CHOICES &amp; OPTIMIZATION</text><text class="tiny muted" x="425" y="29">decision tree · repeated states</text>
+    <text class="q ink" x="20" y="76">Generate every valid answer</text><text class="p" x="20" y="101" fill="#7857a6">BACKTRACKING</text><text class="tiny muted" x="166" y="101">choose → recurse → undo</text>
+    <text class="q ink" x="382" y="76">Same state repeats</text><text class="p" x="382" y="101" fill="#7857a6">DYNAMIC PROGRAMMING</text>
+    <text class="q ink" x="20" y="138">Tiny n, subset state</text><text class="p" x="20" y="160" fill="#7857a6">BITMASK</text>
+    <text class="q ink" x="260" y="138">Pairs cancel / parity</text><text class="p" x="260" y="160" fill="#7857a6">XOR / BITS</text>
+    <text class="q ink" x="480" y="138">Split + combine halves</text><text class="p" x="480" y="160" fill="#7857a6">DIVIDE &amp; CONQUER</text>
+  </g>
+
+  <text class="sub ink" x="800" y="1172" text-anchor="middle">The pattern is the smallest state that removes the brute force repetition.</text>
+</svg>

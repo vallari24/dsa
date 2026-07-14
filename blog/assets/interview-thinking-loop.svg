@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1280" viewBox="0 0 1600 1280" role="img" aria-labelledby="title desc">
+  <title id="title">DSA interview execution and invariant sheet</title>
+  <desc id="desc">A visual process for moving from problem statement to brute force, repeated work, useful state, invariant, code, and testing during an interview.</desc>
+  <defs><style>
+    .bg{fill:#f7f7f2}.dark{fill:#16271f}.ink{fill:#17251f}.muted{fill:#5c6962}.red{fill:#dd5343}.green{fill:#25845d}.gold{fill:#c78d17}.blue{fill:#337f9e}.purple{fill:#7652a5}.softred{fill:#fff0ed}.softgreen{fill:#eaf7f0}.softgold{fill:#fff7df}.softblue{fill:#ebf5f8}.softpurple{fill:#f2ecf8}.card{fill:#fff;stroke:#d6ddd6;stroke-width:2}.t{font:800 45px Inter,system-ui,sans-serif}.sub{font:500 19px Inter,system-ui,sans-serif}.name{font:800 23px Inter,system-ui,sans-serif}.label{font:800 12px Inter,system-ui,sans-serif;letter-spacing:1.4px}.body{font:600 15px Inter,system-ui,sans-serif}.small{font:550 13px Inter,system-ui,sans-serif}.mono{font:700 13px ui-monospace,SFMono-Regular,Menlo,monospace}.white{fill:#fff}.line{stroke:#87948c;stroke-width:3;fill:none}.dash{stroke-dasharray:6 6}.step{fill:#fff;stroke-width:4}
+  </style><marker id="arr" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1 1L11 6 1 11Z" fill="#87948c"/></marker></defs>
+  <rect class="bg" width="1600" height="1280"/><rect class="dark" width="1600" height="146"/>
+  <text class="t white" x="70" y="68">IN THE INTERVIEW: THINK OUT LOUD IN THIS ORDER</text>
+  <text class="sub" x="70" y="108" fill="#c8d8d0">You are not expected to teleport to optimal code. Show a controlled reduction from brute force to the smallest useful state.</text>
+
+  <!-- loop -->
+  <g transform="translate(60 178)"><rect class="card" width="1480" height="330" rx="12"/>
+    <text class="label green" x="24" y="32">THE 8-MINUTE PATH TO A SOLUTION</text>
+    <path class="line" d="M105 124H1360" marker-end="url(#arr)"/>
+    <g transform="translate(95 124)"><circle class="step" r="38" stroke="#dd5343"/><text class="name red" y="8" text-anchor="middle">1</text><text class="body ink" x="0" y="70" text-anchor="middle">Clarify</text><text class="small muted" x="0" y="92" text-anchor="middle">input · output</text><text class="small muted" x="0" y="110" text-anchor="middle">edge rules</text></g>
+    <g transform="translate(275 124)"><circle class="step" r="38" stroke="#c78d17"/><text class="name gold" y="8" text-anchor="middle">2</text><text class="body ink" x="0" y="70" text-anchor="middle">Example</text><text class="small muted" x="0" y="92" text-anchor="middle">do one by hand</text><text class="small muted" x="0" y="110" text-anchor="middle">watch decisions</text></g>
+    <g transform="translate(455 124)"><circle class="step" r="38" stroke="#337f9e"/><text class="name blue" y="8" text-anchor="middle">3</text><text class="body ink" x="0" y="70" text-anchor="middle">Brute force</text><text class="small muted" x="0" y="92" text-anchor="middle">correct first</text><text class="small muted" x="0" y="110" text-anchor="middle">name complexity</text></g>
+    <g transform="translate(635 124)"><circle class="step" r="38" stroke="#7652a5"/><text class="name purple" y="8" text-anchor="middle">4</text><text class="body ink" x="0" y="70" text-anchor="middle">Find repetition</text><text class="small muted" x="0" y="92" text-anchor="middle">what work repeats</text><text class="small muted" x="0" y="110" text-anchor="middle">across iterations?</text></g>
+    <g transform="translate(815 124)"><circle class="step" r="38" stroke="#25845d"/><text class="name green" y="8" text-anchor="middle">5</text><text class="body ink" x="0" y="70" text-anchor="middle">Choose state</text><text class="small muted" x="0" y="92" text-anchor="middle">what do I wish</text><text class="small muted" x="0" y="110" text-anchor="middle">I already knew?</text></g>
+    <g transform="translate(995 124)"><circle class="step" r="38" stroke="#dd5343"/><text class="name red" y="8" text-anchor="middle">6</text><text class="body ink" x="0" y="70" text-anchor="middle">State invariant</text><text class="small muted" x="0" y="92" text-anchor="middle">what is always</text><text class="small muted" x="0" y="110" text-anchor="middle">true?</text></g>
+    <g transform="translate(1175 124)"><circle class="step" r="38" stroke="#337f9e"/><text class="name blue" y="8" text-anchor="middle">7</text><text class="body ink" x="0" y="70" text-anchor="middle">Code</text><text class="small muted" x="0" y="92" text-anchor="middle">initialize · update</text><text class="small muted" x="0" y="110" text-anchor="middle">return</text></g>
+    <g transform="translate(1355 124)"><circle class="step" r="38" stroke="#c78d17"/><text class="name gold" y="8" text-anchor="middle">8</text><text class="body ink" x="0" y="70" text-anchor="middle">Walk + test</text><text class="small muted" x="0" y="92" text-anchor="middle">tiny · empty</text><text class="small muted" x="0" y="110" text-anchor="middle">worst shape</text></g>
+    <rect class="softgreen" x="24" y="266" width="1432" height="42" rx="7"/><text class="body ink" x="40" y="292">Say this:</text><text class="body green" x="125" y="292">“The brute force repeats ______. I can store ______. My invariant is ______. That reduces ______ to ______.”</text>
+  </g>
+
+  <!-- constraint + state lookup -->
+  <g transform="translate(60 534)"><rect class="card" width="700" height="324" rx="10"/><rect class="softgold" width="700" height="42" rx="10"/>
+    <text class="label gold" x="22" y="27">CONSTRAINTS ARE A COMPLEXITY HINT</text><text class="name ink" x="22" y="78">Read n before choosing the pattern</text>
+    <g transform="translate(24 105)"><text class="mono ink" x="0" y="20">n ≤ 20</text><rect class="softpurple" x="110" width="180" height="30" rx="5"/><text class="small purple" x="122" y="20">O(2ⁿ) · backtracking</text>
+      <text class="mono ink" x="0" y="60">n ≤ 1,000</text><rect class="softblue" x="110" y="40" width="280" height="30" rx="5"/><text class="small blue" x="122" y="60">O(n²) · nested loops / 2D DP</text>
+      <text class="mono ink" x="0" y="100">n ≤ 100k</text><rect class="softgold" x="110" y="80" width="400" height="30" rx="5"/><text class="small gold" x="122" y="100">O(n log n) · sort / heap / binary search</text>
+      <text class="mono ink" x="0" y="140">n ≤ 1m</text><rect class="softgreen" x="110" y="120" width="500" height="30" rx="5"/><text class="small green" x="122" y="140">O(n) · map / window / prefix / traversal</text>
+      <text class="mono ink" x="0" y="180">n huge</text><rect class="softred" x="110" y="160" width="580" height="30" rx="5"/><text class="small red" x="122" y="180">O(log n) or math · binary search / exponentiation</text>
+      <text class="small muted" x="0" y="210">Also inspect value range, negatives, duplicates, sortedness, and mutation rules.</text></g>
+  </g>
+  <g transform="translate(780 534)"><rect class="card" width="760" height="324" rx="10"/><rect class="softgreen" width="760" height="42" rx="10"/>
+    <text class="label green" x="22" y="27">WHAT DO I WISH I ALREADY KNEW?</text><text class="name ink" x="22" y="78">The answer names the state</text>
+    <g transform="translate(24 105)">
+      <text class="body muted" x="0" y="18">Whether value x appeared</text><text class="body green" x="360" y="18">→ hash set / map</text>
+      <text class="body muted" x="0" y="52">Best earlier price / sum / boundary</text><text class="body green" x="360" y="52">→ running variable</text>
+      <text class="body muted" x="0" y="86">Fact about everything before / after i</text><text class="body green" x="360" y="86">→ prefix / suffix</text>
+      <text class="body muted" x="0" y="120">Last unresolved item</text><text class="body green" x="360" y="120">→ stack</text>
+      <text class="body muted" x="0" y="154">Cheapest unfinished candidate</text><text class="body green" x="360" y="154">→ heap</text>
+      <text class="body muted" x="0" y="188">Answer for this exact decision state</text><text class="body green" x="360" y="188">→ memo / DP table</text>
+      <text class="body muted" x="0" y="202">Which nodes are already connected</text><text class="body green" x="360" y="202">→ visited / union-find</text>
+    </g>
+  </g>
+
+  <!-- invariants -->
+  <g transform="translate(60 884)"><rect class="card" width="960" height="310" rx="10"/><rect class="softred" width="960" height="42" rx="10"/>
+    <text class="label red" x="22" y="27">THE INVARIANT IS YOUR PROOF AND YOUR DEBUGGER</text><text class="name ink" x="22" y="78">Say one sentence before coding</text>
+    <g transform="translate(24 108)">
+      <rect class="softblue" width="285" height="68" rx="7"/><text class="label blue" x="12" y="21">TWO POINTERS</text><text class="small ink" x="12" y="45">Outside [L,R] is impossible.</text>
+      <rect class="softgreen" x="305" width="285" height="68" rx="7"/><text class="label green" x="317" y="21">SLIDING WINDOW</text><text class="small ink" x="317" y="45">After shrink, [L,R] is valid.</text>
+      <rect class="softpurple" x="610" width="285" height="68" rx="7"/><text class="label purple" x="622" y="21">MONOTONIC STACK</text><text class="small ink" x="622" y="45">Stack is sorted and unresolved.</text>
+      <rect class="softgold" y="88" width="285" height="68" rx="7"/><text class="label gold" x="12" y="109">BINARY SEARCH</text><text class="small ink" x="12" y="133">Answer remains inside [lo,hi].</text>
+      <rect class="softred" x="305" y="88" width="285" height="68" rx="7"/><text class="label red" x="317" y="109">BFS</text><text class="small ink" x="317" y="133">Queue holds the next frontier.</text>
+      <rect class="softblue" x="610" y="88" width="285" height="68" rx="7"/><text class="label blue" x="622" y="109">DP</text><text class="small ink" x="622" y="133">Dependencies are solved first.</text>
+      <text class="body ink" x="0" y="197">If you cannot state what remains true after each update, you do not yet control the algorithm.</text>
+    </g>
+  </g>
+  <g transform="translate(1040 884)"><rect class="card" width="500" height="310" rx="10"/><rect class="softgold" width="500" height="42" rx="10"/>
+    <text class="label gold" x="22" y="27">FINAL WALKTHROUGH</text><text class="name ink" x="22" y="78">Test shapes, not random values</text>
+    <g transform="translate(24 108)"><text class="body ink" x="0" y="18">□ empty / one item</text><text class="body ink" x="0" y="48">□ all equal / all duplicates</text><text class="body ink" x="0" y="78">□ sorted / reverse sorted</text><text class="body ink" x="0" y="108">□ answer at first / last position</text><text class="body ink" x="0" y="138">□ impossible / no answer</text><text class="body ink" x="0" y="168">□ overflow / negative values</text><text class="small muted" x="0" y="201">Walk variables through the smallest case that triggers every branch.</text></g>
+  </g>
+  <text class="sub ink" x="800" y="1248" text-anchor="middle">Correctness comes from the invariant. Efficiency comes from remembering exactly the repeated work.</text>
+</svg>

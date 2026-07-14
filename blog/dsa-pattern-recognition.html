@@ -1,0 +1,2116 @@
+<title>See the Problem, Name the Pattern — DSA Interview Field Guide</title>
+<style>
+  :root {
+    --bg: #f2f4f1;
+    --surface: #ffffff;
+    --surface-2: #e8ebe6;
+    --ink: #1b2521;
+    --muted: #5b655f;
+    --faint: #8d968f;
+    --border: #d7dcd6;
+    --blue: #2c5aa0;
+    --amber: #b8862f;
+    --violet: #963c8c;
+    --green: #1f7a54;
+    --rust: #a3502e;
+    --blue-bg: rgba(44, 90, 160, 0.10);
+    --amber-bg: rgba(184, 134, 47, 0.12);
+    --violet-bg: rgba(150, 60, 140, 0.09);
+    --green-bg: rgba(31, 122, 84, 0.10);
+    --rust-bg: rgba(163, 80, 46, 0.10);
+    --shadow: 0 1px 2px rgba(27, 37, 33, 0.06), 0 6px 20px rgba(27, 37, 33, 0.05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #17191a; --surface: #1e2120; --surface-2: #262a28; --ink: #ecefea;
+      --muted: #9aa39c; --faint: #6b746e; --border: #33372f;
+      --blue: #6b93d6; --amber: #c99b3f; --violet: #c46cb8; --green: #46b184; --rust: #cd7352;
+      --blue-bg: rgba(107, 147, 214, 0.14); --amber-bg: rgba(201, 155, 63, 0.14);
+      --violet-bg: rgba(196, 108, 184, 0.13); --green-bg: rgba(70, 177, 132, 0.13);
+      --rust-bg: rgba(205, 115, 82, 0.13);
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #17191a; --surface: #1e2120; --surface-2: #262a28; --ink: #ecefea;
+    --muted: #9aa39c; --faint: #6b746e; --border: #33372f;
+    --blue: #6b93d6; --amber: #c99b3f; --violet: #c46cb8; --green: #46b184; --rust: #cd7352;
+    --blue-bg: rgba(107, 147, 214, 0.14); --amber-bg: rgba(201, 155, 63, 0.14);
+    --violet-bg: rgba(196, 108, 184, 0.13); --green-bg: rgba(70, 177, 132, 0.13);
+    --rust-bg: rgba(205, 115, 82, 0.13);
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  :root[data-theme="light"] {
+    --bg: #f2f4f1; --surface: #ffffff; --surface-2: #e8ebe6; --ink: #1b2521;
+    --muted: #5b655f; --faint: #8d968f; --border: #d7dcd6;
+    --blue: #2c5aa0; --amber: #b8862f; --violet: #963c8c; --green: #1f7a54; --rust: #a3502e;
+    --blue-bg: rgba(44, 90, 160, 0.10); --amber-bg: rgba(184, 134, 47, 0.12);
+    --violet-bg: rgba(150, 60, 140, 0.09); --green-bg: rgba(31, 122, 84, 0.10);
+    --rust-bg: rgba(163, 80, 46, 0.10);
+    --shadow: 0 1px 2px rgba(27, 37, 33, 0.06), 0 6px 20px rgba(27, 37, 33, 0.05);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.55;
+  }
+  .page { max-width: 840px; margin: 0 auto; padding: 48px 24px 80px; }
+  h1, h2, h3 {
+    font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+    font-weight: 600; letter-spacing: -0.01em; text-wrap: balance; margin: 0;
+  }
+  h1 { font-size: 34px; line-height: 1.12; }
+  h2 { font-size: 22px; }
+  h3 { font-size: 18px; }
+  p { max-width: 68ch; }
+  .eyebrow {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--faint); margin: 0 0 10px;
+  }
+  .dek { margin: 14px 0 0; max-width: 62ch; color: var(--muted); font-size: 16.5px; }
+  code, .mono { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+  p code { background: var(--surface-2); border-radius: 4px; padding: 1px 5px; font-size: 0.9em; }
+
+  section { margin-top: 48px; }
+  .panel {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    box-shadow: var(--shadow); padding: 22px 24px 24px;
+  }
+
+  /* nav chips */
+  nav.toc { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+  nav.toc a {
+    font-size: 12.5px; font-weight: 600; color: var(--muted); text-decoration: none;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 999px;
+    padding: 5px 12px;
+  }
+  nav.toc a:hover, nav.toc a:focus-visible { color: var(--ink); border-color: var(--faint); }
+  nav.toc a:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+  /* the 3-question script */
+  .script { display: grid; gap: 0; margin-top: 18px; }
+  .script .q { display: grid; grid-template-columns: 52px 1fr; gap: 14px; padding: 14px 0; }
+  .script .q + .q { border-top: 1px dashed var(--border); }
+  .script .qnum {
+    font-family: Georgia, serif; font-size: 26px; color: var(--blue); line-height: 1;
+    padding-top: 2px;
+  }
+  .script .q b { display: block; font-size: 15.5px; }
+  .script .q span { color: var(--muted); font-size: 14px; }
+  .q3grid {
+    margin-top: 10px; border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12.5px;
+  }
+  .q3grid .row { display: grid; grid-template-columns: 1.3fr 1fr; }
+  .q3grid .row + .row { border-top: 1px solid var(--border); }
+  .q3grid .row div { padding: 7px 12px; }
+  .q3grid .row div:first-child { background: var(--surface-2); color: var(--muted); }
+  .q3grid .row div:last-child { font-weight: 700; }
+
+  /* constraint ladder */
+  .ladder { display: grid; gap: 8px; margin-top: 18px; }
+  .rung { display: grid; grid-template-columns: 110px 1fr; align-items: center; gap: 14px; }
+  .rung .n {
+    font-family: ui-monospace, monospace; font-size: 13px; font-weight: 700;
+    font-variant-numeric: tabular-nums; text-align: right; color: var(--muted);
+  }
+  .rung .bar {
+    height: 30px; border-radius: 6px; display: flex; align-items: center;
+    padding: 0 12px; font-size: 12.5px; font-weight: 600; white-space: nowrap; overflow: hidden;
+  }
+  .rung .bar .mono { margin-right: 10px; }
+
+  /* master cue table */
+  .cues { margin-top: 18px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .cues .cue-row { display: grid; grid-template-columns: 1.5fr 1fr; background: var(--surface); }
+  .cues .cue-row + .cue-row { border-top: 1px solid var(--border); }
+  .cues .cue-row:hover { background: var(--surface-2); }
+  .cues .cue-row div { padding: 9px 14px; font-size: 13.5px; }
+  .cues .cue-row div:first-child { color: var(--muted); }
+  .cues .cue-row div:last-child { font-weight: 700; border-left: 3px solid transparent; }
+  .cues .b div:last-child { border-left-color: var(--blue); color: var(--blue); }
+  .cues .a div:last-child { border-left-color: var(--amber); color: var(--amber); }
+  .cues .v div:last-child { border-left-color: var(--violet); color: var(--violet); }
+  .cues .g div:last-child { border-left-color: var(--green); color: var(--green); }
+  .cues .r div:last-child { border-left-color: var(--rust); color: var(--rust); }
+  @media (max-width: 540px) { .cues .cue-row { grid-template-columns: 1fr; } .cues .cue-row div:last-child { padding-top: 0; } }
+
+  /* pattern cards */
+  .pattern {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    box-shadow: var(--shadow); padding: 22px 24px 20px; margin-top: 26px;
+    border-top: 3px solid var(--border);
+  }
+  .pattern.b { border-top-color: var(--blue); }
+  .pattern.a { border-top-color: var(--amber); }
+  .pattern.v { border-top-color: var(--violet); }
+  .pattern.g { border-top-color: var(--green); }
+  .pattern.r { border-top-color: var(--rust); }
+  .pattern header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 14px; }
+  .cuewords { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .cuewords span {
+    font-size: 11.5px; font-weight: 600; letter-spacing: 0.02em;
+    border-radius: 999px; padding: 3px 10px;
+  }
+  .b .cuewords span { background: var(--blue-bg); color: var(--blue); }
+  .a .cuewords span { background: var(--amber-bg); color: var(--amber); }
+  .v .cuewords span { background: var(--violet-bg); color: var(--violet); }
+  .g .cuewords span { background: var(--green-bg); color: var(--green); }
+  .r .cuewords span { background: var(--rust-bg); color: var(--rust); }
+  .thought {
+    font-family: Georgia, "Iowan Old Style", serif; font-style: italic;
+    font-size: 16.5px; color: var(--ink); margin: 14px 0 4px; max-width: 60ch;
+  }
+  .thought::before { content: "“"; color: var(--faint); }
+  .thought::after { content: "”"; color: var(--faint); }
+  .viz { margin-top: 14px; overflow-x: auto; }
+  .viz svg { display: block; width: 100%; min-width: 420px; height: auto; }
+  .pattern pre {
+    margin: 14px 0 0; padding: 12px 14px; background: var(--surface-2);
+    border: 1px solid var(--border); border-radius: 10px;
+    font-size: 12.5px; overflow-x: auto;
+  }
+  .pattern pre code { background: none; padding: 0; white-space: pre; color: var(--ink); }
+  .trap {
+    margin: 12px 0 0; font-size: 13px; color: var(--muted);
+    border-left: 2px solid var(--rust); padding: 2px 0 2px 12px; max-width: 62ch;
+  }
+  .trap b { color: var(--rust); }
+  .drill { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .drill .lbl { font-size: 11px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--faint); align-self: center; margin-right: 2px; }
+  .drill span:not(.lbl) {
+    font-size: 12px; color: var(--muted); background: var(--bg);
+    border: 1px solid var(--border); border-radius: 6px; padding: 3px 9px;
+  }
+  .drill span.done { color: var(--green); border-color: var(--green); }
+
+  /* svg shared */
+  .cell { fill: var(--surface); stroke: var(--border); stroke-width: 1.5; }
+  .cell-hot-b { fill: var(--blue-bg); stroke: var(--blue); stroke-width: 1.5; }
+  .cell-hot-a { fill: var(--amber-bg); stroke: var(--amber); stroke-width: 1.5; }
+  .cell-hot-g { fill: var(--green-bg); stroke: var(--green); stroke-width: 1.5; }
+  .cell-hot-v { fill: var(--violet-bg); stroke: var(--violet); stroke-width: 1.5; }
+  .ct { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 13px; fill: var(--ink); text-anchor: middle; font-variant-numeric: tabular-nums; }
+  .note { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 11px; fill: var(--muted); }
+  .note-b { fill: var(--blue); } .note-a { fill: var(--amber); } .note-v { fill: var(--violet); } .note-g { fill: var(--green); } .note-r { fill: var(--rust); }
+  .arrow { stroke: var(--muted); stroke-width: 1.5; fill: none; }
+  .arrow-b { stroke: var(--blue); } .arrow-a { stroke: var(--amber); } .arrow-v { stroke: var(--violet); } .arrow-g { stroke: var(--green); } .arrow-r { stroke: var(--rust); }
+  .dash { stroke-dasharray: 5 4; }
+  .edge { stroke: var(--faint); stroke-width: 1.5; }
+  .nodec { fill: var(--surface); stroke: var(--muted); stroke-width: 1.5; }
+
+  /* worked examples */
+  .worked { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 18px; }
+  @media (max-width: 640px) { .worked { grid-template-columns: 1fr; } }
+  .case { border: 1px solid var(--border); border-radius: 12px; background: var(--surface); overflow: hidden; }
+  .case header { padding: 10px 16px; background: var(--surface-2); border-bottom: 1px solid var(--border); font-weight: 700; font-size: 14px; }
+  .case .steps { padding: 12px 16px 14px; display: grid; gap: 8px; font-size: 13px; }
+  .case .steps div { display: grid; grid-template-columns: 26px 1fr; gap: 8px; color: var(--muted); }
+  .case .steps b.qq { color: var(--blue); font-family: Georgia, serif; }
+  .case .verdict { padding: 10px 16px; border-top: 1px dashed var(--border); font-size: 13px; font-weight: 700; }
+  .case .verdict.g { color: var(--green); } .case .verdict.a { color: var(--amber); } .case .verdict.v { color: var(--violet); } .case .verdict.b { color: var(--blue); }
+
+  /* flowchart */
+  .flow { display: grid; gap: 10px; margin-top: 18px; }
+  .flow .stage {
+    display: grid; grid-template-columns: 150px 1fr; gap: 14px; align-items: start;
+  }
+  @media (max-width: 560px) { .flow .stage { grid-template-columns: 1fr; gap: 4px; } }
+  .flow .ask {
+    font-family: Georgia, serif; font-style: italic; font-size: 14.5px; color: var(--ink);
+    padding-top: 6px;
+  }
+  .flow .answers { display: flex; flex-wrap: wrap; gap: 8px; }
+  .flow .ans {
+    font-size: 12.5px; border-radius: 8px; padding: 6px 11px; background: var(--surface);
+    border: 1px solid var(--border);
+  }
+  .flow .ans b { display: block; font-size: 12.5px; }
+  .flow .ans.b b { color: var(--blue); } .flow .ans.a b { color: var(--amber); }
+  .flow .ans.v b { color: var(--violet); } .flow .ans.g b { color: var(--green); }
+  .flow .ans.r b { color: var(--rust); }
+  .flow .stage + .stage { border-top: 1px dashed var(--border); padding-top: 10px; }
+
+  /* glance card */
+  .glance {
+    margin-top: 18px; border-radius: 14px; border: 1px solid var(--border);
+    background: var(--surface); box-shadow: var(--shadow); overflow: hidden;
+  }
+  .glance .head {
+    padding: 12px 20px; background: var(--surface-2); border-bottom: 1px solid var(--border);
+    font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+  }
+  .glance .grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; padding: 14px 20px 18px;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12.5px;
+  }
+  @media (max-width: 600px) { .glance .grid { grid-template-columns: 1fr; } }
+  .glance .g-row { display: flex; justify-content: space-between; gap: 12px; padding: 5px 0; border-bottom: 1px dotted var(--border); }
+  .glance .g-row span:first-child { color: var(--muted); }
+  .glance .g-row span:last-child { font-weight: 700; text-align: right; }
+  .glance .g-row.b span:last-child { color: var(--blue); }
+  .glance .g-row.a span:last-child { color: var(--amber); }
+  .glance .g-row.v span:last-child { color: var(--violet); }
+  .glance .g-row.g span:last-child { color: var(--green); }
+  .glance .g-row.r span:last-child { color: var(--rust); }
+  .glance .foot { padding: 12px 20px; font-family: ui-monospace, monospace; font-size: 12px; color: var(--muted); background: var(--surface-2); border-top: 1px solid var(--border); }
+
+  footer.colophon { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--faint); }
+  .loop { margin-top: 18px; display: grid; gap: 10px; }
+  .loop .st { display: grid; grid-template-columns: 30px 1fr; gap: 12px; align-items: baseline; }
+  .loop .st .k { font-family: Georgia, serif; font-size: 20px; color: var(--green); }
+  .loop .st p { margin: 0; font-size: 14.5px; color: var(--muted); }
+  .loop .st p b { color: var(--ink); }
+</style>
+
+<div class="page">
+
+  <p class="eyebrow">DSA Interview Field Guide</p>
+  <h1>See the problem. Name the pattern.</h1>
+  <p class="dek">An interview problem is never new — it's one of ~15 shapes wearing a costume. Your first three minutes aren't for solving it; they're for undressing it. Glance at this before you walk in.</p>
+
+  <nav class="toc" aria-label="Sections">
+    <a href="#script">3-question script</a>
+    <a href="#constraints">Constraints</a>
+    <a href="#cues">Cue table</a>
+    <a href="#patterns">The patterns</a>
+    <a href="#sorting">Sorting</a>
+    <a href="#gym">Recognition gym (all 150)</a>
+    <a href="#mystery">Mystery set</a>
+    <a href="#worked">Worked examples</a>
+    <a href="#flow">60-second flowchart</a>
+    <a href="#glance">Glance card</a>
+  </nav>
+
+  <!-- ============ SCRIPT ============ -->
+  <section id="script">
+    <h2>The 3-Question Script</h2>
+    <p style="color:var(--muted); font-size:14.5px;">Run this on every array/string problem — out loud. Interviewers reward hearing it.</p>
+    <div class="panel">
+      <div class="script">
+        <div class="q">
+          <div class="qnum">Q1</div>
+          <div><b>Can I restate the answer as a formula?</b>
+          <span>max / min / count / sum … over <em>what, exactly</em>? Saying “the answer is max(prices[j] − prices[i]) for j &gt; i” is already half the solve.</span></div>
+        </div>
+        <div class="q">
+          <div class="qnum">Q2</div>
+          <div><b>Can I decompose it per index?</b>
+          <span>“What is the answer <em>at position i</em> alone?” Water above bar i. Profit if I sell on day i. Longest window ending at i.</span></div>
+        </div>
+        <div class="q">
+          <div class="qnum">Q3</div>
+          <div><b>What does position i need to know?</b>
+          <span>This is where the pattern names itself:</span>
+          <div class="q3grid">
+            <div class="row"><div>nothing beyond itself</div><div>one pass</div></div>
+            <div class="row"><div>something from its LEFT only</div><div>running variable</div></div>
+            <div class="row"><div>something from BOTH sides</div><div>prefix/suffix → two pointers</div></div>
+            <div class="row"><div>nearest BIGGER / SMALLER element</div><div>monotonic stack</div></div>
+            <div class="row"><div>best over a contiguous window</div><div>sliding window</div></div>
+            <div class="row"><div>“have I seen this before?”</div><div>hash map</div></div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONSTRAINTS ============ -->
+  <section id="constraints">
+    <h2>Read the constraints first — they whisper the answer</h2>
+    <p style="color:var(--muted); font-size:14.5px;">The size of n tells you the complexity the interviewer intends. Work backwards from it.</p>
+    <div class="panel">
+      <div class="ladder">
+        <div class="rung"><div class="n">n ≤ 20</div><div class="bar" style="width:38%; background:var(--rust-bg); color:var(--rust);"><span class="mono">O(2ⁿ)</span> backtracking · bitmask</div></div>
+        <div class="rung"><div class="n">n ≤ 1,000</div><div class="bar" style="width:52%; background:var(--rust-bg); color:var(--rust);"><span class="mono">O(n²)</span> 2D DP · nested loops</div></div>
+        <div class="rung"><div class="n">n ≤ 100,000</div><div class="bar" style="width:70%; background:var(--amber-bg); color:var(--amber);"><span class="mono">O(n log n)</span> sort · heap · binary search</div></div>
+        <div class="rung"><div class="n">n ≤ 10⁶</div><div class="bar" style="width:86%; background:var(--blue-bg); color:var(--blue);"><span class="mono">O(n)</span> hashmap · window · prefix · mono-stack</div></div>
+        <div class="rung"><div class="n">n ≥ 10⁹</div><div class="bar" style="width:100%; background:var(--green-bg); color:var(--green);"><span class="mono">O(log n)</span> binary search — nothing else survives</div></div>
+      </div>
+      <p style="margin: 16px 0 0; font-size: 13px; color: var(--muted);">Bonus tells: <b style="color:var(--ink);">“O(1) space”</b> → two pointers, running vars, bit tricks · <b style="color:var(--ink);">values in range 1..n</b> → cyclic sort / index-as-hash / XOR.</p>
+    </div>
+  </section>
+
+  <!-- ============ CUE TABLE ============ -->
+  <section id="cues">
+    <h2>The master cue table</h2>
+    <p style="color:var(--muted); font-size:14.5px;">What they say → what it is. Color = pattern family.</p>
+    <div class="cues">
+      <div class="cue-row a"><div>“have I seen this?” · counts · duplicates · complements</div><div>Hash map / set</div></div>
+      <div class="cue-row b"><div>sorted array · pair/triplet to target · palindrome · both ends</div><div>Two pointers</div></div>
+      <div class="cue-row b"><div>longest/shortest contiguous substring or subarray + condition</div><div>Sliding window</div></div>
+      <div class="cue-row b"><div>range sums · “product except self” · each i needs left/right context</div><div>Prefix / suffix</div></div>
+      <div class="cue-row v"><div>matching pairs · nesting · undo-like behavior</div><div>Stack</div></div>
+      <div class="cue-row v"><div>next greater/smaller · temperatures · histogram</div><div>Monotonic stack</div></div>
+      <div class="cue-row a"><div>top K · Kth largest · repeatedly need min/max · streaming</div><div>Heap</div></div>
+      <div class="cue-row a"><div>sorted input · “minimum X that works” · monotonic yes/no</div><div>Binary search</div></div>
+      <div class="cue-row b"><div>linked list cycle · middle of list · repeating sequence</div><div>Fast &amp; slow pointers</div></div>
+      <div class="cue-row g"><div>meeting rooms · merge ranges · overlaps</div><div>Intervals: sort + sweep</div></div>
+      <div class="cue-row g"><div>level by level · nearest · fewest moves</div><div>BFS</div></div>
+      <div class="cue-row g"><div>any path · max depth · combine children’s answers</div><div>DFS / recursion</div></div>
+      <div class="cue-row g"><div>prerequisites · dependency order · “can you finish?”</div><div>Topological sort</div></div>
+      <div class="cue-row g"><div>connected components · grouping · edges arrive over time</div><div>Union-Find</div></div>
+      <div class="cue-row g"><div>weighted shortest / cheapest path</div><div>Dijkstra</div></div>
+      <div class="cue-row a"><div>many words + prefix queries · autocomplete</div><div>Trie</div></div>
+      <div class="cue-row r"><div>generate ALL subsets / permutations / valid boards</div><div>Backtracking</div></div>
+      <div class="cue-row r"><div>COUNT the ways · best over sequential choices</div><div>Dynamic programming</div></div>
+      <div class="cue-row r"><div>local best provably enough · sort + one greedy pass</div><div>Greedy</div></div>
+      <div class="cue-row v"><div>“appears twice except one” · no extra space on numbers</div><div>Bit / XOR</div></div>
+    </div>
+  </section>
+
+  <!-- ============ PATTERNS ============ -->
+  <section id="patterns">
+    <h2>The patterns — one picture each</h2>
+
+    <!-- 1. HASH MAP -->
+    <article class="pattern a">
+      <header><h3>Hash Map</h3></header>
+      <div class="cuewords"><span>duplicate</span><span>complement</span><span>count / frequency</span><span>group</span><span>“seen before?”</span></div>
+      <p class="thought">My brute force keeps re-searching for something — so I should remember it instead.</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 140" role="img" aria-label="Two Sum: hashmap remembers seen values, current element looks up its complement">
+          <text x="30" y="24" class="note">Two Sum · target = 9</text>
+          <rect x="30" y="40" width="52" height="40" class="cell"/><text x="56" y="65" class="ct">2</text>
+          <rect x="86" y="40" width="52" height="40" class="cell-hot-a"/><text x="112" y="65" class="ct">7</text>
+          <rect x="142" y="40" width="52" height="40" class="cell"/><text x="168" y="65" class="ct">11</text>
+          <rect x="198" y="40" width="52" height="40" class="cell"/><text x="224" y="65" class="ct">15</text>
+          <text x="112" y="105" class="note note-a" text-anchor="middle">need 9−7 = 2</text>
+          <rect x="400" y="34" width="210" height="52" rx="10" class="cell"/>
+          <text x="505" y="56" class="ct" style="font-size:12px; fill:var(--muted);">seen = { 2: idx 0 }</text>
+          <text x="505" y="76" class="ct note-g" style="font-size:12px;">lookup 2 → found ✓</text>
+          <path d="M 200 100 C 300 118 380 90 396 70" class="arrow arrow-a" marker-end="url(#ah-a)"/>
+          <defs>
+            <marker id="ah-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--amber)"/></marker>
+          </defs>
+        </svg>
+      </div>
+      <pre><code>seen = {}
+for i, x in enumerate(nums):
+    if target - x in seen: return [seen[target - x], i]
+    seen[x] = i</code></pre>
+      <div class="drill"><span class="lbl">Drill</span><span class="done">Two Sum ✓</span><span class="done">Contains Duplicate ✓</span><span class="done">Valid Anagram ✓</span><span class="done">Group Anagrams ✓</span><span class="done">Longest Consecutive Sequence ✓</span></div>
+    </article>
+
+    <!-- 2. TWO POINTERS -->
+    <article class="pattern b">
+      <header><h3>Two Pointers</h3></header>
+      <div class="cuewords"><span>sorted</span><span>pair / triplet sum</span><span>palindrome</span><span>container</span><span>in place</span></div>
+      <p class="thought">Sorted means moving a pointer changes the sum in a known direction — I never need to look back.</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 140" role="img" aria-label="Two pointers converge from both ends of a sorted array">
+          <rect x="60" y="30" width="70" height="44" class="cell-hot-b"/><text x="95" y="57" class="ct">1</text>
+          <rect x="134" y="30" width="70" height="44" class="cell"/><text x="169" y="57" class="ct">3</text>
+          <rect x="208" y="30" width="70" height="44" class="cell"/><text x="243" y="57" class="ct">5</text>
+          <rect x="282" y="30" width="70" height="44" class="cell"/><text x="317" y="57" class="ct">8</text>
+          <rect x="356" y="30" width="70" height="44" class="cell"/><text x="391" y="57" class="ct">11</text>
+          <rect x="430" y="30" width="70" height="44" class="cell-hot-b"/><text x="465" y="57" class="ct">14</text>
+          <path d="M 95 96 L 95 80" class="arrow arrow-b" marker-end="url(#ah-b)"/>
+          <path d="M 465 96 L 465 80" class="arrow arrow-b" marker-end="url(#ah-b)"/>
+          <text x="95" y="114" class="note note-b" text-anchor="middle">L</text>
+          <text x="465" y="114" class="note note-b" text-anchor="middle">R</text>
+          <text x="150" y="132" class="note">sum too small → L++</text>
+          <text x="360" y="132" class="note">sum too big → R−−</text>
+          <defs><marker id="ah-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--blue)"/></marker></defs>
+        </svg>
+      </div>
+      <pre><code>l, r = 0, len(a) - 1
+while l &lt; r:
+    if a[l] + a[r] == target: return [l, r]
+    elif a[l] + a[r] &lt; target: l += 1
+    else: r -= 1</code></pre>
+      <div class="drill"><span class="lbl">Drill</span><span class="done">Two Sum II ✓</span><span class="done">3Sum ✓</span><span class="done">Container With Most Water ✓</span><span class="done">Valid Palindrome ✓</span><span class="done">Trapping Rain Water (optimal) ✓</span></div>
+    </article>
+
+    <!-- 3. SLIDING WINDOW -->
+    <article class="pattern b">
+      <header><h3>Sliding Window</h3></header>
+      <div class="cuewords"><span>longest / shortest substring</span><span>contiguous subarray</span><span>at most K</span><span>consecutive</span></div>
+      <p class="thought">The answer is a contiguous run, and adding elements only makes the condition worse — so slide, don’t restart.</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 150" role="img" aria-label="A window expands right and shrinks left over a string">
+          <text x="30" y="22" class="note">longest substring without repeats</text>
+          <rect x="30" y="36" width="60" height="44" class="cell"/><text x="60" y="63" class="ct">a</text>
+          <rect x="94" y="36" width="60" height="44" class="cell-hot-g"/><text x="124" y="63" class="ct">b</text>
+          <rect x="158" y="36" width="60" height="44" class="cell-hot-g"/><text x="188" y="63" class="ct">c</text>
+          <rect x="222" y="36" width="60" height="44" class="cell-hot-g"/><text x="252" y="63" class="ct">a</text>
+          <rect x="286" y="36" width="60" height="44" class="cell"/><text x="316" y="63" class="ct">b</text>
+          <rect x="350" y="36" width="60" height="44" class="cell"/><text x="380" y="63" class="ct">b</text>
+          <rect x="90" y="32" width="196" height="52" rx="8" fill="none" stroke="var(--green)" stroke-width="2.5"/>
+          <path d="M 290 110 L 320 110" class="arrow arrow-g" marker-end="url(#ah-g)"/>
+          <text x="330" y="114" class="note note-g">expand right while valid</text>
+          <path d="M 60 110 L 90 110" class="arrow arrow-r" marker-end="url(#ah-r)"/>
+          <text x="30" y="137" class="note note-r">hit a repeat → shrink left</text>
+          <text x="330" y="137" class="note">window never restarts → O(n)</text>
+          <defs>
+            <marker id="ah-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--green)"/></marker>
+            <marker id="ah-r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--rust)"/></marker>
+          </defs>
+        </svg>
+      </div>
+      <pre><code>l = 0
+for r in range(n):
+    add(a[r])                          # expand
+    while invalid(): remove(a[l]); l += 1   # shrink
+    best = max(best, r - l + 1)</code></pre>
+      <p class="trap"><b>Trap:</b> if negatives can <em>fix</em> a broken window (subarray sums with negative numbers), sliding window fails — use prefix sum + hashmap instead.</p>
+      <div class="drill"><span class="lbl">Drill</span><span class="done">Best Time to Buy &amp; Sell Stock ✓</span><span>Longest Substring Without Repeating</span><span>Longest Repeating Char Replacement</span><span>Minimum Window Substring</span><span>Sliding Window Maximum</span></div>
+    </article>
+
+    <!-- 4. PREFIX / SUFFIX -->
+    <article class="pattern b">
+      <header><h3>Prefix / Suffix Precompute</h3></header>
+      <div class="cuewords"><span>range sum</span><span>product except self</span><span>max to my left / right</span><span>between i and j</span></div>
+      <p class="thought">Every index asks the same question about everything before or after it — answer them all in one pre-pass.</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 190" role="img" aria-label="Trapping rain water: each bar holds water up to the shorter of its best left and right walls">
+          <text x="40" y="22" class="note">Trapping Rain Water — water on bar i = min(best left wall, best right wall) − height[i]</text>
+          <!-- baseline -->
+          <line x1="40" y1="166" x2="420" y2="166" class="edge"/>
+          <!-- bars: heights 2,0,3,1,4 (unit 28px) -->
+          <rect x="60"  y="110" width="48" height="56"  fill="var(--surface-2)" stroke="var(--border)"/>
+          <rect x="172" y="82"  width="48" height="84"  fill="var(--surface-2)" stroke="var(--border)"/>
+          <rect x="228" y="138" width="48" height="28"  fill="var(--surface-2)" stroke="var(--border)"/>
+          <rect x="284" y="54"  width="48" height="112" fill="var(--surface-2)" stroke="var(--border)"/>
+          <!-- water -->
+          <rect x="116" y="110" width="48" height="56" fill="var(--blue)" opacity="0.28"/>
+          <rect x="228" y="82"  width="48" height="56" fill="var(--blue)" opacity="0.28"/>
+          <!-- left/right max dashed -->
+          <line x1="48" y1="110" x2="170" y2="110" class="arrow arrow-a dash"/>
+          <line x1="230" y1="54" x2="344" y2="54" class="arrow arrow-v dash"/>
+          <text x="48" y="102" class="note note-a">best left wall</text>
+          <text x="236" y="46" class="note note-v">best right wall</text>
+          <text x="252" y="100" class="ct" style="font-size:11px; fill:var(--blue);">water</text>
+          <!-- side note -->
+          <text x="450" y="70" class="note">needs BOTH sides →</text>
+          <text x="450" y="90" class="note note-a">leftmax[]  pass →</text>
+          <text x="450" y="110" class="note note-v">← rightmax[] pass</text>
+          <text x="450" y="140" class="note note-g">follow-up “O(1) space?”</text>
+          <text x="450" y="158" class="note note-g">→ two pointers inward</text>
+        </svg>
+      </div>
+      <pre><code>prefix[i] = prefix[i-1] + a[i]        # sum(i..j) = prefix[j] - prefix[i-1]
+leftmax[i]  = max(leftmax[i-1],  h[i])   # → pass
+rightmax[i] = max(rightmax[i+1], h[i])   # ← pass</code></pre>
+      <div class="drill"><span class="lbl">Drill</span><span class="done">Products of Array Except Self ✓</span><span class="done">Trapping Rain Water ✓</span><span>Subarray Sum Equals K</span><span>Range Sum Query</span></div>
+    </article>
+
+    <!-- 5. STACK -->
+    <article class="pattern v">
+      <header><h3>Stack</h3></header>
+      <div class="cuewords"><span>valid parentheses</span><span>nesting</span><span>matching pairs</span><span>undo</span><span>evaluate expression</span></div>
+      <p class="thought">New things must resolve against the most recent open thing — last in, first out.</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 150" role="img" aria-label="Valid parentheses: incoming close bracket must match the top of the stack">
+          <text x="40" y="24" class="note">input: ( [ ) ]</text>
+          <rect x="60" y="92" width="90" height="38" class="cell"/><text x="105" y="116" class="ct">(</text>
+          <rect x="60" y="50" width="90" height="38" class="cell-hot-v"/><text x="105" y="74" class="ct">[</text>
+          <text x="168" y="74" class="note note-v">← top</text>
+          <text x="60" y="145" class="note">the stack</text>
+          <rect x="330" y="50" width="70" height="38" class="cell"/><text x="365" y="74" class="ct">)</text>
+          <text x="365" y="34" class="note" text-anchor="middle">incoming</text>
+          <path d="M 326 70 L 250 70" class="arrow arrow-r" marker-end="url(#ah-r2)"/>
+          <text x="430" y="66" class="note note-r">top is [ , not ( → INVALID</text>
+          <text x="430" y="86" class="note">match → pop and continue</text>
+          <defs><marker id="ah-r2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--rust)"/></marker></defs>
+        </svg>
+      </div>
+      <pre><code>for c in s:
+    if c in "([{": stack.append(c)
+    elif not stack or not matches(stack.pop(), c): return False
+return not stack</code></pre>
+      <div class="drill"><span class="lbl">Drill</span><span>Valid Parentheses</span><span>Min Stack</span><span>Evaluate RPN</span><span>Generate Parentheses</span></div>
+    </article>
+
+    <!-- 6. MONOTONIC STACK -->
+    <article class="pattern v">
+      <header><h3>Monotonic Stack</h3></header>
+      <div class="cuewords"><span>next greater / smaller</span><span>days until warmer</span><span>histogram</span><span>stock span</span></div>
+      <p class="thought">Each element pops everyone it answers, then waits its own turn. Everyone is pushed and popped once — O(n).</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 200" role="img" aria-label="Daily temperatures: 72 arrives and pops the waiting 69 and 71, but not 75">
+          <text x="40" y="22" class="note">temps: 73 74 75 71 69 [72 arrives]</text>
+          <text x="40" y="48" class="note">stack of “still waiting” days (decreasing):</text>
+          <rect x="60" y="140" width="86" height="34" class="cell"/><text x="103" y="162" class="ct">75</text>
+          <rect x="60" y="104" width="86" height="34" class="cell-hot-v"/><text x="103" y="126" class="ct">71</text>
+          <rect x="60" y="68" width="86" height="34" class="cell-hot-v"/><text x="103" y="90" class="ct">69</text>
+          <rect x="330" y="68" width="66" height="34" class="cell-hot-g"/><text x="363" y="90" class="ct">72</text>
+          <path d="M 326 85 L 210 85" class="arrow arrow-g" marker-end="url(#ah-g2)"/>
+          <text x="222" y="76" class="note note-g">pops 69 ✓</text>
+          <path d="M 326 96 C 270 112 230 118 210 121" class="arrow arrow-g" marker-end="url(#ah-g2)"/>
+          <text x="228" y="136" class="note note-g">pops 71 ✓</text>
+          <text x="160" y="162" class="note">can’t pop 75 → 72 pushes on top</text>
+          <text x="430" y="82" class="note">popped day’s answer =</text>
+          <text x="430" y="100" class="note mono">today − that day</text>
+          <defs><marker id="ah-g2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--green)"/></marker></defs>
+        </svg>
+      </div>
+      <pre><code>stack = []                            # indices, values decreasing
+for i, x in enumerate(a):
+    while stack and a[stack[-1]] &lt; x:
+        j = stack.pop(); ans[j] = i - j
+    stack.append(i)</code></pre>
+      <div class="drill"><span class="lbl">Drill</span><span>Daily Temperatures</span><span>Next Greater Element</span><span>Largest Rectangle in Histogram</span><span>Car Fleet</span></div>
+    </article>
+
+    <!-- 7. HEAP -->
+    <article class="pattern a">
+      <header><h3>Heap / Priority Queue</h3></header>
+      <div class="cuewords"><span>top K</span><span>Kth largest</span><span>K closest</span><span>merge K lists</span><span>median of stream</span></div>
+      <p class="thought">I don’t need everything sorted — I only need the best K, maintained cheaply.</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 170" role="img" aria-label="A min-heap of size K keeps the K largest elements; its root is the Kth largest">
+          <text x="40" y="22" class="note">min-heap of size K = 3 → root is the Kth largest so far</text>
+          <line x1="200" y1="70" x2="140" y2="120" class="edge"/>
+          <line x1="200" y1="70" x2="260" y2="120" class="edge"/>
+          <circle cx="200" cy="62" r="22" class="nodec" stroke="var(--amber)" stroke-width="2.5"/><text x="200" y="67" class="ct">5</text>
+          <circle cx="140" cy="128" r="20" class="nodec"/><text x="140" y="133" class="ct">8</text>
+          <circle cx="260" cy="128" r="20" class="nodec"/><text x="260" y="133" class="ct">7</text>
+          <text x="252" y="52" class="note note-a">root = gatekeeper</text>
+          <rect x="430" y="44" width="60" height="36" class="cell-hot-g"/><text x="460" y="67" class="ct">9</text>
+          <text x="460" y="32" class="note" text-anchor="middle">incoming</text>
+          <path d="M 426 62 L 320 62" class="arrow arrow-g" marker-end="url(#ah-g3)"/>
+          <text x="430" y="104" class="note note-g">9 &gt; 5 → push 9, pop 5</text>
+          <text x="430" y="124" class="note">9 &lt; root → ignore it</text>
+          <text x="430" y="152" class="note mono">O(n log k)</text>
+          <defs><marker id="ah-g3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--green)"/></marker></defs>
+        </svg>
+      </div>
+      <pre><code>heap = nums[:k]; heapq.heapify(heap)
+for x in nums[k:]:
+    if x &gt; heap[0]: heapq.heapreplace(heap, x)
+return heap[0]                        # Kth largest</code></pre>
+      <p class="trap"><b>Tie-breakers:</b> one-shot &amp; average-case fine → quickselect · values in a small range → bucket sort (the O(n) trick in Top K Frequent) · “median of a stream” → two heaps.</p>
+      <div class="drill"><span class="lbl">Drill</span><span class="done">Top K Frequent Elements ✓</span><span>Kth Largest Element</span><span>K Closest Points</span><span>Merge K Sorted Lists</span><span>Find Median from Data Stream</span></div>
+    </article>
+
+    <!-- 8. BINARY SEARCH -->
+    <article class="pattern a">
+      <header><h3>Binary Search</h3></header>
+      <div class="cuewords"><span>sorted</span><span>O(log n)</span><span>rotated</span><span>minimum X that works</span><span>minimize the maximum</span></div>
+      <p class="thought">Is there a yes/no question that flips exactly once as X grows? Then binary search X — even if nothing is “sorted”.</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 150" role="img" aria-label="Binary search on the answer: find the boundary where the works predicate flips from no to yes">
+          <text x="40" y="22" class="note">Koko’s eating speed: works(speed)?</text>
+          <rect x="40"  y="40" width="60" height="44" class="cell"/><text x="70"  y="67" class="ct" style="fill:var(--rust);">✗</text>
+          <rect x="104" y="40" width="60" height="44" class="cell"/><text x="134" y="67" class="ct" style="fill:var(--rust);">✗</text>
+          <rect x="168" y="40" width="60" height="44" class="cell"/><text x="198" y="67" class="ct" style="fill:var(--rust);">✗</text>
+          <rect x="232" y="40" width="60" height="44" class="cell-hot-g"/><text x="262" y="67" class="ct" style="fill:var(--green);">✓</text>
+          <rect x="296" y="40" width="60" height="44" class="cell"/><text x="326" y="67" class="ct" style="fill:var(--green);">✓</text>
+          <rect x="360" y="40" width="60" height="44" class="cell"/><text x="390" y="67" class="ct" style="fill:var(--green);">✓</text>
+          <rect x="424" y="40" width="60" height="44" class="cell"/><text x="454" y="67" class="ct" style="fill:var(--green);">✓</text>
+          <path d="M 262 116 L 262 90" class="arrow arrow-g" marker-end="url(#ah-g4)"/>
+          <text x="262" y="136" class="note note-g" text-anchor="middle">answer = first ✓ (the boundary)</text>
+          <text x="500" y="60" class="note">monotonic flip →</text>
+          <text x="500" y="78" class="note">halve the range</text>
+          <defs><marker id="ah-g4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--green)"/></marker></defs>
+        </svg>
+      </div>
+      <pre><code>lo, hi = min_ans, max_ans
+while lo &lt; hi:
+    mid = (lo + hi) // 2
+    if works(mid): hi = mid
+    else: lo = mid + 1</code></pre>
+      <div class="drill"><span class="lbl">Drill</span><span>Binary Search</span><span>Search Rotated Array</span><span>Find Min in Rotated Array</span><span>Koko Eating Bananas</span><span>Median of Two Sorted Arrays</span></div>
+    </article>
+
+    <!-- 9. FAST & SLOW -->
+    <article class="pattern b">
+      <header><h3>Fast &amp; Slow Pointers</h3></header>
+      <div class="cuewords"><span>linked list cycle</span><span>middle of list</span><span>happy number</span><span>repeating sequence</span></div>
+      <p class="thought">If there’s a loop, the hare must eventually lap the tortoise.</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 160" role="img" aria-label="Fast and slow pointers on a linked list with a cycle; they meet inside the loop">
+          <circle cx="80" cy="70" r="18" class="nodec"/><text x="80" y="75" class="ct">1</text>
+          <circle cx="180" cy="70" r="18" class="nodec"/><text x="180" y="75" class="ct">2</text>
+          <circle cx="280" cy="70" r="18" class="nodec" stroke="var(--blue)" stroke-width="2.5"/><text x="280" y="75" class="ct">3</text>
+          <circle cx="380" cy="70" r="18" class="nodec"/><text x="380" y="75" class="ct">4</text>
+          <circle cx="480" cy="70" r="18" class="nodec"/><text x="480" y="75" class="ct">5</text>
+          <path d="M 100 70 L 158 70" class="arrow" marker-end="url(#ah-m)"/>
+          <path d="M 200 70 L 258 70" class="arrow" marker-end="url(#ah-m)"/>
+          <path d="M 300 70 L 358 70" class="arrow" marker-end="url(#ah-m)"/>
+          <path d="M 400 70 L 458 70" class="arrow" marker-end="url(#ah-m)"/>
+          <path d="M 480 92 C 470 140 300 140 284 92" class="arrow arrow-v" marker-end="url(#ah-v)"/>
+          <text x="382" y="150" class="note note-v" text-anchor="middle">cycle back</text>
+          <text x="180" y="34" class="note note-b" text-anchor="middle">slow +1</text>
+          <text x="380" y="34" class="note note-a" text-anchor="middle">fast +2</text>
+          <text x="540" y="60" class="note">meet inside loop</text>
+          <text x="540" y="78" class="note">→ cycle exists</text>
+          <defs>
+            <marker id="ah-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/></marker>
+            <marker id="ah-v" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--violet)"/></marker>
+          </defs>
+        </svg>
+      </div>
+      <pre><code>slow = fast = head
+while fast and fast.next:
+    slow, fast = slow.next, fast.next.next
+    if slow is fast: return True</code></pre>
+      <div class="drill"><span class="lbl">Drill</span><span>Linked List Cycle</span><span>Middle of Linked List</span><span>Find the Duplicate Number</span><span>Reorder List</span></div>
+    </article>
+
+    <!-- 10. INTERVALS -->
+    <article class="pattern g">
+      <header><h3>Intervals</h3></header>
+      <div class="cuewords"><span>meeting rooms</span><span>merge ranges</span><span>overlaps</span><span>schedules</span></div>
+      <p class="thought">After sorting by start, overlap is one comparison: next.start ≤ current.end.</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 160" role="img" aria-label="Sorted intervals merge when the next start is before the current end">
+          <line x1="60" y1="120" x2="560" y2="120" class="edge"/>
+          <text x="60" y="140" class="note">1</text><text x="210" y="140" class="note">4</text><text x="160" y="140" class="note">3</text><text x="310" y="140" class="note">6</text><text x="410" y="140" class="note">8</text><text x="510" y="140" class="note">10</text>
+          <rect x="60" y="30" width="150" height="20" rx="6" fill="var(--green-bg)" stroke="var(--green)"/><text x="135" y="25" class="note note-g" text-anchor="middle">[1, 4]</text>
+          <rect x="160" y="58" width="150" height="20" rx="6" fill="var(--green-bg)" stroke="var(--green)"/><text x="235" y="94" class="note note-g" text-anchor="middle">[3, 6] — 3 ≤ 4 → merge</text>
+          <rect x="410" y="30" width="100" height="20" rx="6" fill="var(--surface-2)" stroke="var(--border)"/><text x="460" y="25" class="note" text-anchor="middle">[8, 10] — 8 &gt; 6 → new</text>
+          <rect x="160" y="30" width="50" height="48" fill="var(--green)" opacity="0.18"/>
+        </svg>
+      </div>
+      <pre><code>ivs.sort()
+for s, e in ivs[1:]:
+    if s &lt;= merged[-1][1]: merged[-1][1] = max(merged[-1][1], e)
+    else: merged.append([s, e])</code></pre>
+      <div class="drill"><span class="lbl">Drill</span><span>Merge Intervals</span><span>Insert Interval</span><span>Non-Overlapping Intervals</span><span>Meeting Rooms I &amp; II</span></div>
+    </article>
+
+    <!-- 11. TREES -->
+    <article class="pattern g">
+      <header><h3>Trees: DFS vs BFS</h3></header>
+      <div class="cuewords"><span>max depth / diameter</span><span>path sum</span><span>level order</span><span>nearest</span><span>validate BST</span><span>LCA</span></div>
+      <p class="thought">DFS: “if my left child told me X and my right child told me Y, my answer is…” — BFS: process level by level.</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 200" role="img" aria-label="Same tree two ways: BFS shades each level; DFS combines children's answers upward">
+          <!-- BFS half -->
+          <text x="150" y="22" class="ct" style="font-size:12px; fill:var(--muted);" text-anchor="middle">BFS — levels (queue)</text>
+          <rect x="40" y="34" width="220" height="40" rx="8" fill="var(--green-bg)"/>
+          <rect x="40" y="82" width="220" height="40" rx="8" fill="var(--green-bg)" opacity="0.6"/>
+          <rect x="40" y="130" width="220" height="40" rx="8" fill="var(--green-bg)" opacity="0.3"/>
+          <line x1="150" y1="54" x2="100" y2="102" class="edge"/><line x1="150" y1="54" x2="200" y2="102" class="edge"/>
+          <line x1="100" y1="102" x2="70" y2="150" class="edge"/><line x1="100" y1="102" x2="130" y2="150" class="edge"/>
+          <circle cx="150" cy="54" r="15" class="nodec"/><text x="150" y="59" class="ct">1</text>
+          <circle cx="100" cy="102" r="15" class="nodec"/><text x="100" y="107" class="ct">2</text>
+          <circle cx="200" cy="102" r="15" class="nodec"/><text x="200" y="107" class="ct">3</text>
+          <circle cx="70" cy="150" r="15" class="nodec"/><text x="70" y="155" class="ct">4</text>
+          <circle cx="130" cy="150" r="15" class="nodec"/><text x="130" y="155" class="ct">5</text>
+          <text x="270" y="58" class="note note-g">[1]</text>
+          <text x="270" y="106" class="note note-g">[2,3]</text>
+          <text x="270" y="154" class="note note-g">[4,5]</text>
+          <!-- DFS half -->
+          <text x="480" y="22" class="ct" style="font-size:12px; fill:var(--muted);" text-anchor="middle">DFS — combine children (recursion)</text>
+          <line x1="480" y1="54" x2="430" y2="102" class="edge"/><line x1="480" y1="54" x2="530" y2="102" class="edge"/>
+          <circle cx="480" cy="54" r="15" class="nodec" stroke="var(--green)" stroke-width="2.5"/><text x="480" y="59" class="ct">1</text>
+          <circle cx="430" cy="102" r="15" class="nodec"/><text x="430" y="107" class="ct">2</text>
+          <circle cx="530" cy="102" r="15" class="nodec"/><text x="530" y="107" class="ct">3</text>
+          <path d="M 442 88 L 468 66" class="arrow arrow-g" marker-end="url(#ah-g5)"/>
+          <path d="M 518 88 L 492 66" class="arrow arrow-g" marker-end="url(#ah-g5)"/>
+          <text x="404" y="132" class="note note-g">answer(L)</text>
+          <text x="510" y="132" class="note note-g">answer(R)</text>
+          <text x="480" y="170" class="ct" style="font-size:12px; fill:var(--ink);" text-anchor="middle">me = f(answer(L), answer(R))</text>
+          <defs><marker id="ah-g5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--green)"/></marker></defs>
+        </svg>
+      </div>
+      <pre><code>def depth(node):                       # the DFS sentence, in code
+    if not node: return 0
+    return 1 + max(depth(node.left), depth(node.right))</code></pre>
+      <div class="drill"><span class="lbl">Drill</span><span>Max Depth</span><span>Diameter</span><span>Invert Tree</span><span>Level Order Traversal</span><span>Validate BST (pass bounds down)</span><span>Lowest Common Ancestor</span></div>
+    </article>
+
+    <!-- 12. GRAPHS -->
+    <article class="pattern g">
+      <header><h3>Graphs — grids are graphs too</h3></header>
+      <div class="cuewords"><span>islands</span><span>connected</span><span>spread / infection</span><span>prerequisites</span><span>cheapest path</span></div>
+      <p class="thought">Every ‘#’ cell is a node and its 4 neighbors are edges — “number of islands” is just “count the floods”.</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 190" role="img" aria-label="A grid with two islands colored as two connected components, plus the graph algorithm chooser">
+          <g>
+            <rect x="40"  y="30" width="34" height="34" class="cell-hot-b"/><rect x="76"  y="30" width="34" height="34" class="cell-hot-b"/><rect x="112" y="30" width="34" height="34" class="cell"/><rect x="148" y="30" width="34" height="34" class="cell"/>
+            <rect x="40"  y="66" width="34" height="34" class="cell-hot-b"/><rect x="76"  y="66" width="34" height="34" class="cell"/><rect x="112" y="66" width="34" height="34" class="cell"/><rect x="148" y="66" width="34" height="34" class="cell-hot-g"/>
+            <rect x="40"  y="102" width="34" height="34" class="cell"/><rect x="76"  y="102" width="34" height="34" class="cell"/><rect x="112" y="102" width="34" height="34" class="cell-hot-g"/><rect x="148" y="102" width="34" height="34" class="cell-hot-g"/>
+            <text x="112" y="162" class="note" text-anchor="middle">2 floods → 2 islands</text>
+          </g>
+          <g style="font-family: ui-monospace, Menlo, monospace; font-size: 12px;">
+            <text x="250" y="46"  class="note">unweighted shortest path</text><text x="480" y="46"  class="note note-g" style="font-weight:700;">→ BFS</text>
+            <text x="250" y="72"  class="note">weighted, non-negative</text><text x="480" y="72"  class="note note-g" style="font-weight:700;">→ Dijkstra (heap)</text>
+            <text x="250" y="98"  class="note">limited hops / negative</text><text x="480" y="98"  class="note note-g" style="font-weight:700;">→ Bellman-Ford</text>
+            <text x="250" y="124" class="note">dependency order</text><text x="480" y="124" class="note note-g" style="font-weight:700;">→ Topo sort</text>
+            <text x="250" y="150" class="note">incremental connectivity</text><text x="480" y="150" class="note note-g" style="font-weight:700;">→ Union-Find</text>
+          </g>
+        </svg>
+      </div>
+      <pre><code>def flood(r, c):
+    if out_of_bounds or grid[r][c] != '#': return
+    grid[r][c] = 'seen'
+    for dr, dc in ((1,0),(-1,0),(0,1),(0,-1)): flood(r+dr, c+dc)</code></pre>
+      <div class="drill"><span class="lbl">Drill</span><span>Number of Islands</span><span>Rotting Oranges (multi-source BFS)</span><span>Clone Graph</span><span>Course Schedule</span><span>Redundant Connection</span><span>Network Delay Time</span></div>
+    </article>
+
+    <!-- 13. BACKTRACKING -->
+    <article class="pattern r">
+      <header><h3>Backtracking</h3></header>
+      <div class="cuewords"><span>ALL subsets / permutations</span><span>all valid boards</span><span>n ≤ ~20</span></div>
+      <p class="thought">They want the list of every answer, not a count — so I walk the whole decision tree: choose, recurse, un-choose.</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 190" role="img" aria-label="Subset decision tree: at each element fork on take or skip; every leaf is one answer">
+          <text x="40" y="22" class="note">subsets of [1, 2] — each element: take it or skip it</text>
+          <line x1="320" y1="52" x2="200" y2="98" class="edge"/><line x1="320" y1="52" x2="440" y2="98" class="edge"/>
+          <line x1="200" y1="112" x2="140" y2="150" class="edge"/><line x1="200" y1="112" x2="260" y2="150" class="edge"/>
+          <line x1="440" y1="112" x2="380" y2="150" class="edge"/><line x1="440" y1="112" x2="500" y2="150" class="edge"/>
+          <rect x="292" y="34" width="56" height="26" rx="7" class="cell"/><text x="320" y="51" class="ct" style="font-size:12px;">[ ]</text>
+          <rect x="172" y="92" width="56" height="26" rx="7" class="cell-hot-g"/><text x="200" y="109" class="ct" style="font-size:12px;">[1]</text>
+          <rect x="412" y="92" width="56" height="26" rx="7" class="cell"/><text x="440" y="109" class="ct" style="font-size:12px;">[ ]</text>
+          <rect x="108" y="146" width="64" height="26" rx="7" class="cell-hot-g"/><text x="140" y="163" class="ct" style="font-size:12px;">[1,2]</text>
+          <rect x="232" y="146" width="56" height="26" rx="7" class="cell-hot-g"/><text x="260" y="163" class="ct" style="font-size:12px;">[1]</text>
+          <rect x="352" y="146" width="56" height="26" rx="7" class="cell-hot-g"/><text x="380" y="163" class="ct" style="font-size:12px;">[2]</text>
+          <rect x="472" y="146" width="56" height="26" rx="7" class="cell-hot-g"/><text x="500" y="163" class="ct" style="font-size:12px;">[ ]</text>
+          <text x="216" y="66" class="note note-g">take 1</text>
+          <text x="396" y="66" class="note">skip 1</text>
+          <text x="560" y="160" class="note note-g">every leaf =</text>
+          <text x="560" y="176" class="note note-g">one answer</text>
+        </svg>
+      </div>
+      <pre><code>def backtrack(path, i):
+    if i == n: ans.append(path[:]); return
+    path.append(nums[i]); backtrack(path, i+1)   # take
+    path.pop();           backtrack(path, i+1)   # skip — the UNDO is the pattern</code></pre>
+      <div class="drill"><span class="lbl">Drill</span><span>Subsets</span><span>Combination Sum</span><span>Permutations</span><span>Word Search</span><span>Palindrome Partitioning</span><span>N-Queens</span></div>
+    </article>
+
+    <!-- 14. DP -->
+    <article class="pattern r">
+      <header><h3>Dynamic Programming</h3></header>
+      <div class="cuewords"><span>how many ways</span><span>min cost / max value</span><span>can you reach / partition</span><span>two sequences</span></div>
+      <p class="thought">answer(big) = combine(answer(smaller)) — and the same subproblems keep repeating, so cache them.</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 180" role="img" aria-label="Climbing stairs: ways to reach step n is ways to n minus 1 plus ways to n minus 2">
+          <text x="40" y="22" class="note">Climbing Stairs: ways(n) = ways(n−1) + ways(n−2)</text>
+          <rect x="60"  y="130" width="80" height="30" class="cell"/><text x="100" y="150" class="ct">1</text>
+          <rect x="140" y="100" width="80" height="60" class="cell"/><text x="180" y="135" class="ct">2</text>
+          <rect x="220" y="70"  width="80" height="90" class="cell"/><text x="260" y="120" class="ct">3</text>
+          <rect x="300" y="40"  width="80" height="120" class="cell-hot-g"/><text x="340" y="105" class="ct">5</text>
+          <rect x="380" y="10"  width="80" height="150" class="cell"/><text x="420" y="90" class="ct" style="fill:var(--faint);">8</text>
+          <path d="M 260 60 C 290 40 320 32 338 36" class="arrow arrow-g" marker-end="url(#ah-g6)"/>
+          <path d="M 180 90 C 240 40 310 26 338 32" class="arrow arrow-g dash" marker-end="url(#ah-g6)"/>
+          <text x="500" y="60" class="note note-g">each step reuses the</text>
+          <text x="500" y="78" class="note note-g">two answers below it</text>
+          <text x="500" y="106" class="note">COUNT/BEST → DP</text>
+          <text x="500" y="124" class="note">LIST them all → backtracking</text>
+          <defs><marker id="ah-g6" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--green)"/></marker></defs>
+        </svg>
+      </div>
+      <pre><code>take-or-skip (House Robber):    dp[i] = max(dp[i-1], dp[i-2] + a[i])
+unbounded coins (Coin Change):  dp[x] = min(dp[x - coin] + 1 for coin in coins)
+two sequences (LCS):            dp[i][j] from dp[i-1][j-1] and neighbors
+longest increasing (LIS):       dp[i] = best chain ending at i</code></pre>
+      <div class="drill"><span class="lbl">Drill</span><span>Climbing Stairs</span><span>House Robber</span><span>Coin Change</span><span>Longest Common Subsequence</span><span>Longest Increasing Subsequence</span><span>Unique Paths</span><span>Partition Equal Subset Sum</span></div>
+    </article>
+
+    <!-- 15. GREEDY + specialists -->
+    <article class="pattern r">
+      <header><h3>Greedy — and the specialists</h3></header>
+      <div class="cuewords"><span>jump game</span><span>gas station</span><span>schedule max tasks</span></div>
+      <p class="thought">Would I ever regret the greedy choice? If sort + one pass can’t be beaten by looking ahead, it’s greedy. If I can’t argue it, fall back to DP.</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 148" role="img" aria-label="Specialist patterns lookup: trie, union-find, XOR, cyclic sort, design problems">
+          <g style="font-family: ui-monospace, Menlo, monospace; font-size: 12px;">
+            <text x="40" y="34" class="note" style="font-weight:700; fill:var(--ink);">Trie</text><text x="150" y="34" class="note">many words + prefix queries</text><text x="440" y="34" class="note note-r">Word Search II</text>
+            <text x="40" y="58" class="note" style="font-weight:700; fill:var(--ink);">Union-Find</text><text x="150" y="58" class="note">merging groups over time</text><text x="440" y="58" class="note note-r">Count Components</text>
+            <text x="40" y="82" class="note" style="font-weight:700; fill:var(--ink);">Bit / XOR</text><text x="150" y="82" class="note">pairs cancel; O(1) space tricks</text><text x="440" y="82" class="note note-r">Single Number</text>
+            <text x="40" y="106" class="note" style="font-weight:700; fill:var(--ink);">Cyclic sort</text><text x="150" y="106" class="note">array holds values 1..n</text><text x="440" y="106" class="note note-r">Find the Duplicate</text>
+            <text x="40" y="130" class="note" style="font-weight:700; fill:var(--ink);">Design</text><text x="150" y="130" class="note">O(1) ops → hashmap + helper</text><text x="440" y="130" class="note note-r">LRU Cache</text>
+          </g>
+        </svg>
+      </div>
+      <div class="drill"><span class="lbl">Drill</span><span>Jump Game</span><span>Gas Station</span><span>Hand of Straights</span><span>Implement Trie</span><span>Single Number</span><span>LRU Cache</span></div>
+    </article>
+  </section>
+
+  <!-- ============ SORTING ============ -->
+  <section id="sorting">
+    <h2>Sorting — steal the algorithm, skip the sort</h2>
+    <p style="color:var(--muted); font-size:14.5px; max-width:66ch;">No interviewer asks you to implement mergesort. But the <em>machinery inside each sort</em> is a reusable pattern that solves famous problems on its own. Learn the sorts as a toolbox of moves, not as trivia.</p>
+
+    <div class="panel" style="margin-bottom: 6px;">
+      <div class="cues" style="margin-top: 0; border: none;">
+        <div class="cue-row b"><div>need the full order, general values</div><div>built-in sort O(n log n), then two pointers / sweep</div></div>
+        <div class="cue-row v"><div>only need the Kth / top-K — not full order</div><div>quickselect O(n) or heap O(n log k) — don’t sort!</div></div>
+        <div class="cue-row a"><div>values in a small range (0..n, colors, counts)</div><div>counting / bucket sort — O(n) beats the “law”</div></div>
+        <div class="cue-row b"><div>data arrives as sorted pieces</div><div>the merge step — O(n + m), two fingers</div></div>
+        <div class="cue-row r"><div>values are exactly 1..n and O(1) space demanded</div><div>cyclic sort — swap each value home</div></div>
+        <div class="cue-row g"><div>stream keeps growing, need best-so-far</div><div>heap (heapsort’s engine, run lazily)</div></div>
+      </div>
+    </div>
+
+    <!-- MERGE STEP -->
+    <article class="pattern b">
+      <header><h3>Mergesort’s merge step</h3></header>
+      <div class="cuewords"><span>two sorted inputs</span><span>combine k sorted things</span><span>count inversions</span></div>
+      <p class="thought">Two fingers, always take the smaller — merging sorted things never needs a re-sort.</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 170" role="img" aria-label="Merge step: two sorted arrays combined with two fingers, always taking the smaller">
+          <text x="40" y="24" class="note">A:</text>
+          <rect x="70" y="8" width="46" height="30" class="cell-hot-b"/><text x="93" y="28" class="ct">1</text>
+          <rect x="120" y="8" width="46" height="30" class="cell"/><text x="143" y="28" class="ct">4</text>
+          <rect x="170" y="8" width="46" height="30" class="cell"/><text x="193" y="28" class="ct">7</text>
+          <text x="40" y="72" class="note">B:</text>
+          <rect x="70" y="56" width="46" height="30" class="cell"/><text x="93" y="76" class="ct">2</text>
+          <rect x="120" y="56" width="46" height="30" class="cell"/><text x="143" y="76" class="ct">3</text>
+          <rect x="170" y="56" width="46" height="30" class="cell"/><text x="193" y="76" class="ct">9</text>
+          <path d="M 93 44 L 93 52" class="arrow arrow-b"/>
+          <text x="250" y="28" class="note note-b">take min(1, 2) → 1, advance that finger</text>
+          <text x="40" y="126" class="note">out:</text>
+          <rect x="70" y="108" width="46" height="30" class="cell-hot-g"/><text x="93" y="128" class="ct">1</text>
+          <rect x="120" y="108" width="46" height="30" class="cell-hot-g"/><text x="143" y="128" class="ct">2</text>
+          <rect x="170" y="108" width="46" height="30" class="cell-hot-g"/><text x="193" y="128" class="ct">3</text>
+          <rect x="220" y="108" width="46" height="30" class="cell"/><text x="243" y="128" class="ct">4</text>
+          <rect x="270" y="108" width="46" height="30" class="cell"/><text x="293" y="128" class="ct">…</text>
+          <text x="360" y="120" class="note note-v">bonus: while merging, every time B wins,</text>
+          <text x="360" y="138" class="note note-v">A’s leftovers are inversions → count them</text>
+          <text x="40" y="162" class="note mono">O(n + m), no comparisons wasted</text>
+        </svg>
+      </div>
+      <div class="drill"><span class="lbl">Powers</span><span>Merge Two Sorted Lists</span><span>Merge Sorted Array</span><span>Merge K Sorted Lists (+ heap)</span><span>Sort List (mergesort on a linked list)</span><span>Count of Smaller Numbers After Self (inversions)</span><span>Reverse Pairs</span></div>
+    </article>
+
+    <!-- PARTITION -->
+    <article class="pattern v">
+      <header><h3>Quicksort’s partition</h3></header>
+      <div class="cuewords"><span>kth largest / smallest</span><span>3 distinct values</span><span>in-place regions</span></div>
+      <p class="thought">One pass puts the pivot in its FINAL position and splits the rest — recurse only into the half you care about, and O(n log n) becomes O(n).</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 160" role="img" aria-label="Partition and the Dutch national flag: array split into less, equal, greater regions">
+          <text x="40" y="22" class="note">Dutch national flag — three regions, one pass (Sort Colors)</text>
+          <rect x="40"  y="40" width="140" height="40" fill="var(--rust-bg)" stroke="var(--rust)"/><text x="110" y="65" class="ct" style="fill:var(--rust);">&lt; pivot</text>
+          <rect x="180" y="40" width="120" height="40" fill="var(--surface-2)" stroke="var(--border)"/><text x="240" y="65" class="ct" style="fill:var(--muted);">= pivot</text>
+          <rect x="300" y="40" width="140" height="40" fill="var(--green-bg)" stroke="var(--green)"/><text x="370" y="65" class="ct" style="fill:var(--green);">&gt; pivot</text>
+          <path d="M 180 96 L 180 84" class="arrow arrow-v"/><text x="180" y="112" class="note note-v" text-anchor="middle">lo</text>
+          <path d="M 300 96 L 300 84" class="arrow arrow-v"/><text x="300" y="112" class="note note-v" text-anchor="middle">hi</text>
+          <text x="462" y="48" class="note">quickselect:</text>
+          <text x="462" y="66" class="note">pivot index is final —</text>
+          <text x="462" y="84" class="note">recurse only the side</text>
+          <text x="462" y="102" class="note">holding k</text>
+          <text x="40" y="146" class="note mono">avg O(n): n + n/2 + n/4 + … = 2n</text>
+        </svg>
+      </div>
+      <pre><code>def quickselect(lo, hi, k):          # kth smallest
+    p = partition(lo, hi)            # pivot lands at its final index
+    if p == k: return a[p]
+    return quickselect(p+1, hi, k) if p < k else quickselect(lo, p-1, k)</code></pre>
+      <div class="drill"><span class="lbl">Powers</span><span>Kth Largest Element in an Array</span><span>K Closest Points to Origin</span><span>Top K Frequent (alt.)</span><span>Sort Colors (Dutch flag)</span><span>Wiggle Sort II</span></div>
+    </article>
+
+    <!-- COUNTING / BUCKETS -->
+    <article class="pattern a">
+      <header><h3>Counting &amp; bucket sort</h3></header>
+      <div class="cuewords"><span>values in 0..n</span><span>frequencies as keys</span><span>“beat O(n log n)”</span></div>
+      <p class="thought">When the value range is small, array indexes replace comparisons — and the O(n log n) “law” doesn’t apply.</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 150" role="img" aria-label="Bucket sort: elements dropped into buckets indexed by their count, then read from the top">
+          <text x="40" y="22" class="note">Top K Frequent, the O(n) way: bucket[count] = values</text>
+          <rect x="40"  y="40" width="90" height="34" class="cell"/><text x="85"  y="62" class="ct" style="font-size:11px;">count 1</text>
+          <rect x="134" y="40" width="90" height="34" class="cell"/><text x="179" y="62" class="ct" style="font-size:11px;">count 2</text>
+          <rect x="228" y="40" width="90" height="34" class="cell-hot-a"/><text x="273" y="62" class="ct" style="font-size:11px;">count 3</text>
+          <text x="85"  y="96" class="ct" style="font-size:12px; fill:var(--muted);">[3]</text>
+          <text x="179" y="96" class="ct" style="font-size:12px; fill:var(--muted);">[2]</text>
+          <text x="273" y="96" class="ct" style="font-size:12px; fill:var(--amber);">[1]</text>
+          <path d="M 330 57 L 380 57" class="arrow arrow-a"/>
+          <text x="390" y="52" class="note note-a">read buckets right-to-left,</text>
+          <text x="390" y="70" class="note note-a">collect k — no sorting, no heap</text>
+          <text x="40" y="132" class="note">count can’t exceed n → the bucket array is always big enough</text>
+        </svg>
+      </div>
+      <div class="drill"><span class="lbl">Powers</span><span class="done">Top K Frequent Elements ✓</span><span>Sort Colors (count 0/1/2)</span><span>H-Index</span><span>Maximum Gap (buckets + pigeonhole)</span><span>Sort Characters by Frequency</span></div>
+    </article>
+
+    <!-- CYCLIC SORT -->
+    <article class="pattern r">
+      <header><h3>Cyclic sort — every value has a home</h3></header>
+      <div class="cuewords"><span>values exactly 1..n (or 0..n)</span><span>find missing / duplicate</span><span>O(1) space demanded</span></div>
+      <p class="thought">Value v belongs at index v−1 — keep swapping each element home; the first squatter you find afterwards is the answer.</p>
+      <div class="viz">
+        <svg viewBox="0 0 640 150" role="img" aria-label="Cyclic sort: value 3 swaps to index 2, then a scan finds the first index holding the wrong value">
+          <text x="40" y="22" class="note">[3, 4, -1, 1] → swap everyone home → [1, -1, 3, 4]</text>
+          <rect x="40"  y="40" width="60" height="40" class="cell-hot-r" fill="var(--rust-bg)" stroke="var(--rust)"/><text x="70"  y="65" class="ct">3</text>
+          <rect x="104" y="40" width="60" height="40" class="cell"/><text x="134" y="65" class="ct">4</text>
+          <rect x="168" y="40" width="60" height="40" class="cell"/><text x="198" y="65" class="ct">-1</text>
+          <rect x="232" y="40" width="60" height="40" class="cell"/><text x="262" y="65" class="ct">1</text>
+          <path d="M 70 88 C 100 118 170 118 196 88" class="arrow arrow-r" marker-end="url(#ah-r3)"/>
+          <text x="134" y="132" class="note note-r" text-anchor="middle">3 belongs at index 2 → swap</text>
+          <text x="340" y="52" class="note">after settling: scan for the first</text>
+          <text x="340" y="70" class="note">index i where a[i] ≠ i+1</text>
+          <text x="340" y="94" class="note note-r" style="font-weight:700;">index 1 holds -1 → answer: 2</text>
+          <defs><marker id="ah-r3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--rust)"/></marker></defs>
+        </svg>
+      </div>
+      <pre><code>i = 0
+while i < n:
+    home = a[i] - 1
+    if 0 <= home < n and a[home] != a[i]:
+        a[i], a[home] = a[home], a[i]     # send it home, stay put
+    else:
+        i += 1</code></pre>
+      <div class="drill"><span class="lbl">Powers</span><span>Missing Number</span><span>First Missing Positive</span><span>Find the Duplicate Number</span><span>Find All Duplicates in an Array</span><span>Set Mismatch</span></div>
+    </article>
+
+    <p style="margin-top:18px; font-size:13.5px; color:var(--muted); max-width:68ch;">Two more sorts hide inside patterns you already know: <b style="color:var(--ink);">heapsort</b> is just the heap pattern run to completion (Top K, Kth in a Stream, Last Stone Weight), and <b style="color:var(--ink);">patience sorting</b> is the O(n log n) trick behind Longest Increasing Subsequence. And remember the quietest cue of all: <b style="color:var(--ink);">“sort first” unlocks whole families</b> — 3Sum, Merge Intervals, Meeting Rooms, Non-Overlapping Intervals, Car Fleet, Hand of Straights all start with one <code>sort()</code>.</p>
+  </section>
+
+  <!-- ============ RECOGNITION GYM ============ -->
+  <style>
+    .gym-intro { color: var(--muted); font-size: 14.5px; max-width: 66ch; }
+    .gym-controls { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 6px; align-items: center; }
+    .gym-controls button {
+      font: inherit; font-size: 13px; font-weight: 600; color: var(--ink);
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      padding: 7px 13px; cursor: pointer;
+    }
+    .gym-controls button:hover { border-color: var(--faint); }
+    .gym-controls button:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+    .gym-controls button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+    .gym-count { font-size: 12.5px; color: var(--faint); margin-left: auto; }
+    .gym-group-h {
+      font-family: Georgia, "Iowan Old Style", serif; font-size: 19px; font-weight: 600;
+      margin: 34px 0 4px; display: flex; align-items: baseline; gap: 10px;
+    }
+    .gym-group-h small { font-family: inherit; font-size: 13px; color: var(--faint); font-weight: 400; font-style: italic; }
+    .prob {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+      padding: 14px 18px 12px; margin-top: 12px;
+    }
+    .prob .p-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }
+    .prob .p-title { font-weight: 700; font-size: 15px; }
+    .prob .p-done { font-size: 11px; font-weight: 700; color: var(--green); background: var(--green-bg); border-radius: 999px; padding: 2px 9px; }
+    .prob .p-stmt { margin: 8px 0 0; font-size: 14px; color: var(--ink); max-width: 72ch; }
+    .prob .p-ex {
+      margin-top: 8px; font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 12.5px; color: var(--muted); background: var(--bg);
+      border: 1px solid var(--border); border-radius: 8px; padding: 7px 11px;
+      overflow-x: auto; white-space: pre;
+    }
+    .prob details { margin-top: 10px; }
+    .prob summary {
+      cursor: pointer; font-size: 12.5px; font-weight: 700; color: var(--blue);
+      list-style: none; display: inline-flex; align-items: center; gap: 6px;
+      border: 1px dashed var(--blue); border-radius: 999px; padding: 4px 13px;
+      user-select: none;
+    }
+    .prob summary::-webkit-details-marker { display: none; }
+    .prob summary:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+    .prob summary::before { content: "🤔"; font-size: 12px; }
+    .prob details[open] summary { border-style: solid; background: var(--blue-bg); }
+    .prob details[open] summary::before { content: "✅"; }
+    .prob .p-answer { margin-top: 10px; border-top: 1px dashed var(--border); padding-top: 10px; }
+    .prob .p-pat {
+      display: inline-block; font-size: 12px; font-weight: 700; color: var(--violet);
+      background: var(--violet-bg); border-radius: 6px; padding: 3px 10px;
+    }
+    .prob .p-grp { display: inline-block; font-size: 12px; font-weight: 600; color: var(--muted); margin-left: 8px; }
+    .prob .p-insight {
+      font-family: Georgia, "Iowan Old Style", serif; font-style: italic;
+      font-size: 14.5px; color: var(--ink); margin: 8px 0 0; max-width: 66ch;
+    }
+    .prob .p-code {
+      margin: 10px 0 0; padding: 10px 13px; background: var(--surface-2);
+      border: 1px solid var(--border); border-radius: 9px; font-size: 12.5px;
+      overflow-x: auto;
+    }
+    .prob .p-code code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; white-space: pre; color: var(--ink); background: none; padding: 0; }
+  </style>
+  <section id="gym">
+    <h2>The Recognition Gym — all of NeetCode 150</h2>
+    <p class="gym-intro">Read the problem statement and example, name the pattern <em>out loud</em>, then reveal to check yourself. In study mode problems are grouped by pattern; hit <b>Quiz mode</b> to shuffle everything with the groupings hidden — that's the honest test, because in the interview nobody tells you the chapter.</p>
+    <div class="gym-controls">
+      <button id="gymStudy" aria-pressed="true">Study mode (grouped)</button>
+      <button id="gymQuiz" aria-pressed="false">Quiz mode (shuffled)</button>
+      <button id="gymCollapse">Hide all answers</button>
+      <span class="gym-count" id="gymCount"></span>
+    </div>
+    <div id="gymroot"></div>
+  </section>
+
+  <section id="mystery">
+    <h2>Mystery set — no categories, like the real thing</h2>
+    <p class="gym-intro">The gym's section headers tell you the chapter before you read the problem — the interview won't. These are deliberately shuffled across every family, with no grouping anywhere on the card. Read, <b>name the category AND pattern out loud</b>, then reveal — the answer names both. (Quiz mode above does this for all 150.)</p>
+    <div id="mysteryroot"></div>
+  </section>
+
+  <script>
+  (function () {
+    // g: pattern group · t: title · d: statement · e: example · p: pattern · i: recognition insight · c: solution sketch · k: solved in repo
+    var P = [
+      // ---------- HASH MAP & ARRAYS ----------
+      {g:'Hash Map & Arrays', t:'Contains Duplicate', k:1,
+       d:'Given an integer array nums, return true if any value appears at least twice.',
+       e:'[1, 2, 3, 1] → true      [1, 2, 3, 4] → false',
+       p:'Hash set — O(n)', i:'"Have I seen this before?" is literally the problem statement.',
+       c:'seen = set()\nfor x in nums:\n    if x in seen: return True\n    seen.add(x)\nreturn False'},
+      {g:'Hash Map & Arrays', t:'Valid Anagram', k:1,
+       d:'Given two strings s and t, return true if t is an anagram of s.',
+       e:'s = "racecar", t = "carrace" → true',
+       p:'Hashmap of counts — O(n)', i:'Anagram = identical letter counts. Counting anything = hashmap.',
+       c:'return Counter(s) == Counter(t)'},
+      {g:'Hash Map & Arrays', t:'Two Sum', k:1,
+       d:'Return indices of the two numbers that add up to target. Exactly one solution exists.',
+       e:'nums = [3,4,5,6], target = 7 → [0, 1]',
+       p:'Hashmap complement lookup — O(n)', i:'The brute force keeps re-searching for (target − x) → remember what you have seen instead.',
+       c:'seen = {}\nfor i, x in enumerate(nums):\n    if target - x in seen: return [seen[target - x], i]\n    seen[x] = i'},
+      {g:'Hash Map & Arrays', t:'Group Anagrams', k:1,
+       d:'Group a list of strings so that all anagrams end up together.',
+       e:'["eat","tea","tan","ate"] → [["eat","tea","ate"], ["tan"]]',
+       p:'Hashmap with canonical key — O(n·k)', i:'Anagrams share one identity: their sorted letters (or 26-count tuple). "Group by X" = hashmap keyed on X.',
+       c:'groups = defaultdict(list)\nfor w in strs:\n    groups[tuple(sorted(w))].append(w)\nreturn list(groups.values())'},
+      {g:'Hash Map & Arrays', t:'Top K Frequent Elements', k:1,
+       d:'Return the k most frequent elements of an array.',
+       e:'nums = [1,1,1,2,2,3], k = 2 → [1, 2]',
+       p:'Hashmap counts → bucket sort (or heap) — O(n)', i:'Two shapes stacked: counting → hashmap; then top-K → heap, or buckets indexed by count (count ≤ n) for O(n).',
+       c:'cnt = Counter(nums)\nbuckets = [[] for _ in range(len(nums) + 1)]\nfor x, c in cnt.items(): buckets[c].append(x)\n# walk buckets from the top, collect k'},
+      {g:'Hash Map & Arrays', t:'Encode and Decode Strings', k:1,
+       d:'Design encode(list of strings) → one string, and decode back. Strings may contain any character.',
+       e:'["neet","code"] → "4#neet4#code" → ["neet","code"]',
+       p:'Length-prefix encoding', i:'Any delimiter can be faked by the data — a length prefix cannot. "4#" says exactly how far to read.',
+       c:'encode: "".join(f"{len(s)}#{s}" for s in strs)\ndecode: read digits until "#", slice that many chars, repeat'},
+      {g:'Hash Map & Arrays', t:'Valid Sudoku', k:1,
+       d:'Given a 9×9 board (partially filled), check that no digit repeats in any row, column, or 3×3 box.',
+       e:'a column containing two 9s → false',
+       p:'Hash sets per row / col / box — O(81)', i:'Three simultaneous "seen before?" questions. The box key trick: (r // 3, c // 3).',
+       c:'if v in rows[r] or v in cols[c] or v in boxes[(r//3, c//3)]:\n    return False'},
+      {g:'Hash Map & Arrays', t:'Longest Consecutive Sequence', k:1,
+       d:'Given an unsorted array, return the length of the longest run of consecutive integers. Must run in O(n).',
+       e:'[100, 4, 200, 1, 3, 2] → 4   (1,2,3,4)',
+       p:'Hash set + start-of-sequence check — O(n)', i:'A sorted-sounding question with an O(n) demand → set. Only count up from x when x−1 is absent, so each chain is walked exactly once.',
+       c:'s = set(nums)\nfor x in s:\n    if x - 1 not in s:\n        run = 1\n        while x + run in s: run += 1\n        best = max(best, run)'},
+
+      // ---------- TWO POINTERS ----------
+      {g:'Two Pointers', t:'Valid Palindrome', k:1,
+       d:'Return true if the string reads the same forwards and backwards, ignoring non-alphanumerics and case.',
+       e:'"Was it a car or a cat I saw?" → true',
+       p:'Two pointers from both ends — O(n)', i:'Palindrome = compare mirror positions → converge from the ends.',
+       c:'l, r = 0, len(s) - 1\nwhile l < r:\n    if s[l] != s[r]: return False\n    l += 1; r -= 1'},
+      {g:'Two Pointers', t:'Two Sum II (sorted input)', k:1,
+       d:'Same as Two Sum, but the array is sorted. O(1) extra space required.',
+       e:'[1,2,3,4], target = 3 → [1, 2] (1-indexed)',
+       p:'Two pointers — O(n), O(1) space', i:'SORTED changes everything: sum too small → only l++ can help; too big → only r−−. No hashmap needed.',
+       c:'while l < r:\n    s = a[l] + a[r]\n    if s == target: return [l + 1, r + 1]\n    if s < target: l += 1\n    else: r -= 1'},
+      {g:'Two Pointers', t:'3Sum', k:1,
+       d:'Find all unique triplets in the array that sum to zero.',
+       e:'[-1, 0, 1, 2, -1, -4] → [[-1,-1,2], [-1,0,1]]',
+       p:'Sort + fix one + two pointers — O(n²)', i:'Fix nums[i]; what remains is Two Sum II on a sorted remainder. Skip duplicate values to avoid repeat triplets.',
+       c:'nums.sort()\nfor i in range(n):\n    if i and nums[i] == nums[i-1]: continue\n    # two pointers on nums[i+1:] targeting -nums[i]'},
+      {g:'Two Pointers', t:'Container With Most Water', k:1,
+       d:'Given line heights, choose two lines that hold the most water between them.',
+       e:'[1,7,2,5,4,7,3,6] → 36',
+       p:'Two pointers, move the shorter wall — O(n)', i:'Width only shrinks as pointers close in — so the only possible improvement is replacing the SHORTER wall.',
+       c:'while l < r:\n    best = max(best, (r - l) * min(h[l], h[r]))\n    if h[l] < h[r]: l += 1\n    else: r -= 1'},
+      {g:'Two Pointers', t:'Trapping Rain Water', k:1,
+       d:'Given an elevation map, compute how much rain water it traps.',
+       e:'[0,2,0,3,1,0,1,3] → 6',
+       p:'min(leftmax, rightmax) per bar → prefix/suffix or two pointers', i:'"Water on bar i = min(best left wall, best right wall) − h[i]." Needs both sides → prefix/suffix arrays; the O(1)-space follow-up → advance the side with the smaller max.',
+       c:'while l < r:\n    if lmax <= rmax:\n        l += 1; lmax = max(lmax, h[l]); water += lmax - h[l]\n    else:\n        r -= 1; rmax = max(rmax, h[r]); water += rmax - h[r]'},
+
+      // ---------- SLIDING WINDOW ----------
+      {g:'Sliding Window', t:'Best Time to Buy & Sell Stock', k:1,
+       d:'Given daily prices, maximize profit from one buy followed by one later sell.',
+       e:'[10, 1, 5, 6, 7, 1] → 6   (buy 1, sell 7)',
+       p:'Running min — O(n), O(1) space', i:'Best ordered pair (buy BEFORE sell) → each day only needs the cheapest EARLIER day → one pass with a running min.',
+       c:'lo, best = inf, 0\nfor p in prices:\n    best = max(best, p - lo)\n    lo = min(lo, p)'},
+      {g:'Sliding Window', t:'Longest Substring Without Repeating Characters',
+       d:'Length of the longest substring in which every character is distinct.',
+       e:'"zxyzxyz" → 3',
+       p:'Sliding window + set — O(n)', i:'Contiguous + "longest" + a condition that only breaks when you ADD → expand right, shrink left on repeat. Never restart.',
+       c:'for r in range(n):\n    while s[r] in win:\n        win.remove(s[l]); l += 1\n    win.add(s[r]); best = max(best, r - l + 1)'},
+      {g:'Sliding Window', t:'Longest Repeating Character Replacement',
+       d:'Longest substring that can be made all one letter using at most k replacements.',
+       e:'"XYYX", k = 2 → 4',
+       p:'Window; valid ⇔ size − maxFreq ≤ k', i:'Replacements needed = window size − count of its most common letter. That inequality IS the window validity test.',
+       c:'count[s[r]] += 1\nwhile (r - l + 1) - max(count.values()) > k:\n    count[s[l]] -= 1; l += 1'},
+      {g:'Sliding Window', t:'Permutation in String',
+       d:'Return true if s2 contains any permutation of s1 as a substring.',
+       e:'s1 = "abc", s2 = "lecabee" → true ("cab")',
+       p:'Fixed-size window + letter counts — O(n)', i:'A permutation is a window of exactly len(s1) chars with identical counts → slide a fixed window, update two counters per step.',
+       c:'slide a window of len(s1) over s2\nmaintain a 26-count array; compare to s1 counts'},
+      {g:'Sliding Window', t:'Minimum Window Substring',
+       d:'Smallest substring of s that contains every character of t, with multiplicity.',
+       e:'s = "OUZODYXAZV", t = "XYZ" → "YXAZ"',
+       p:'Window + need/have counts — O(n)', i:'"Smallest window containing…" → expand until valid, then shrink from the left while STILL valid, recording each time.',
+       c:'expand r until have == need\nwhile valid:\n    record best; drop s[l]; l += 1'},
+      {g:'Sliding Window', t:'Sliding Window Maximum',
+       d:'Return the maximum of every window of size k.',
+       e:'[1,2,1,0,4,2,6], k = 3 → [2,2,4,4,6]',
+       p:'Monotonic deque — O(n)', i:'Window + "max of each" → keep a DECREASING deque of candidate indices; the front is always the max; smaller elements behind a bigger one can never win, pop them.',
+       c:'while dq and a[dq[-1]] < a[r]: dq.pop()\ndq.append(r)\nif dq[0] == r - k: dq.popleft()\nif r >= k - 1: ans.append(a[dq[0]])'},
+
+      // ---------- PREFIX / SUFFIX ----------
+      {g:'Prefix / Suffix', t:'Product of Array Except Self', k:1,
+       d:'Return out where out[i] is the product of every element except nums[i]. No division; O(n).',
+       e:'[1,2,4,6] → [48,24,12,8]',
+       p:'Prefix products, then suffix pass — O(n)', i:'Each index needs "product of everything to my left" × "…to my right" → two directional pre-passes.',
+       c:'pre = 1\nfor i in range(n): out[i] = pre; pre *= a[i]\nsuf = 1\nfor i in reversed(range(n)): out[i] *= suf; suf *= a[i]'},
+      {g:'Prefix / Suffix', t:'Subarray Sum Equals K (bonus)',
+       d:'Count contiguous subarrays summing to k. Negatives allowed.',
+       e:'[1, 2, 3], k = 3 → 2   ([1,2] and [3])',
+       p:'Prefix sum + hashmap — O(n)', i:'Negatives break sliding window. sum(i..j) = pre[j] − pre[i] → at each j ask "have I seen pre − k before?" — a Two Sum in disguise.',
+       c:'seen = {0: 1}\nfor x in nums:\n    pre += x\n    ans += seen.get(pre - k, 0)\n    seen[pre] = seen.get(pre, 0) + 1'},
+
+      // ---------- STACK ----------
+      {g:'Stack', t:'Valid Parentheses',
+       d:'Given a string of ()[]{}. Is every bracket closed by the right type, in the right order?',
+       e:'"([{}])" → true      "[(])" → false',
+       p:'Stack — O(n)', i:'A closer must match the MOST RECENT unresolved opener → last-in-first-out.',
+       c:'for c in s:\n    if c in "([{": st.append(c)\n    elif not st or pair[c] != st.pop(): return False\nreturn not st'},
+      {g:'Stack', t:'Min Stack',
+       d:'Design a stack supporting push, pop, top, and getMin — every operation O(1).',
+       e:'push 5, 2, 7 → getMin() = 2 → pop → pop → getMin() = 5',
+       p:'Stack of (value, min-so-far) pairs', i:'getMin must survive pops in O(1) → store the running min WITH each entry; popping restores the previous min for free.',
+       c:'push: mins.append(min(x, mins[-1] if mins else x))\ngetMin: return mins[-1]'},
+      {g:'Stack', t:'Evaluate Reverse Polish Notation',
+       d:'Evaluate an arithmetic expression given in postfix (RPN) form.',
+       e:'["1","2","+","3","*"] → 9',
+       p:'Stack — O(n)', i:'An operator applies to the two most recent unresolved operands → pop two, push result.',
+       c:'for t in tokens:\n    if t is an operator:\n        b, a = st.pop(), st.pop(); st.append(op(a, b))\n    else: st.append(int(t))'},
+      {g:'Stack', t:'Generate Parentheses',
+       d:'Generate all well-formed strings of n bracket pairs.',
+       e:'n = 2 → ["(())", "()()"]',
+       p:'Backtracking with open/close counters', i:'"Generate ALL valid X" → backtracking, even though NeetCode shelves it under Stack. Add "(" while any remain; add ")" only if it will not unbalance.',
+       c:'def bt(s, o, c):\n    if len(s) == 2 * n: ans.append(s); return\n    if o < n: bt(s + "(", o + 1, c)\n    if c < o: bt(s + ")", o, c + 1)'},
+
+      // ---------- MONOTONIC STACK ----------
+      {g:'Monotonic Stack', t:'Daily Temperatures',
+       d:'For each day, how many days until a warmer temperature? 0 if it never comes.',
+       e:'[73,74,75,71,69,72] → [1,1,3,2,1,0]',
+       p:'Monotonic decreasing stack — O(n)', i:'"Next greater to the right", verbatim. Each new temp pops every colder waiting day and answers it; everyone pushes and pops once.',
+       c:'for i, t in enumerate(temps):\n    while st and temps[st[-1]] < t:\n        j = st.pop(); ans[j] = i - j\n    st.append(i)'},
+      {g:'Monotonic Stack', t:'Car Fleet',
+       d:'Cars at given positions/speeds drive toward a target; a faster car stuck behind a slower one becomes one fleet. How many fleets arrive?',
+       e:'target=10, pos=[1,4], speed=[3,2] → 1',
+       p:'Sort by position + stack of arrival times', i:'Sort by starting position (closest to target first). A car merges iff its arrival time ≤ the fleet ahead. The surviving times form a monotonic stack.',
+       c:'for pos, sp in sorted(cars, reverse=True):\n    t = (target - pos) / sp\n    if not st or t > st[-1]: st.append(t)\nreturn len(st)'},
+      {g:'Monotonic Stack', t:'Largest Rectangle in Histogram',
+       d:'Find the largest rectangle that fits under a histogram.',
+       e:'[2,1,5,6,2,3] → 10   (5×2)',
+       p:'Monotonic increasing stack — O(n)', i:'Bar i’s best rectangle extends to the first SHORTER bar on each side → "nearest smaller", twice. When a bar pops, its right wall was just found.',
+       c:'for i, h in enumerate(heights + [0]):\n    while st and heights[st[-1]] >= h:\n        H = heights[st.pop()]\n        W = i - (st[-1] + 1 if st else 0)\n        best = max(best, H * W)\n    st.append(i)'},
+      {g:'Monotonic Stack', t:'Next Greater Element I (bonus)',
+       d:'For each element, find the first greater element to its right.',
+       e:'[2,1,3] → [3,3,-1]',
+       p:'Monotonic stack — O(n)', i:'The template problem — drill the pop-and-answer motion here before the fancy versions.',
+       c:'while st and a[st[-1]] < x:\n    nxt[st.pop()] = x\nst.append(i)'},
+
+      // ---------- BINARY SEARCH ----------
+      {g:'Binary Search', t:'Binary Search',
+       d:'Find target’s index in a sorted array, or −1. Must be O(log n).',
+       e:'[-1,0,3,5,9,12], t=9 → 4',
+       p:'Classic binary search', i:'Sorted + O(log n) demanded — the direct cue.',
+       c:'while lo <= hi:\n    mid = (lo + hi) // 2\n    if a[mid] == t: return mid\n    if a[mid] < t: lo = mid + 1\n    else: hi = mid - 1'},
+      {g:'Binary Search', t:'Search a 2D Matrix',
+       d:'Rows sorted; each row starts after the previous ends. Find target in O(log(n·m)).',
+       e:'t=10 in [[1,3,5],[7,10,11]] → true',
+       p:'One binary search over the flattened matrix', i:'The matrix is one sorted array wearing 2D clothes: index k ↔ (k // m, k % m).',
+       c:'mid = (lo + hi) // 2\nv = mat[mid // m][mid % m]  # then classic binsearch'},
+      {g:'Binary Search', t:'Koko Eating Bananas',
+       d:'Koko eats piles at speed k/hour (max one pile per hour). Minimum k to finish all piles within h hours.',
+       e:'piles=[3,6,7,11], h=8 → 4',
+       p:'Binary search on the ANSWER', i:'"Minimum speed that works" + works(k) flips ✗✗✗✓✓✓ monotonically → binary search the answer space, not the array.',
+       c:'def works(k): return sum(ceil(p / k) for p in piles) <= h\nlo, hi = 1, max(piles)\nwhile lo < hi:\n    mid = (lo + hi) // 2\n    if works(mid): hi = mid\n    else: lo = mid + 1'},
+      {g:'Binary Search', t:'Find Minimum in Rotated Sorted Array',
+       d:'A sorted array was rotated an unknown amount. Find the minimum in O(log n).',
+       e:'[3,4,5,1,2] → 1',
+       p:'Binary search on the rotation break', i:'Compare mid to the RIGHT end: a[mid] > a[hi] means the break (and the min) lies to the right of mid.',
+       c:'while lo < hi:\n    mid = (lo + hi) // 2\n    if a[mid] > a[hi]: lo = mid + 1\n    else: hi = mid'},
+      {g:'Binary Search', t:'Search in Rotated Sorted Array',
+       d:'Find target in a rotated sorted array in O(log n).',
+       e:'[4,5,6,7,0,1,2], t=0 → 4',
+       p:'Binary search, pick the sorted half', i:'One half around mid is always properly sorted — test whether target lies inside it; if not, recurse into the other half.',
+       c:'if a[lo] <= a[mid]:            # left half sorted\n    if a[lo] <= t < a[mid]: hi = mid - 1\n    else: lo = mid + 1\nelse:                           # right half sorted\n    if a[mid] < t <= a[hi]: lo = mid + 1\n    else: hi = mid - 1'},
+      {g:'Binary Search', t:'Time Based Key-Value Store',
+       d:'set(key, value, timestamp); get(key, timestamp) returns the latest value stored at or before that time.',
+       e:'set(a,"x",1) → get(a,3) = "x"',
+       p:'Hashmap of lists + binary search', i:'Timestamps arrive in order → each key holds a SORTED list → "latest ≤ t" is a right-boundary binary search (bisect).',
+       c:'arr = store[key]              # [(ts, val), ...] sorted\ni = bisect_right(arr, ts, key=first) - 1\nreturn arr[i][1] if i >= 0 else ""'},
+      {g:'Binary Search', t:'Median of Two Sorted Arrays',
+       d:'Two sorted arrays; find the median of their union in O(log(min(n, m))).',
+       e:'[1,3] + [2] → 2.0',
+       p:'Binary search the partition', i:'Binary search how many elements the smaller array contributes to the combined left half, so that every left element ≤ every right element.',
+       c:'partition A at i, B at half - i\nif A[i-1] > B[j]: move i left\nelif B[j-1] > A[i]: move i right\nelse: found — median from the four boundary values'},
+
+      // ---------- LINKED LIST ----------
+      {g:'Linked List', t:'Reverse Linked List',
+       d:'Reverse a singly linked list.',
+       e:'1→2→3 becomes 3→2→1',
+       p:'In-place pointer flip — O(n)', i:'Three pointers walk together: prev, cur, next. In-place reversal is its own reusable sub-pattern.',
+       c:'prev = None\nwhile cur:\n    cur.next, prev, cur = prev, cur, cur.next\nreturn prev'},
+      {g:'Linked List', t:'Merge Two Sorted Lists',
+       d:'Merge two sorted linked lists into one sorted list.',
+       e:'1→2→4 + 1→3 → 1→1→2→3→4',
+       p:'Two pointers on lists', i:'Merging sorted things = always take the smaller head. A dummy head node kills the edge cases.',
+       c:'tail.next = a if a.val <= b.val else b\nadvance whichever list you took'},
+      {g:'Linked List', t:'Reorder List',
+       d:'Reorder L0→L1→…→Ln into L0→Ln→L1→Ln−1→…, in place.',
+       e:'1→2→3→4 → 1→4→2→3',
+       p:'Find middle + reverse half + merge', i:'Composite of three sub-patterns: fast/slow middle, in-place reversal, interleave. Big problems decompose into drilled moves.',
+       c:'mid = fast/slow walk\nsecond = reverse(mid.next); mid.next = None\ninterleave(first, second)'},
+      {g:'Linked List', t:'Remove Nth Node From End',
+       d:'Delete the nth node from the end in one pass.',
+       e:'1→2→3→4, n=2 → 1→2→4',
+       p:'Two pointers, n apart', i:'Give the lead pointer an n-step head start; when it reaches the end, the trailer stands just before the victim.',
+       c:'fast moves n steps first\nwhile fast.next: both advance\nslow.next = slow.next.next'},
+      {g:'Linked List', t:'Copy List with Random Pointer',
+       d:'Deep-copy a list whose nodes each have an extra random pointer to any node (or null).',
+       e:'—',
+       p:'Hashmap old→new, two passes', i:'Random pointers can point anywhere, including ahead → you need a directory: pass 1 makes clones, pass 2 wires next/random through the map.',
+       c:'for n in list: clone[n] = Node(n.val)\nfor n in list:\n    clone[n].next = clone.get(n.next)\n    clone[n].random = clone.get(n.random)'},
+      {g:'Linked List', t:'Add Two Numbers',
+       d:'Two non-negative numbers stored as reversed-digit linked lists; return their sum, same format.',
+       e:'(2→4→3) + (5→6→4) → 7→0→8   (342+465=807)',
+       p:'Digit-by-digit with carry', i:'Grade-school addition. The only trap is the leftover final carry.',
+       c:'s = (a or 0) + (b or 0) + carry\ncarry, digit = divmod(s, 10)\nappend digit; advance'},
+      {g:'Linked List', t:'Linked List Cycle',
+       d:'Does the linked list contain a cycle?',
+       e:'tail points back into the list → true',
+       p:'Fast & slow pointers — O(1) space', i:'If there is a loop, the hare must lap the tortoise. Beats a visited-set on space.',
+       c:'while fast and fast.next:\n    slow = slow.next; fast = fast.next.next\n    if slow is fast: return True\nreturn False'},
+      {g:'Linked List', t:'Find the Duplicate Number',
+       d:'n+1 integers in range 1..n, exactly one value repeated (maybe many times). Find it without modifying the array, O(1) space.',
+       e:'[1,2,3,2,2] → 2',
+       p:'Floyd’s cycle detection on i → nums[i]', i:'Values 1..n → treat index→value as a linked list; the duplicate value is a cycle entrance. Phase 2 of Floyd’s finds it.',
+       c:'slow = fast = 0\nmeet inside cycle (slow 1-step, fast 2-step)\nrestart one pointer at 0, walk both 1-step\nmeeting point = duplicate'},
+      {g:'Linked List', t:'LRU Cache',
+       d:'Fixed-capacity cache: get and put in O(1), evicting the least-recently-used entry when full.',
+       e:'cap=2: put(1) put(2) get(1) put(3) → evicts 2',
+       p:'Hashmap + doubly linked list', i:'O(1) lookup → hashmap; O(1) move-to-front and evict-oldest → doubly linked list. Design questions = compose two structures, each covering the other’s weakness.',
+       c:'map: key → node\non use: unlink node, relink at head\non overflow: evict tail node, drop from map'},
+      {g:'Linked List', t:'Merge K Sorted Lists',
+       d:'Merge k sorted linked lists into one sorted list.',
+       e:'[[1,4,5],[1,3,4],[2,6]] → 1→1→2→3→4→4→5→6',
+       p:'Min-heap of k heads — O(n log k)', i:'Repeatedly need "smallest among k candidates" → heap of the current heads. (Divide-and-conquer pairwise merging also gives log k rounds.)',
+       c:'heap = [(node.val, i, node) for each head]\npop smallest → append; push its .next'},
+      {g:'Linked List', t:'Reverse Nodes in K-Group',
+       d:'Reverse every consecutive group of exactly k nodes; leftover nodes stay as-is.',
+       e:'1→2→3→4→5, k=2 → 2→1→4→3→5',
+       p:'In-place reversal per group', i:'Reverse Linked List applied window by window; the craft is stitching each reversed group’s tail to the next group’s head.',
+       c:'find kth node from group start\nreverse that segment\nprev_group_tail.next = new_head; repeat'},
+
+      // ---------- TREES ----------
+      {g:'Trees', t:'Invert Binary Tree',
+       d:'Mirror a binary tree (swap every left/right child).',
+       e:'—',
+       p:'DFS — O(n)', i:'"Do X at every node" → any traversal. Answer at node = swap children, recurse.',
+       c:'node.left, node.right = invert(node.right), invert(node.left)\nreturn node'},
+      {g:'Trees', t:'Maximum Depth of Binary Tree',
+       d:'Return the height (number of levels) of a binary tree.',
+       e:'—',
+       p:'DFS combine children', i:'The DFS sentence: "my depth = 1 + max(left’s answer, right’s answer)."',
+       c:'if not node: return 0\nreturn 1 + max(depth(node.left), depth(node.right))'},
+      {g:'Trees', t:'Diameter of Binary Tree',
+       d:'Length (in edges) of the longest path between any two nodes.',
+       e:'—',
+       p:'DFS: return height, record through-path', i:'Best path THROUGH a node = left height + right height. Return the height upward; record the diameter in a side variable.',
+       c:'def h(n):\n    if not n: return 0\n    L, R = h(n.left), h(n.right)\n    self.best = max(self.best, L + R)\n    return 1 + max(L, R)'},
+      {g:'Trees', t:'Balanced Binary Tree',
+       d:'Is the tree height-balanced (every subtree’s halves differ by ≤ 1)?',
+       e:'—',
+       p:'DFS height with a veto flag', i:'Height computation that can veto: bubble up failure the moment any subtree unbalances.',
+       c:'L, R = h(left), h(right)\nif abs(L - R) > 1: balanced = False\nreturn 1 + max(L, R)'},
+      {g:'Trees', t:'Same Tree',
+       d:'Are two binary trees structurally identical with equal values?',
+       e:'—',
+       p:'Parallel DFS', i:'Recurse both trees in lockstep; nulls must match nulls.',
+       c:'if not p and not q: return True\nif not p or not q or p.val != q.val: return False\nreturn same(p.left, q.left) and same(p.right, q.right)'},
+      {g:'Trees', t:'Subtree of Another Tree',
+       d:'Is subRoot identical to some subtree of root?',
+       e:'—',
+       p:'DFS + Same Tree at each node', i:'Composite: run Same Tree from every node of root. (Or serialize both with null markers and do substring search.)',
+       c:'return same(root, sub) \\\n    or isSubtree(root.left, sub) \\\n    or isSubtree(root.right, sub)'},
+      {g:'Trees', t:'Lowest Common Ancestor of a BST',
+       d:'Find the lowest common ancestor of two nodes in a binary SEARCH tree.',
+       e:'—',
+       p:'Walk down using BST ordering', i:'The BST property does all the work: both values smaller → go left; both bigger → go right; the split point is the LCA.',
+       c:'while root:\n    if p.val < root.val and q.val < root.val: root = root.left\n    elif p.val > root.val and q.val > root.val: root = root.right\n    else: return root'},
+      {g:'Trees', t:'Binary Tree Level Order Traversal',
+       d:'Return node values grouped level by level.',
+       e:'[3,9,20,null,null,15,7] → [[3],[9,20],[15,7]]',
+       p:'BFS with a queue', i:'"Level by level" is the literal definition of BFS. Snapshot len(queue) to process one level at a time.',
+       c:'while q:\n    level = []\n    for _ in range(len(q)):\n        n = q.popleft(); level.append(n.val)\n        q += filter(None, (n.left, n.right))\n    ans.append(level)'},
+      {g:'Trees', t:'Binary Tree Right Side View',
+       d:'Values visible looking at the tree from the right, top to bottom.',
+       e:'—',
+       p:'BFS, take each level’s last node', i:'A per-level question in disguise → BFS; the rightmost survivor of each level is what you see.',
+       c:'ans.append(level[-1].val)   # inside level-order loop'},
+      {g:'Trees', t:'Count Good Nodes in Binary Tree',
+       d:'Count nodes that are ≥ every ancestor on their root path.',
+       e:'—',
+       p:'DFS passing max-so-far DOWN', i:'The needed context (max on my path) flows downward → pass it as a recursion argument, not a return value.',
+       c:'def dfs(n, mx):\n    if not n: return 0\n    good = 1 if n.val >= mx else 0\n    mx = max(mx, n.val)\n    return good + dfs(n.left, mx) + dfs(n.right, mx)'},
+      {g:'Trees', t:'Validate Binary Search Tree',
+       d:'Is the tree a valid BST (left subtree all smaller, right all larger, recursively)?',
+       e:'[5,4,6,null,null,3,7] → false (3 under 6 but < 5)',
+       p:'DFS with (lo, hi) bounds', i:'Checking only parent vs child misses deep violations — each subtree must live inside an interval that tightens as you descend.',
+       c:'def valid(n, lo, hi):\n    if not n: return True\n    if not (lo < n.val < hi): return False\n    return valid(n.left, lo, n.val) and \\\n           valid(n.right, n.val, hi)'},
+      {g:'Trees', t:'Kth Smallest Element in a BST',
+       d:'Return the kth smallest value in a BST.',
+       e:'—',
+       p:'In-order traversal, count down', i:'In-order traversal of a BST visits values in sorted order — stop at the kth visit.',
+       c:'inorder walk (iterative stack)\nk -= 1 at each visit; return when k == 0'},
+      {g:'Trees', t:'Construct Tree from Preorder & Inorder',
+       d:'Rebuild the binary tree from its preorder and inorder traversals.',
+       e:'pre=[3,9,20,15,7], in=[9,3,15,20,7]',
+       p:'Recursion + hashmap of inorder positions', i:'preorder[0] is the root; its position in inorder splits left and right subtrees. Recurse on the slices (index map keeps it O(n)).',
+       c:'root = Node(pre[0])\ni = idx[pre[0]]              # position in inorder\nroot.left = build(pre[1 : i+1], ino[:i])\nroot.right = build(pre[i+1 :], ino[i+1:])'},
+      {g:'Trees', t:'Binary Tree Maximum Path Sum',
+       d:'Maximum sum over any node-to-node path (need not pass the root).',
+       e:'[-10,9,20,null,null,15,7] → 42   (15+20+7)',
+       p:'DFS: through-value recorded, arm-value returned', i:'Diameter’s shape with values: record best THROUGH me (L + me + R); return my best single arm (me + max(L, R, 0)) — clamp negatives to 0.',
+       c:'L = max(dfs(n.left), 0); R = max(dfs(n.right), 0)\nbest = max(best, L + n.val + R)\nreturn n.val + max(L, R)'},
+      {g:'Trees', t:'Serialize and Deserialize Binary Tree',
+       d:'Encode a binary tree to a string and decode it back exactly.',
+       e:'[1,2,3] ⇄ "1,2,N,N,3,N,N"',
+       p:'Preorder with explicit null markers', i:'Preorder + "N" for nulls makes the string self-describing: decoding just consumes tokens recursively.',
+       c:'ser(n) = "N," if not n else f"{n.val}," + ser(n.left) + ser(n.right)\ndeser: t = next(tokens)\n    if t == "N": return None\n    node = Node(t); node.left = deser(); node.right = deser()'},
+
+      // ---------- HEAP ----------
+      {g:'Heap / Priority Queue', t:'Kth Largest Element in a Stream',
+       d:'A class that accepts numbers one at a time and always answers "what is the kth largest so far?"',
+       e:'k=3, add 4,5,8,2 → returns 4',
+       p:'Min-heap capped at size k', i:'Streaming + "kth largest" → keep only the k best; the heap’s root IS the answer.',
+       c:'heappush(h, val)\nif len(h) > k: heappop(h)\nreturn h[0]'},
+      {g:'Heap / Priority Queue', t:'Last Stone Weight',
+       d:'Repeatedly smash the two heaviest stones (equal → both vanish; else the difference remains). What is left?',
+       e:'[2,7,4,1,8,1] → 1',
+       p:'Max-heap simulation', i:'"Repeatedly take the two largest" → heap; simulate until ≤ 1 stone.',
+       c:'h = [-s for s in stones]; heapify(h)\nwhile len(h) > 1:\n    y, x = -heappop(h), -heappop(h)\n    if y > x: heappush(h, -(y - x))'},
+      {g:'Heap / Priority Queue', t:'K Closest Points to Origin',
+       d:'Return the k points nearest the origin.',
+       e:'[[1,3],[-2,2]], k=1 → [[-2,2]]',
+       p:'Heap of size k (or quickselect)', i:'Top-K by a score. No sqrt needed — compare x² + y² directly.',
+       c:'return heapq.nsmallest(k, points,\n    key=lambda p: p[0]**2 + p[1]**2)'},
+      {g:'Heap / Priority Queue', t:'Kth Largest Element in an Array',
+       d:'Find the kth largest element without fully sorting.',
+       e:'[3,2,1,5,6,4], k=2 → 5',
+       p:'Quickselect O(n) avg / min-heap O(n log k)', i:'One-shot selection → quickselect partitions toward index n−k; mention the heap as the guaranteed-bound alternative.',
+       c:'partition around a pivot\nrecurse only into the side containing index n - k'},
+      {g:'Heap / Priority Queue', t:'Task Scheduler',
+       d:'CPU runs tasks, identical tasks need a cooldown of n ticks between runs. Minimum total ticks (idles count)?',
+       e:'[A,A,A,B,B,B], n=2 → 8   (AB_AB_AB)',
+       p:'Greedy frame from max frequency', i:'The most frequent task dictates the skeleton: (maxf − 1) frames of width n+1, plus the tasks tied at maxf. Everything else fills the gaps.',
+       c:'frames = (maxf - 1) * (n + 1) + count_of_tasks_with_maxf\nreturn max(frames, len(tasks))'},
+      {g:'Heap / Priority Queue', t:'Design Twitter',
+       d:'postTweet, follow, unfollow, and getNewsFeed (10 most recent tweets across self + followees).',
+       e:'—',
+       p:'Hashmaps + heap merge of feeds', i:'News feed = merge k time-sorted lists → the Merge K Lists pattern. Follows = hashmap of sets.',
+       c:'heap over each followee’s latest tweet (by time)\npop newest, push that user’s next tweet, 10 times'},
+      {g:'Heap / Priority Queue', t:'Find Median from Data Stream',
+       d:'Support addNum(num) and findMedian() over a growing stream.',
+       e:'add 1, 2 → 1.5;  add 3 → 2',
+       p:'Two balanced heaps', i:'Median = the boundary between two halves → max-heap of the small half + min-heap of the large half, sizes kept within 1.',
+       c:'push onto small (max-heap)\nmove its top to large (min-heap)\nif large outgrows small: move one back\nmedian = small top, or average of both tops'},
+
+      // ---------- BACKTRACKING ----------
+      {g:'Backtracking', t:'Subsets',
+       d:'Return all subsets of an array of distinct integers.',
+       e:'[1,2,3] → 8 subsets',
+       p:'Backtracking take/skip — O(2ⁿ)', i:'The output is ALL 2ⁿ configurations → walk the decision tree; each element forks take/skip.',
+       c:'def bt(i):\n    if i == n: ans.append(path[:]); return\n    path.append(a[i]); bt(i + 1)   # take\n    path.pop();        bt(i + 1)   # skip'},
+      {g:'Backtracking', t:'Combination Sum',
+       d:'All unique combinations (elements reusable) summing to target.',
+       e:'[2,3,6,7], t=7 → [[2,2,3],[7]]',
+       p:'Backtracking, stay-or-advance', i:'ALL combinations → backtracking. Reuse allowed → after taking, recurse with the SAME index.',
+       c:'def bt(i, rem):\n    if rem == 0: ans.append(path[:]); return\n    if i == n or rem < 0: return\n    path.append(a[i]); bt(i, rem - a[i])   # stay\n    path.pop();        bt(i + 1, rem)      # advance'},
+      {g:'Backtracking', t:'Subsets II',
+       d:'All subsets of an array WITH duplicates — no duplicate subsets in the output.',
+       e:'[1,2,2] → [[],[1],[1,2],[1,2,2],[2],[2,2]]',
+       p:'Sort + skip repeated siblings', i:'Sort so duplicates neighbor each other; when you SKIP a value, skip all its copies so equal branches never fork twice.',
+       c:'for j in range(start, n):\n    if j > start and a[j] == a[j - 1]: continue\n    take a[j]; bt(j + 1); undo'},
+      {g:'Backtracking', t:'Combination Sum II',
+       d:'Combinations summing to target; each element used at most once; no duplicate combinations.',
+       e:'[10,1,2,7,6,1,5], t=8 → [[1,1,6],[1,2,5],[1,7],[2,6]]',
+       p:'Sort + same-depth dedup', i:'Same dedup move: at one depth of the tree, never start two branches with the same value.',
+       c:'if j > start and a[j] == a[j - 1]: continue'},
+      {g:'Backtracking', t:'Permutations',
+       d:'All orderings of distinct integers.',
+       e:'[1,2,3] → 6 permutations',
+       p:'Backtracking with a used set — O(n!)', i:'ALL orderings → each tree level picks any not-yet-used element.',
+       c:'for x in nums:\n    if x in used: continue\n    used.add(x); path.append(x)\n    bt()\n    path.pop(); used.remove(x)'},
+      {g:'Backtracking', t:'Word Search',
+       d:'Does word exist in the grid, moving to adjacent cells without reusing a cell?',
+       e:'grid + "SEE" → true',
+       p:'Backtracking DFS on the grid', i:'Path-finding toward an exact string → DFS with mark/unmark. The UNMARK is what makes it backtracking rather than flood fill.',
+       c:'def bt(r, c, i):\n    if i == len(word): return True\n    if grid[r][c] != word[i]: return False\n    grid[r][c] = "#"                 # mark\n    found = any(bt(nb, i + 1) for nb in nbrs)\n    grid[r][c] = word[i]             # unmark\n    return found'},
+      {g:'Backtracking', t:'Palindrome Partitioning',
+       d:'All ways to split a string into palindromic substrings.',
+       e:'"aab" → [["a","a","b"], ["aa","b"]]',
+       p:'Backtracking over cut positions', i:'ALL ways to split → backtrack over prefixes, recursing only when the prefix is a palindrome.',
+       c:'def bt(start):\n    if start == n: ans.append(path[:]); return\n    for end in range(start + 1, n + 1):\n        if is_pal(s[start:end]):\n            path.append(s[start:end]); bt(end); path.pop()'},
+      {g:'Backtracking', t:'Letter Combinations of a Phone Number',
+       d:'All letter strings a digit string could type on a phone keypad.',
+       e:'"34" → ["dg","dh","di","eg","eh","ei","fg","fh","fi"]',
+       p:'Backtracking / cartesian product', i:'ALL combinations, one fixed choice-set per position → depth = digit index.',
+       c:'def bt(i, cur):\n    if i == len(digits): ans.append(cur); return\n    for ch in keypad[digits[i]]: bt(i + 1, cur + ch)'},
+      {g:'Backtracking', t:'N-Queens',
+       d:'Place n queens on an n×n board so none attack each other; return all boards.',
+       e:'n=4 → 2 solutions',
+       p:'Backtracking row by row + attack sets', i:'One queen per row → choose a column per row. O(1) conflict checks: sets for columns, diagonals (r−c), anti-diagonals (r+c).',
+       c:'if c in cols or r - c in diag or r + c in anti: continue\nplace queen; bt(r + 1); remove queen'},
+
+      // ---------- TRIES ----------
+      {g:'Tries', t:'Implement Trie (Prefix Tree)',
+       d:'Build a structure with insert(word), search(word), startsWith(prefix).',
+       e:'insert "apple" → startsWith "app" = true',
+       p:'Tree of char → child maps', i:'"startsWith" is the giveaway — hashmaps can’t share prefixes; a tree of characters can.',
+       c:'node = root\nfor ch in word:\n    node = node.children.setdefault(ch, {})\nnode["$"] = True'},
+      {g:'Tries', t:'Design Add and Search Words',
+       d:'Like a word dictionary, but search supports "." matching any letter.',
+       e:'add "day" → search "d.y" = true',
+       p:'Trie + DFS on wildcards', i:'"." = branch into EVERY child at that position → trie search becomes a small DFS.',
+       c:'if ch == ".":\n    return any(dfs(child, i + 1) for child in node)\nreturn dfs(node[ch], i + 1) if ch in node else False'},
+      {g:'Tries', t:'Word Search II',
+       d:'Find all dictionary words that appear in a letter grid (adjacent cells, no reuse).',
+       e:'grid + ["oath","pea","eat"] → ["oath","eat"]',
+       p:'Trie + backtracking DFS together', i:'Many words at once → don’t run Word Search per word. Walk the grid and the trie IN LOCKSTEP; a missing trie child prunes the whole branch.',
+       c:'def dfs(r, c, node):\n    ch = grid[r][c]\n    if ch not in node: return       # prune\n    node = node[ch]\n    if node.word: found.add(node.word)\n    mark; dfs(neighbors); unmark'},
+
+      // ---------- GRAPHS ----------
+      {g:'Graphs', t:'Number of Islands',
+       d:'Count groups of connected "1" (land) cells in a grid.',
+       e:'3 separate blobs of 1s → 3',
+       p:'Flood fill — count the floods', i:'Grid = graph (4-neighbors are edges); "how many groups" = count connected components.',
+       c:'for each cell == "1":\n    count += 1\n    flood(r, c)     # DFS/BFS sinks the whole island'},
+      {g:'Graphs', t:'Max Area of Island',
+       d:'Area of the largest connected land blob.',
+       e:'—',
+       p:'Flood fill that returns size', i:'Same flood; the DFS just returns 1 + sum of neighbor results.',
+       c:'def dfs(r, c):\n    if water or seen: return 0\n    mark seen\n    return 1 + sum(dfs over 4 neighbors)'},
+      {g:'Graphs', t:'Clone Graph',
+       d:'Deep-copy an undirected graph given one node.',
+       e:'—',
+       p:'DFS/BFS + hashmap old→new', i:'Cycles mean revisits → the visited map doubles as the clone directory.',
+       c:'def dfs(n):\n    if n in clone: return clone[n]\n    clone[n] = Node(n.val)\n    clone[n].neighbors = [dfs(nb) for nb in n.neighbors]\n    return clone[n]'},
+      {g:'Graphs', t:'Walls and Gates (Islands & Treasure)',
+       d:'Grid of gates (0), walls, empty rooms (∞). Fill each room with distance to its nearest gate.',
+       e:'—',
+       p:'Multi-source BFS from all gates', i:'"Nearest of MANY sources" → seed the queue with every gate at distance 0; first arrival wins.',
+       c:'q = deque(all gates)\nBFS outward; write dist on first visit'},
+      {g:'Graphs', t:'Rotting Oranges',
+       d:'Each minute, rot spreads to adjacent fresh oranges. Minutes until nothing fresh remains, or −1.',
+       e:'→ 4',
+       p:'Multi-source BFS; levels = minutes', i:'Simultaneous spreading = one BFS wavefront; each level of the queue is one minute of time.',
+       c:'seed queue with ALL rotten oranges\nper level: minutes += 1\nfresh remaining at the end → -1'},
+      {g:'Graphs', t:'Pacific Atlantic Water Flow',
+       d:'Heights grid; water flows to equal-or-lower neighbors. Which cells can reach BOTH oceans?',
+       e:'—',
+       p:'Reverse DFS from both coastlines', i:'Flip the direction: flood UPHILL from each ocean’s border cells; the answer is the intersection of the two reachable sets.',
+       c:'dfs uphill from every Pacific-edge cell → pac set\ndfs uphill from every Atlantic-edge cell → atl set\nreturn pac & atl'},
+      {g:'Graphs', t:'Surrounded Regions',
+       d:'Flip every region of "O" fully surrounded by "X". Border-touching regions survive.',
+       e:'—',
+       p:'Flood from the border, then invert', i:'"Surrounded" = NOT connected to the border → mark border-connected O’s safe, flip everything else.',
+       c:'flood every border "O" → mark safe\nflip unsafe O → X; restore safe → O'},
+      {g:'Graphs', t:'Course Schedule',
+       d:'Given prerequisite pairs, can all courses be finished?',
+       e:'[[1,0],[0,1]] → false (circular)',
+       p:'Cycle detection / topological sort', i:'Prerequisites = directed edges; "can finish" = "is there no cycle" → Kahn’s peel or DFS three-color.',
+       c:'peel nodes with indegree 0, decrementing neighbors\nfinished < n → cycle → false'},
+      {g:'Graphs', t:'Course Schedule II',
+       d:'Return one valid order to take all courses, or empty if impossible.',
+       e:'[[1,0]] → [0,1]',
+       p:'Topological sort (Kahn’s)', i:'Same graph, but they want the ORDER → the peel sequence is the answer.',
+       c:'order.append(node) as each indegree-0 node is peeled\nreturn order if len(order) == n else []'},
+      {g:'Graphs', t:'Graph Valid Tree',
+       d:'Do n nodes and this edge list form a valid tree?',
+       e:'n=5, edges=[[0,1],[0,2],[0,3],[1,4]] → true',
+       p:'Union-Find (or DFS)', i:'Tree = n−1 edges + connected + acyclic. Union-find flags the cycle the moment an edge joins two already-joined nodes.',
+       c:'if len(edges) != n - 1: return False\nfor a, b in edges:\n    if find(a) == find(b): return False\n    union(a, b)\nreturn True'},
+      {g:'Graphs', t:'Number of Connected Components',
+       d:'Count connected components of an undirected graph.',
+       e:'n=6, three separate pairs → 3',
+       p:'Union-Find', i:'Start with n components; every successful union merges two → n − (successful unions).',
+       c:'components = n\nfor a, b in edges:\n    if union(a, b): components -= 1'},
+      {g:'Graphs', t:'Redundant Connection',
+       d:'A tree plus ONE extra edge. Find the edge to remove (last one in input order if several).',
+       e:'[[1,2],[1,3],[2,3]] → [2,3]',
+       p:'Union-Find — first cycle-closing edge', i:'Add edges one at a time; the first edge whose endpoints are already connected closes the cycle.',
+       c:'for a, b in edges:\n    if find(a) == find(b): return [a, b]\n    union(a, b)'},
+      {g:'Graphs', t:'Word Ladder',
+       d:'Minimum transformations from beginWord to endWord, changing one letter at a time, every step in the word list.',
+       e:'hit → hot → dot → dog → cog = 5',
+       p:'BFS on the implicit word graph', i:'"Fewest steps" on unweighted moves = BFS. Build neighbors via wildcard buckets: h*t, *it, hi*.',
+       c:'buckets: pattern → [words]\nBFS from beginWord, level = ladder length'},
+
+      // ---------- ADVANCED GRAPHS ----------
+      {g:'Advanced Graphs', t:'Reconstruct Itinerary',
+       d:'Use every flight ticket exactly once starting at JFK; return the lexically smallest full itinerary.',
+       e:'—',
+       p:'Eulerian path (Hierholzer’s)', i:'"Use every EDGE exactly once" (not node) → Eulerian path: DFS greedily smallest-first, append each airport on the way OUT, then reverse.',
+       c:'sort destinations; dfs(smallest first)\nroute.append(airport) AFTER its edges are exhausted\nreturn reversed(route)'},
+      {g:'Advanced Graphs', t:'Min Cost to Connect All Points',
+       d:'Connect all 2-D points into one network minimizing total Manhattan-distance wiring.',
+       e:'—',
+       p:'Minimum Spanning Tree — Prim’s', i:'"Connect everything, minimize total cost" = MST. Prim’s: grow the tree by always taking the cheapest edge to an outside point (heap).',
+       c:'heap of (dist, point) from the visited set\npop nearest unvisited → add cost → push its edges'},
+      {g:'Advanced Graphs', t:'Network Delay Time',
+       d:'A signal leaves node k through weighted directed edges. Time until ALL nodes receive it (or −1).',
+       e:'—',
+       p:'Dijkstra', i:'Weighted, non-negative shortest paths from one source → Dijkstra. Answer = the largest shortest-distance.',
+       c:'heap = [(0, k)]\npop (d, node); relax each edge (d + w, nb)\nans = max(dist.values())'},
+      {g:'Advanced Graphs', t:'Swim in Rising Water',
+       d:'Grid of elevations; at time t you can stand on cells ≤ t. Earliest time to cross corner to corner.',
+       e:'—',
+       p:'Dijkstra on max-along-path (or binsearch + BFS)', i:'"Minimize the MAXIMUM cell on the path" → Dijkstra where a path’s cost is its max elevation so far — or binary search the answer + reachability check.',
+       c:'heap by max(elevation on path so far)\nfirst pop of the target cell = answer'},
+      {g:'Advanced Graphs', t:'Alien Dictionary',
+       d:'Words are sorted in an unknown alphabet. Recover a valid letter ordering (or report impossible).',
+       e:'["wrt","wrf","er","ett","rftt"] → "wertf"',
+       p:'Edges from adjacent words → topological sort', i:'Each adjacent word pair’s FIRST differing letter yields one edge (a before b). Then it’s Course Schedule II. Trap: prefix like ["abc","ab"] is instantly invalid.',
+       c:'for w1, w2 in zip(words, words[1:]):\n    first diff chars → edge w1[i] → w2[i]\nKahn’s peel; cycle → ""'},
+      {g:'Advanced Graphs', t:'Cheapest Flights Within K Stops',
+       d:'Cheapest route from src to dst using at most k stops.',
+       e:'—',
+       p:'Bellman-Ford, k+1 rounds', i:'The stop LIMIT breaks Dijkstra’s greedy proof → k+1 rounds of relaxing all edges; each round = one more allowed hop. Snapshot the array so a round can’t chain.',
+       c:'for _ in range(k + 1):\n    new = dist.copy()\n    for u, v, w in edges:\n        new[v] = min(new[v], dist[u] + w)\n    dist = new'},
+
+      // ---------- 1D DP ----------
+      {g:'1-D Dynamic Programming', t:'Climbing Stairs',
+       d:'Climb 1 or 2 steps at a time. How many distinct ways to reach step n?',
+       e:'n=3 → 3   (1+1+1, 1+2, 2+1)',
+       p:'DP — Fibonacci', i:'"COUNT the ways" + the last move was 1 or 2 → ways(n) = ways(n−1) + ways(n−2).',
+       c:'a, b = 1, 1\nfor _ in range(n - 1):\n    a, b = b, a + b\nreturn b'},
+      {g:'1-D Dynamic Programming', t:'Min Cost Climbing Stairs',
+       d:'Pay cost[i] when stepping off stair i; start at index 0 or 1; reach past the end cheapest.',
+       e:'[10,15,20] → 15',
+       p:'DP: cheapest arrival', i:'Cost to stand on i = cost[i] + min(coming from i−1, from i−2).',
+       c:'dp[i] = cost[i] + min(dp[i - 1], dp[i - 2])\nreturn min(dp[-1], dp[-2])'},
+      {g:'1-D Dynamic Programming', t:'House Robber',
+       d:'Rob houses for max loot; adjacent houses trigger the alarm.',
+       e:'[2,9,8,3,6] → 16   (rob 2, 8, 6)',
+       p:'DP take-or-skip', i:'At each house: rob it (+ best two back) or skip (best one back). THE canonical take/skip recurrence.',
+       c:'dp[i] = max(dp[i - 1], dp[i - 2] + a[i])'},
+      {g:'1-D Dynamic Programming', t:'House Robber II',
+       d:'Same, but the houses form a circle (first and last are adjacent).',
+       e:'[2,3,2] → 3',
+       p:'Run House Robber twice', i:'The circle only means house 0 and house n−1 can’t both be robbed → solve the line twice, once without each end.',
+       c:'return max(rob(a[1:]), rob(a[:-1]))'},
+      {g:'1-D Dynamic Programming', t:'Longest Palindromic Substring',
+       d:'Return the longest palindromic substring.',
+       e:'"babad" → "bab" (or "aba")',
+       p:'Expand around each center — O(n²)', i:'A palindrome grows symmetrically from its center → try all 2n−1 centers (letters and gaps).',
+       c:'for each center (i, i) and (i, i + 1):\n    while s[l] == s[r]: l -= 1; r += 1\n    record best'},
+      {g:'1-D Dynamic Programming', t:'Palindromic Substrings',
+       d:'Count how many substrings are palindromes.',
+       e:'"aaa" → 6',
+       p:'Expand around centers, counting', i:'Same expansion; every successful widening is one more palindrome.',
+       c:'count += 1 for each successful expand step'},
+      {g:'1-D Dynamic Programming', t:'Decode Ways',
+       d:'Digits decode as 1→A … 26→Z. How many ways can the string decode?',
+       e:'"121" → 3   (ABA, AU, LA)',
+       p:'DP over 1- or 2-digit takes', i:'ways(i) = ways(i+1) if s[i] ≠ "0", plus ways(i+2) if s[i:i+2] is 10–26. Fibonacci with guards; "0" is the trap.',
+       c:'if s[i] != "0": dp[i] += dp[i + 1]\nif 10 <= int(s[i:i+2]) <= 26: dp[i] += dp[i + 2]'},
+      {g:'1-D Dynamic Programming', t:'Coin Change',
+       d:'Fewest coins (reuse allowed) to make an amount; −1 if impossible.',
+       e:'coins=[1,3,5], amount=7 → 3   (5+1+1)',
+       p:'Unbounded knapsack — min', i:'"MIN over choices with reuse" → dp[x] = 1 + min(dp[x − coin]). Counting ways instead? That’s Coin Change II.',
+       c:'dp = [0] + [inf] * amount\nfor x in range(1, amount + 1):\n    dp[x] = 1 + min((dp[x - c] for c in coins if c <= x),\n                    default=inf)'},
+      {g:'1-D Dynamic Programming', t:'Maximum Product Subarray',
+       d:'Contiguous subarray with the largest product.',
+       e:'[2,3,-2,4] → 6',
+       p:'DP tracking max AND min', i:'A negative flips fortunes: today’s max may be yesterday’s MIN × a negative → carry both extremes forward.',
+       c:'cands = (x, x * pmax, x * pmin)\npmax, pmin = max(cands), min(cands)\nbest = max(best, pmax)'},
+      {g:'1-D Dynamic Programming', t:'Word Break',
+       d:'Can the string be segmented entirely into dictionary words?',
+       e:'"neetcode", ["neet","code"] → true',
+       p:'DP over break positions', i:'dp[i] = "the first i chars are breakable" = exists j with dp[j] and s[j:i] in dict.',
+       c:'dp[0] = True\nfor i in range(1, n + 1):\n    dp[i] = any(dp[j] and s[j:i] in words\n                for j in range(i))'},
+      {g:'1-D Dynamic Programming', t:'Longest Increasing Subsequence',
+       d:'Length of the longest strictly increasing subsequence (not necessarily contiguous).',
+       e:'[10,9,2,5,3,7,101,18] → 4   (2,3,7,101)',
+       p:'DP O(n²), or patience sort + bisect O(n log n)', i:'"Best chain ending at i" → look back at every smaller element. Upgrade: keep an array of smallest-tail-per-length and binary search it.',
+       c:'dp[i] = 1 + max((dp[j] for j < i if a[j] < a[i]),\n                default=0)\n# or: bisect_left into tails[]; append or replace'},
+      {g:'1-D Dynamic Programming', t:'Partition Equal Subset Sum',
+       d:'Can the array be split into two subsets with equal sums?',
+       e:'[1,5,11,5] → true   ([1,5,5] and [11])',
+       p:'0/1 knapsack over total/2', i:'"Pick a subset hitting a target sum" = knapsack; target = total // 2. Iterate sums DOWNWARD so each number is used once.',
+       c:'if total % 2: return False\ndp = {0}\nfor x in nums:\n    dp |= {s + x for s in dp}\nreturn total // 2 in dp'},
+
+      // ---------- 2D DP ----------
+      {g:'2-D Dynamic Programming', t:'Unique Paths',
+       d:'A robot moves only right or down on an m×n grid. Count paths from top-left to bottom-right.',
+       e:'m=3, n=7 → 28',
+       p:'Grid DP', i:'Paths INTO a cell = paths from above + paths from the left.',
+       c:'row = [1] * n\nfor each later row:\n    for c in range(1, n): row[c] += row[c - 1]'},
+      {g:'2-D Dynamic Programming', t:'Longest Common Subsequence',
+       d:'Longest subsequence appearing in both strings (order kept, gaps allowed).',
+       e:'"abcde", "ace" → 3',
+       p:'2D DP over index pairs', i:'"Compare two sequences" → the classic table: chars match → 1 + diagonal; else max of dropping one char from either side.',
+       c:'dp[i][j] = 1 + dp[i-1][j-1]  if a[i-1] == b[j-1]\n           else max(dp[i-1][j], dp[i][j-1])'},
+      {g:'2-D Dynamic Programming', t:'Buy & Sell Stock with Cooldown',
+       d:'Unlimited trades, but after selling you must skip one day. Max profit.',
+       e:'[1,2,3,0,2] → 3',
+       p:'State-machine DP', i:'Choices over time WITH states (holding / cooldown / free) → one dp value per state per day.',
+       c:'hold = max(hold, free - p)\nfree = max(free, cool)\ncool = hold + p'},
+      {g:'2-D Dynamic Programming', t:'Coin Change II',
+       d:'COUNT the combinations of coins (reuse allowed) making the amount.',
+       e:'amount=5, coins=[1,2,5] → 4',
+       p:'Unbounded knapsack — coins in the OUTER loop', i:'Counting COMBINATIONS not permutations → loop coins outside amounts so different orderings are never double-counted.',
+       c:'dp = [1] + [0] * amount\nfor c in coins:\n    for x in range(c, amount + 1):\n        dp[x] += dp[x - c]'},
+      {g:'2-D Dynamic Programming', t:'Target Sum',
+       d:'Assign + or − to every number so the expression equals target. Count the ways.',
+       e:'[1,1,1,1,1], target=3 → 5',
+       p:'Algebra → subset-sum knapsack', i:'Let P = positives chosen: P − (total − P) = target → P = (total + target) / 2 → count subsets summing to P.',
+       c:'goal = (total + target) // 2   # parity check first\ncount subsets summing to goal (0/1 knapsack)'},
+      {g:'2-D Dynamic Programming', t:'Interleaving String',
+       d:'Is s3 formed by interleaving s1 and s2, preserving each one’s internal order?',
+       e:'s1="aabcc", s2="dbbca", s3="aadbbcbcac" → true',
+       p:'2D DP on prefix lengths', i:'State = (i chars used from s1, j from s2); s3’s next char must extend one of them.',
+       c:'dp[i][j] = (dp[i-1][j] and s1[i-1] == s3[i+j-1]) \\\n        or (dp[i][j-1] and s2[j-1] == s3[i+j-1])'},
+      {g:'2-D Dynamic Programming', t:'Longest Increasing Path in a Matrix',
+       d:'Longest strictly increasing path moving up/down/left/right.',
+       e:'[[9,9,4],[6,6,8],[2,1,1]] → 4   (1→2→6→9)',
+       p:'Memoized DFS (DP on a DAG)', i:'Edges point uphill → no cycles → it’s a DAG; memoized DFS from every cell IS the DP.',
+       c:'@cache\ndef dfs(r, c):\n    return 1 + max((dfs(nr, nc) for higher neighbors),\n                   default=0)'},
+      {g:'2-D Dynamic Programming', t:'Distinct Subsequences',
+       d:'Count distinct subsequences of s that equal t.',
+       e:'s="rabbbit", t="rabbit" → 3',
+       p:'2D DP: use-or-skip each s char', i:'At each s char: if it matches t’s current char you may consume both — plus you may always skip the s char.',
+       c:'dp[i][j] = dp[i-1][j]                 # skip s[i]\n         + (dp[i-1][j-1] if s[i-1] == t[j-1] else 0)'},
+      {g:'2-D Dynamic Programming', t:'Edit Distance',
+       d:'Minimum insert / delete / replace operations to turn word1 into word2.',
+       e:'"horse" → "ros" = 3',
+       p:'2D DP (alignment table)', i:'Match → the diagonal is free; otherwise 1 + min(insert, delete, replace) — the three neighbors.',
+       c:'dp[i][j] = dp[i-1][j-1] if a[i-1] == b[j-1] else \\\n    1 + min(dp[i-1][j],     # delete\n            dp[i][j-1],     # insert\n            dp[i-1][j-1])   # replace'},
+      {g:'2-D Dynamic Programming', t:'Burst Balloons',
+       d:'Bursting balloon i earns left·i·right of its CURRENT neighbors. Maximize total coins.',
+       e:'[3,1,5,8] → 167',
+       p:'Interval DP — choose the LAST burst', i:'Neighbors change as balloons pop → think backwards: pick which balloon pops LAST in a range; it locks the range’s boundary multipliers.',
+       c:'dp[l][r] = max over k in (l, r) of\n    dp[l][k] + a[l] * a[k] * a[r] + dp[k][r]'},
+      {g:'2-D Dynamic Programming', t:'Regular Expression Matching',
+       d:'Match a string against a pattern supporting "." (any char) and "*" (zero+ of the previous element).',
+       e:'s="aab", p="c*a*b" → true',
+       p:'2D DP over (i, j)', i:'"*" gives two branches: use it zero times (jump 2 pattern chars) or one more time (consume a matching string char, stay).',
+       c:'if j+1 < m and p[j+1] == "*":\n    return dp(i, j+2) or (match(i, j) and dp(i+1, j))\nreturn match(i, j) and dp(i+1, j+1)'},
+
+      // ---------- GREEDY ----------
+      {g:'Greedy', t:'Maximum Subarray',
+       d:'Contiguous subarray with the largest sum.',
+       e:'[-2,1,-3,4,-1,2,1,-5,4] → 6   ([4,-1,2,1])',
+       p:'Kadane’s — reset negative prefixes', i:'A negative running prefix can never help what follows → drop it and restart at the current element.',
+       c:'cur = max(x, cur + x)\nbest = max(best, cur)'},
+      {g:'Greedy', t:'Jump Game',
+       d:'nums[i] is your max jump length from i. Can you reach the last index?',
+       e:'[2,3,1,1,4] → true      [3,2,1,0,4] → false',
+       p:'Greedy farthest-reach', i:'One running number — the farthest reachable index — answers everything. If i ever exceeds it, you’re stuck.',
+       c:'reach = 0\nfor i, x in enumerate(nums):\n    if i > reach: return False\n    reach = max(reach, i + x)\nreturn True'},
+      {g:'Greedy', t:'Jump Game II',
+       d:'Minimum number of jumps to reach the last index (always reachable).',
+       e:'[2,3,1,1,4] → 2',
+       p:'Greedy windows (implicit BFS levels)', i:'Each jump unlocks a window of new indices → count windows until the end is inside one. It’s BFS levels without a queue.',
+       c:'if i == cur_end:\n    jumps += 1\n    cur_end = farthest'},
+      {g:'Greedy', t:'Gas Station',
+       d:'Circular route: gain gas[i], pay cost[i] to advance. Find the unique valid starting station, or −1.',
+       e:'gas=[1,2,3,4,5], cost=[3,4,5,1,2] → 3',
+       p:'Greedy reset after failure', i:'If total gas ≥ total cost, an answer exists. When the running tank dips negative, NO station in that stretch can start → restart just after it.',
+       c:'tank += gas[i] - cost[i]\nif tank < 0:\n    start = i + 1; tank = 0'},
+      {g:'Greedy', t:'Hand of Straights',
+       d:'Can the cards split into groups of k consecutive values?',
+       e:'[1,2,3,6,2,3,4,7,8], k=3 → true',
+       p:'Greedy from the smallest + counts', i:'The smallest remaining card has no choice — it MUST start a straight. No branching → greedy, not backtracking.',
+       c:'for start in sorted(count):\n    while count[start]:\n        consume start .. start + k - 1 or return False'},
+      {g:'Greedy', t:'Merge Triplets to Form Target',
+       d:'Merging two triplets takes the elementwise max. Can some merges produce exactly the target triplet?',
+       e:'[[2,5,3],[1,8,4],[1,7,5]], target=[2,7,5] → true',
+       p:'Greedy filter', i:'Any triplet exceeding the target ANYWHERE can never be used. Among the safe rest, just check each target coordinate is hit by someone.',
+       c:'good = set()\nfor t in triplets:\n    if all(t[i] <= target[i] for i in range(3)):\n        good |= {i for i in range(3) if t[i] == target[i]}\nreturn len(good) == 3'},
+      {g:'Greedy', t:'Partition Labels',
+       d:'Split a string into the maximum number of parts such that each letter appears in only one part.',
+       e:'"ababcc" → [4, 2]',
+       p:'Greedy on last occurrences', i:'A part must stretch to the LAST occurrence of every letter inside it → track the running max of last-seen positions; cut when i reaches it.',
+       c:'last = {ch: i for i, ch in enumerate(s)}\nend = 0\nfor i, ch in enumerate(s):\n    end = max(end, last[ch])\n    if i == end: cut here'},
+      {g:'Greedy', t:'Valid Parenthesis String',
+       d:'String of "(", ")", and "*" where * can be "(", ")" or empty. Can it be made valid?',
+       e:'"(*))" → true',
+       p:'Greedy range of open counts', i:'Track the RANGE [lo, hi] of possible open-bracket counts; "*" widens both directions. Dead if hi < 0; valid if lo can end at 0.',
+       c:'lo = max(0, lo + (1 if c == "(" else -1))\nhi += 1 if c == "(" else -1   # "*": lo -= 1, hi += 1\nif hi < 0: return False\nreturn lo == 0'},
+
+      // ---------- INTERVALS ----------
+      {g:'Intervals', t:'Insert Interval',
+       d:'Insert a new interval into a sorted, non-overlapping list, merging where needed.',
+       e:'[[1,3],[6,9]] + [2,5] → [[1,5],[6,9]]',
+       p:'Three phases: before, absorb, after', i:'Copy intervals ending before it; absorb everything overlapping into one; copy the rest.',
+       c:'while iv.end < new.start: keep iv\nwhile iv.start <= new.end:\n    new = [min starts, max ends]\nappend new, then the rest'},
+      {g:'Intervals', t:'Merge Intervals',
+       d:'Merge all overlapping intervals.',
+       e:'[[1,3],[2,6],[8,10]] → [[1,6],[8,10]]',
+       p:'Sort by start + sweep', i:'After sorting, overlap is purely local: next.start ≤ current.end.',
+       c:'ivs.sort()\nfor s, e in ivs:\n    if merged and s <= merged[-1][1]:\n        merged[-1][1] = max(merged[-1][1], e)\n    else: merged.append([s, e])'},
+      {g:'Intervals', t:'Non-Overlapping Intervals',
+       d:'Minimum intervals to remove so none overlap.',
+       e:'[[1,2],[2,3],[3,4],[1,3]] → 1',
+       p:'Greedy — keep the earliest END', i:'Activity selection: sort by end; the earliest-ending interval leaves the most room. Count what must go.',
+       c:'sort by end\nfor s, e in ivs:\n    if s < prev_end: removed += 1\n    else: prev_end = e'},
+      {g:'Intervals', t:'Meeting Rooms',
+       d:'Can one person attend every meeting?',
+       e:'[(0,30),(5,10)] → false',
+       p:'Sort + adjacent overlap check', i:'Sort by start; any meeting starting before the previous one ends → impossible.',
+       c:'sort by start\nreturn all(a.end <= b.start for adjacent a, b)'},
+      {g:'Intervals', t:'Meeting Rooms II',
+       d:'Minimum number of conference rooms needed for all meetings.',
+       e:'[(0,40),(5,10),(15,20)] → 2',
+       p:'Sweep starts vs ends (or min-heap of end times)', i:'Rooms = the PEAK number of simultaneous meetings → sort starts and ends separately; +1 on each start, −1 on each end; track the max.',
+       c:'starts, ends = sorted starts, sorted ends\nwalk both: count += 1 on start, -= 1 on end\nans = max count ever seen'},
+      {g:'Intervals', t:'Minimum Interval to Include Each Query',
+       d:'For each query point, the size of the smallest interval containing it (−1 if none).',
+       e:'—',
+       p:'Sort both + min-heap by interval size', i:'Offline trick: process queries in sorted order; push intervals whose start ≤ q into a size-keyed heap; pop those that already ended.',
+       c:'for q in sorted(queries):\n    push intervals with start <= q  (size, end)\n    pop while heap top ends before q\n    ans[q] = heap top size'},
+
+      // ---------- MATH & MATRIX ----------
+      {g:'Math & Matrix', t:'Rotate Image',
+       d:'Rotate an n×n matrix 90° clockwise, in place.',
+       e:'[[1,2],[3,4]] → [[3,1],[4,2]]',
+       p:'Transpose + reverse each row', i:'A rotation is two reflections — no four-way cell cycling needed.',
+       c:'transpose: m[i][j], m[j][i] = m[j][i], m[i][j]\nthen reverse every row'},
+      {g:'Math & Matrix', t:'Spiral Matrix',
+       d:'Return all matrix elements in spiral order.',
+       e:'[[1,2,3],[4,5,6],[7,8,9]] → [1,2,3,6,9,8,7,4,5]',
+       p:'Four shrinking boundaries', i:'Keep top/bottom/left/right walls; walk one edge, shrink that wall, turn.',
+       c:'walk top row → right col → bottom row → left col\nshrink the wall you just used; stop when walls cross'},
+      {g:'Math & Matrix', t:'Set Matrix Zeroes',
+       d:'If any cell is 0, set its whole row and column to 0 — in place, O(1) extra space.',
+       e:'—',
+       p:'First row/col as marker space', i:'O(1) space → the matrix’s own first row and column become the flags (plus one variable for their overlap).',
+       c:'pass 1: if m[r][c] == 0: m[r][0] = m[0][c] = 0\npass 2: apply marks (skip row/col 0)\npass 3: handle row 0 / col 0 via saved flags'},
+      {g:'Math & Matrix', t:'Happy Number',
+       d:'Repeatedly replace n with the sum of the squares of its digits. Does it reach 1 (vs loop forever)?',
+       e:'19 → 82 → 68 → 100 → 1 → true',
+       p:'Cycle detection (fast & slow or set)', i:'A repeating sequence hiding a cycle question → the same tools as linked-list cycle.',
+       c:'slow = f(slow); fast = f(f(fast))\nif they meet at 1 → happy; meet elsewhere → loop'},
+      {g:'Math & Matrix', t:'Plus One',
+       d:'Add one to a number stored as an array of digits.',
+       e:'[1,2,9] → [1,3,0]      [9,9] → [1,0,0]',
+       p:'Carry from the right', i:'Only trailing 9s propagate; all 9s → prepend a 1.',
+       c:'from the right: if d < 9: d += 1; done\nelse: d = 0; continue\nall nines → [1] + zeros'},
+      {g:'Math & Matrix', t:'Pow(x, n)',
+       d:'Compute x^n in O(log n).',
+       e:'2^10 = 1024',
+       p:'Fast exponentiation', i:'x^n = (x^(n/2))² — halve the exponent, square the result; odd n multiplies one extra x. Negative n → 1/x.',
+       c:'def p(x, n):\n    if n == 0: return 1\n    half = p(x, n // 2)\n    return half * half * (x if n % 2 else 1)'},
+      {g:'Math & Matrix', t:'Multiply Strings',
+       d:'Multiply two non-negative numbers given as strings, without converting to int.',
+       e:'"12" × "34" → "408"',
+       p:'Grade-school digit grid', i:'digit i × digit j contributes to output positions i+j and i+j+1 — accumulate in an array, then one carry pass.',
+       c:'res[i + j + 1] += int(a[i]) * int(b[j])\ncarry pass right-to-left; strip leading zeros'},
+      {g:'Math & Matrix', t:'Detect Squares',
+       d:'add(point) many times; count(point) asks how many axis-aligned squares use it as a corner.',
+       e:'—',
+       p:'Hashmap of point counts + diagonal pairing', i:'Fix the query point; any stored point DIAGONAL to it (|dx| = |dy| ≠ 0) proposes a square — multiply the counts of the two remaining corners.',
+       c:'for (x2, y2) in points with abs(x-x2) == abs(y-y2):\n    ans += cnt[(x, y2)] * cnt[(x2, y)]'},
+
+      // ---------- BIT ----------
+      {g:'Bit Manipulation', t:'Single Number',
+       d:'Every element appears exactly twice except one. Find it in O(n) time, O(1) space.',
+       e:'[4,1,2,1,2] → 4',
+       p:'XOR everything', i:'a ⊕ a = 0 — pairs annihilate; the whole array XORs down to the loner.',
+       c:'return reduce(xor, nums)'},
+      {g:'Bit Manipulation', t:'Number of 1 Bits',
+       d:'Count the set bits in an integer.',
+       e:'11 (1011) → 3',
+       p:'n & (n−1) trick', i:'n & (n−1) deletes the LOWEST set bit — loop until zero; iterations = answer.',
+       c:'while n:\n    n &= n - 1\n    count += 1'},
+      {g:'Bit Manipulation', t:'Counting Bits',
+       d:'For every i in 0..n, output how many set bits i has.',
+       e:'n=4 → [0,1,1,2,1]',
+       p:'DP on bits', i:'bits(i) = bits(i >> 1) + (i & 1) — the smaller answer is already computed.',
+       c:'dp[i] = dp[i >> 1] + (i & 1)'},
+      {g:'Bit Manipulation', t:'Reverse Bits',
+       d:'Reverse the 32 bits of an unsigned integer.',
+       e:'000...0101 → 1010...000',
+       p:'Pop one end, push the other ×32', i:'Peel the low bit, append it to the result, 32 times.',
+       c:'for _ in range(32):\n    res = (res << 1) | (n & 1)\n    n >>= 1'},
+      {g:'Bit Manipulation', t:'Missing Number',
+       d:'Array holds n distinct numbers from 0..n. Which one is missing?',
+       e:'[3,0,1] → 2',
+       p:'XOR indices vs values (or sum formula)', i:'XOR all of 0..n against all array values — everything pairs off except the missing number.',
+       c:'ans = n\nfor i, x in enumerate(nums):\n    ans ^= i ^ x'},
+      {g:'Bit Manipulation', t:'Sum of Two Integers',
+       d:'Add two integers without using + or −.',
+       e:'a=1, b=2 → 3',
+       p:'XOR + shifted carry loop', i:'XOR adds without carrying; AND << 1 is exactly the carries. Repeat until no carry remains.',
+       c:'while b:\n    a, b = a ^ b, (a & b) << 1\nreturn a'},
+      {g:'Bit Manipulation', t:'Reverse Integer',
+       d:'Reverse an int’s digits; return 0 if it overflows 32 bits.',
+       e:'123 → 321      -120 → -21',
+       p:'Digit peel + pre-push overflow check', i:'Pop with % 10, push with × 10 — but check the bound BEFORE multiplying.',
+       c:'if res > (2**31 - 1) // 10: return 0\nres = res * 10 + digit'},
+
+      // ---------- BONUS ----------
+      {g:'Bonus — beyond the 150', t:'Middle of the Linked List',
+       d:'Return the middle node of a linked list (second middle if even length).',
+       e:'1→2→3→4→5 → node 3',
+       p:'Fast & slow pointers', i:'When fast reaches the end, slow stands at the middle.',
+       c:'while fast and fast.next:\n    slow, fast = slow.next, fast.next.next\nreturn slow'},
+      {g:'Bonus — beyond the 150', t:'Squares of a Sorted Array',
+       d:'Sorted array (may contain negatives); return the sorted squares in O(n).',
+       e:'[-4,-1,0,3,10] → [0,1,9,16,100]',
+       p:'Two pointers from the ends, fill output backwards', i:'The largest square must sit at one of the two ENDS → converge, writing from the back of the output.',
+       c:'l, r, k = 0, n - 1, n - 1\ntake the larger of a[l]², a[r]² into out[k]; k -= 1'},
+      {g:'Bonus — beyond the 150', t:'First Missing Positive',
+       d:'Smallest missing positive integer — O(n) time, O(1) space.',
+       e:'[3,4,-1,1] → 2',
+       p:'Cyclic sort / index as hash', i:'Values 1..n each belong at index v−1 → swap everyone home in one pass; the first index holding the wrong value is the answer.',
+       c:'while 1 <= a[i] <= n and a[a[i] - 1] != a[i]:\n    swap a[i] to its home\nthen: first i with a[i] != i + 1 → i + 1'},
+      {g:'Bonus — beyond the 150', t:'Kth Smallest in a Sorted Matrix',
+       d:'Rows and columns both sorted; find the kth smallest element.',
+       e:'[[1,5,9],[10,11,13],[12,13,15]], k=8 → 13',
+       p:'Heap of row-heads, or binary search on VALUE', i:'It’s Merge-K-Lists in disguise — or binary search the value range, counting elements ≤ mid per row with bisect.',
+       c:'count(mid) = sum(bisect_right(row, mid) for row in m)\nbinary search the smallest value with count >= k'}
+    ];
+
+    var root = document.getElementById('gymroot');
+    var btnStudy = document.getElementById('gymStudy');
+    var btnQuiz = document.getElementById('gymQuiz');
+    var quiz = false;
+
+    function el(tag, cls, text) {
+      var e = document.createElement(tag);
+      if (cls) e.className = cls;
+      if (text != null) e.textContent = text;
+      return e;
+    }
+
+    function card(pr, hideGroup) {
+      var art = el('article', 'prob');
+      var head = el('div', 'p-head');
+      head.appendChild(el('span', 'p-title', pr.t));
+      if (pr.k) head.appendChild(el('span', 'p-done', '✓ solved in your repo'));
+      art.appendChild(head);
+      art.appendChild(el('p', 'p-stmt', pr.d));
+      if (pr.e && pr.e !== '—') art.appendChild(el('div', 'p-ex', pr.e));
+      var det = el('details');
+      det.appendChild(el('summary', null, 'Name the pattern first — then reveal'));
+      var ans = el('div', 'p-answer');
+      ans.appendChild(el('span', 'p-pat', pr.p));
+      if (hideGroup) ans.appendChild(el('span', 'p-grp', '· section: ' + pr.g));
+      ans.appendChild(el('p', 'p-insight', pr.i));
+      var pre = el('pre', 'p-code');
+      var code = el('code', null, pr.c);
+      pre.appendChild(code);
+      ans.appendChild(pre);
+      det.appendChild(ans);
+      art.appendChild(det);
+      return art;
+    }
+
+    function render() {
+      root.innerHTML = '';
+      if (!quiz) {
+        var groups = [];
+        var byG = {};
+        P.forEach(function (pr) {
+          if (!byG[pr.g]) { byG[pr.g] = []; groups.push(pr.g); }
+          byG[pr.g].push(pr);
+        });
+        groups.forEach(function (g) {
+          var h = el('h3', 'gym-group-h', g + ' ');
+          var small = el('small', null, byG[g].length + ' problems');
+          h.appendChild(small);
+          root.appendChild(h);
+          byG[g].forEach(function (pr) { root.appendChild(card(pr, false)); });
+        });
+      } else {
+        var shuffled = P.slice();
+        for (var i = shuffled.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var tmp = shuffled[i]; shuffled[i] = shuffled[j]; shuffled[j] = tmp;
+        }
+        shuffled.forEach(function (pr) { root.appendChild(card(pr, true)); });
+      }
+      document.getElementById('gymCount').textContent =
+        P.length + ' problems · NeetCode 150 + bonuses';
+    }
+
+    btnStudy.addEventListener('click', function () {
+      quiz = false;
+      btnStudy.setAttribute('aria-pressed', 'true');
+      btnQuiz.setAttribute('aria-pressed', 'false');
+      render();
+    });
+    btnQuiz.addEventListener('click', function () {
+      quiz = true;
+      btnQuiz.setAttribute('aria-pressed', 'true');
+      btnStudy.setAttribute('aria-pressed', 'false');
+      render();
+    });
+    document.getElementById('gymCollapse').addEventListener('click', function () {
+      root.querySelectorAll('details[open]').forEach(function (d) { d.open = false; });
+      mroot.querySelectorAll('details[open]').forEach(function (d) { d.open = false; });
+    });
+
+    // Mystery set: fixed cross-family shuffle, category hidden until reveal
+    var MYSTERY = [
+      'Koko Eating Bananas', 'Group Anagrams', 'Daily Temperatures',
+      'Rotting Oranges', 'House Robber', 'Container With Most Water',
+      'Kth Largest Element in an Array', 'Course Schedule',
+      'Minimum Window Substring', 'Find the Duplicate Number', 'Subsets',
+      'Meeting Rooms II', 'Single Number', 'Word Search II',
+      'Partition Equal Subset Sum', 'Merge K Sorted Lists',
+      'Longest Consecutive Sequence', 'Search in Rotated Sorted Array',
+      'Diameter of Binary Tree', 'Cheapest Flights Within K Stops',
+      'Sliding Window Maximum', 'Valid Parenthesis String',
+      'First Missing Positive', 'Decode Ways', 'Car Fleet',
+      'Graph Valid Tree', 'Kth Smallest Element in a BST',
+      'Subarray Sum Equals K (bonus)', 'Reorder List'
+    ];
+    var mroot = document.getElementById('mysteryroot');
+    MYSTERY.forEach(function (name, idx) {
+      var pr = null;
+      P.forEach(function (p) { if (p.t === name) pr = p; });
+      if (!pr) return;
+      var mystery = {
+        g: pr.g + ' — ' + pr.t, t: 'Mystery ' + (idx + 1),
+        d: pr.d, e: pr.e,
+        p: pr.p, i: pr.i, c: pr.c, k: 0
+      };
+      mroot.appendChild(card(mystery, true));
+    });
+
+    render();
+  })();
+  </script>
+
+  <!-- ============ WORKED ============ -->
+  <section id="worked">
+    <h2>Worked recognitions — watch the script run</h2>
+    <p style="color:var(--muted); font-size:14.5px;">Four problems you know, undressed in three sentences each.</p>
+    <div class="worked">
+      <div class="case">
+        <header>Two Sum</header>
+        <div class="steps">
+          <div><b class="qq">Q1</b><span>find i, j with a[i] + a[j] = target.</span></div>
+          <div><b class="qq">Q2</b><span>at index i: “does my complement exist?”</span></div>
+          <div><b class="qq">Q3</b><span>I keep re-searching for the complement…</span></div>
+        </div>
+        <div class="verdict a">→ hash map: remember what I’ve seen. One pass.</div>
+      </div>
+      <div class="case">
+        <header>Best Time to Buy &amp; Sell Stock</header>
+        <div class="steps">
+          <div><b class="qq">Q1</b><span>max(prices[j] − prices[i]) for j &gt; i.</span></div>
+          <div><b class="qq">Q2</b><span>“if I sell today: today − cheapest earlier day.”</span></div>
+          <div><b class="qq">Q3</b><span>each index needs only the min from its left.</span></div>
+        </div>
+        <div class="verdict b">→ running min_price, one pass, O(1) space.</div>
+      </div>
+      <div class="case">
+        <header>Trapping Rain Water</header>
+        <div class="steps">
+          <div><b class="qq">Q1</b><span>total = sum of water above each bar.</span></div>
+          <div><b class="qq">Q2</b><span>“water on bar i = min(best left wall, best right wall) − h[i]” — saying this is 90% of the solve.</span></div>
+          <div><b class="qq">Q3</b><span>needs BOTH sides.</span></div>
+        </div>
+        <div class="verdict b">→ prefix/suffix max; “less space?” → two pointers.</div>
+      </div>
+      <div class="case">
+        <header>Top K Frequent Elements</header>
+        <div class="steps">
+          <div><b class="qq">Q1</b><span>the K values with the highest counts.</span></div>
+          <div><b class="qq">Q2</b><span>two shapes stacked: “I need counts first”, then “top K”.</span></div>
+          <div><b class="qq">Q3</b><span>counting → hashmap; selecting → heap.</span></div>
+        </div>
+        <div class="verdict a">→ hashmap, then heap — or bucket-by-count for O(n).</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FLOWCHART ============ -->
+  <section id="flow">
+    <h2>The 60-second flowchart</h2>
+    <div class="panel">
+      <div class="flow">
+        <div class="stage">
+          <div class="ask">First, always:</div>
+          <div class="answers"><div class="ans a"><b>read the constraints</b>n tells you the target complexity</div></div>
+        </div>
+        <div class="stage">
+          <div class="ask">Array or string?</div>
+          <div class="answers">
+            <div class="ans b"><b>sorted?</b>two pointers · binary search</div>
+            <div class="ans b"><b>contiguous chunk?</b>sliding window · prefix sum</div>
+            <div class="ans a"><b>seen before / counts?</b>hashmap</div>
+            <div class="ans v"><b>nearest greater/smaller?</b>monotonic stack</div>
+            <div class="ans a"><b>top K / streaming?</b>heap</div>
+            <div class="ans b"><b>i needs both sides?</b>prefix+suffix → two pointers</div>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="ask">Tree or graph?</div>
+          <div class="answers">
+            <div class="ans g"><b>levels / nearest?</b>BFS</div>
+            <div class="ans g"><b>paths / combine children?</b>DFS</div>
+            <div class="ans g"><b>prerequisites?</b>topological sort</div>
+            <div class="ans g"><b>connectivity over time?</b>union-find</div>
+            <div class="ans g"><b>weighted shortest path?</b>Dijkstra</div>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="ask">“Ways” question?</div>
+          <div class="answers">
+            <div class="ans r"><b>ALL of them?</b>backtracking</div>
+            <div class="ans r"><b>count / best?</b>dynamic programming</div>
+            <div class="ans r"><b>local choice provably safe?</b>greedy</div>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="ask">Stuck 2+ min?</div>
+          <div class="answers">
+            <div class="ans b"><b>sort it mentally</b>does two pointers unlock?</div>
+            <div class="ans a"><b>add a hashmap</b>what would I remember?</div>
+            <div class="ans g"><b>solve n = 3 by hand</b>the pattern shows itself small</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ IN THE ROOM ============ -->
+  <section>
+    <h2>In the room: the 5-step loop</h2>
+    <div class="panel">
+      <div class="loop">
+        <div class="st"><span class="k">1</span><p><b>Restate + constraints.</b> “n up to 10⁵, so I’m aiming for O(n log n) or better.” You just showed seniority.</p></div>
+        <div class="st"><span class="k">2</span><p><b>Say the brute force in one sentence.</b> It’s your safety net — and the pattern hides in its inefficiency: “the inner loop re-searches for X” → hashmap / stack / window replaces it.</p></div>
+        <div class="st"><span class="k">3</span><p><b>Run the 3-question script out loud.</b> “What does each index need to know?” Interviewers reward hearing the reasoning.</p></div>
+        <div class="st"><span class="k">4</span><p><b>Name the pattern, state complexity, then code.</b> The skeleton is muscle memory if you’ve drilled it.</p></div>
+        <div class="st"><span class="k">5</span><p><b>Test tiny + one edge case.</b> Empty, size 1, all-same, negatives.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GLANCE CARD ============ -->
+  <section id="glance">
+    <h2>The glance card — read this in the hallway</h2>
+    <div class="glance">
+      <div class="head">cue → pattern</div>
+      <div class="grid">
+        <div>
+          <div class="g-row b"><span>sorted</span><span>two pointers / binsearch</span></div>
+          <div class="g-row b"><span>contiguous</span><span>window / prefix sum</span></div>
+          <div class="g-row a"><span>seen before?</span><span>hashmap</span></div>
+          <div class="g-row v"><span>nearest greater</span><span>monotonic stack</span></div>
+          <div class="g-row a"><span>top K</span><span>heap</span></div>
+          <div class="g-row b"><span>both sides needed</span><span>prefix+suffix → 2 ptr</span></div>
+          <div class="g-row v"><span>1..n array trick</span><span>cyclic sort / XOR</span></div>
+        </div>
+        <div>
+          <div class="g-row r"><span>all possibilities</span><span>backtracking</span></div>
+          <div class="g-row r"><span>count / best ways</span><span>DP</span></div>
+          <div class="g-row g"><span>prerequisites</span><span>toposort</span></div>
+          <div class="g-row g"><span>connectivity</span><span>union-find</span></div>
+          <div class="g-row g"><span>levels / nearest</span><span>BFS</span></div>
+          <div class="g-row g"><span>paths / subtrees</span><span>DFS</span></div>
+          <div class="g-row a"><span>min X that works</span><span>binsearch on answer</span></div>
+        </div>
+      </div>
+      <div class="foot">n ≤ 20 → 2ⁿ ok&nbsp;&nbsp;·&nbsp;&nbsp;n ≤ 10³ → n²&nbsp;&nbsp;·&nbsp;&nbsp;n ≤ 10⁵ → n log n&nbsp;&nbsp;·&nbsp;&nbsp;n ≥ 10⁶ → n or log n</div>
+    </div>
+    <p style="margin-top: 22px; font-family: Georgia, serif; font-style: italic; font-size: 16px; color: var(--muted); max-width: 58ch;">You've already solved these problems. The interview isn't asking you to invent — it's asking you to recognize. Say the formula, name what each index needs, and the pattern will introduce itself.</p>
+  </section>
+
+  <footer class="colophon">Problems marked ✓ are already solved in your repo (<code>Data Structures &amp; Algorithms/…</code>). Examples reference the NeetCode 150 / LeetCode canon. Companion markdown version: <code>blog/dsa-pattern-recognition.md</code>.</footer>
+
+</div>

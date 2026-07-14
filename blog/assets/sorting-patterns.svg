@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1320" viewBox="0 0 1600 1320" role="img" aria-labelledby="title desc">
+  <title id="title">Sorting as an interview problem-solving pattern</title>
+  <desc id="desc">Visual guide showing when sorting reveals adjacency, pointer direction, interval frontiers, event order, custom order, or rank, with LeetCode and NeetCode examples.</desc>
+  <defs><style>
+    .bg{fill:#faf7f1}.head{fill:#3d3120}.ink{fill:#2a241a}.muted{fill:#6e675c}.gold{fill:#c78613}.red{fill:#d45242}.green{fill:#27805a}.blue{fill:#327f9e}.purple{fill:#7652a5}.softy{fill:#fff3d5}.softr{fill:#fff0ed}.softg{fill:#eaf7f0}.softb{fill:#eaf5f8}.softp{fill:#f2ecf8}.card{fill:#fff;stroke:#dfd7c9;stroke-width:2}.t{font:800 46px Inter,system-ui,sans-serif}.sub{font:500 19px Inter,system-ui,sans-serif}.name{font:800 23px Inter,system-ui,sans-serif}.label{font:800 12px Inter,system-ui,sans-serif;letter-spacing:1.4px}.body{font:600 15px Inter,system-ui,sans-serif}.small{font:550 13px Inter,system-ui,sans-serif}.mono{font:700 13px ui-monospace,SFMono-Regular,Menlo,monospace}.box{fill:#fff;stroke:#bfb6a7;stroke-width:2}.hotbox{fill:#fff3d5;stroke:#c78613;stroke-width:3}.line{stroke:#8e867a;stroke-width:2.5;fill:none}.hot{stroke:#d45242;stroke-width:4;fill:none}.white{fill:#fff}
+  </style><marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M1 1L9 5 1 9Z" fill="#d45242"/></marker></defs>
+  <rect class="bg" width="1600" height="1320"/><rect class="head" width="1600" height="146"/>
+  <text class="t white" x="70" y="68">SORTING: PAY O(n log n) TO REVEAL STRUCTURE</text>
+  <text class="sub" x="70" y="108" fill="#ddd2bf">Sorting is rarely the whole solution. It turns global chaos into local comparisons, directional pointer moves, and a sweepable frontier.</text>
+
+  <!-- central transformation -->
+  <g transform="translate(60 178)"><rect class="card" width="1480" height="150" rx="10"/>
+    <text class="label gold" x="22" y="30">THE INTERVIEW QUESTION</text><text class="name ink" x="22" y="69">What becomes easy after equal, close, or early items become neighbors?</text>
+    <g transform="translate(24 91)"><rect class="box" width="48" height="42"/><rect class="box" x="52" width="48" height="42"/><rect class="box" x="104" width="48" height="42"/><rect class="box" x="156" width="48" height="42"/><text class="body ink" x="24" y="27" text-anchor="middle">7</text><text class="body ink" x="76" y="27" text-anchor="middle">1</text><text class="body ink" x="128" y="27" text-anchor="middle">9</text><text class="body ink" x="180" y="27" text-anchor="middle">3</text><path class="hot" d="M225 21H305" marker-end="url(#arr)"/><rect class="hotbox" x="330" width="48" height="42"/><rect class="hotbox" x="382" width="48" height="42"/><rect class="hotbox" x="434" width="48" height="42"/><rect class="hotbox" x="486" width="48" height="42"/><text class="body ink" x="354" y="27" text-anchor="middle">1</text><text class="body ink" x="406" y="27" text-anchor="middle">3</text><text class="body ink" x="458" y="27" text-anchor="middle">7</text><text class="body ink" x="510" y="27" text-anchor="middle">9</text><text class="body green" x="585" y="27">Now: neighbors compare locally · pointers move predictably · one pass can sweep</text></g>
+  </g>
+
+  <!-- six uses -->
+  <g transform="translate(60 354)"><rect class="card" width="470" height="270" rx="10"/><rect class="softg" width="470" height="42" rx="10"/>
+    <text class="label green" x="20" y="27">EQUAL / CLOSE VALUES BECOME NEIGHBORS</text><text class="name ink" x="20" y="76">SORT → ADJACENCY</text><text class="body muted" x="20" y="103">Replace “compare with everything” by “compare nearby.”</text>
+    <g transform="translate(24 132)"><text class="mono muted" x="0" y="18">1  1  2  4  4  4  9</text><path class="hot" d="M0 32H50M90 32H178"/><text class="small green" x="0" y="59">groups</text><text class="small green" x="90" y="59">duplicate run</text><rect class="softg" y="78" width="420" height="40" rx="6"/><text class="small ink" x="12" y="103">Contains Duplicate · Group Anagrams · Longest Consecutive*</text></g>
+    <text class="small muted" x="20" y="251">*Hash set is faster for Longest Consecutive; sort is the alternative.</text>
+  </g>
+  <g transform="translate(550 354)"><rect class="card" width="470" height="270" rx="10"/><rect class="softb" width="470" height="42" rx="10"/>
+    <text class="label blue" x="20" y="27">SUM / DISTANCE CHANGES PREDICTABLY</text><text class="name ink" x="20" y="76">SORT → TWO POINTERS</text><text class="body muted" x="20" y="103">Too small moves left; too large moves right.</text>
+    <g transform="translate(24 132)"><text class="mono red" x="0" y="18">L →</text><rect class="box" x="48" width="42" height="42"/><rect class="box" x="94" width="42" height="42"/><rect class="box" x="140" width="42" height="42"/><rect class="box" x="186" width="42" height="42"/><rect class="box" x="232" width="42" height="42"/><text class="mono red" x="286" y="18">← R</text><text class="small ink" x="0" y="76">Fix one value; solve remaining pair in O(n).</text><rect class="softb" y="92" width="420" height="40" rx="6"/><text class="small ink" x="12" y="117">3Sum · 4Sum · Boats to Save People · Closest Sum</text></g>
+  </g>
+  <g transform="translate(1040 354)"><rect class="card" width="500" height="270" rx="10"/><rect class="softy" width="500" height="42" rx="10"/>
+    <text class="label gold" x="20" y="27">RANGES BECOME A LEFT-TO-RIGHT FRONTIER</text><text class="name ink" x="20" y="76">SORT → INTERVAL SWEEP</text><text class="body muted" x="20" y="103">After sorting starts, compare only with active ranges.</text>
+    <g transform="translate(24 132)"><line class="line" x1="0" y1="16" x2="440" y2="16"/><rect class="softb" x="16" width="130" height="32" rx="6"/><rect class="softr" x="105" y="46" width="175" height="32" rx="6"/><rect class="softb" x="300" width="82" height="32" rx="6"/><path class="hot" d="M16 103H280" marker-end="url(#arr)"/><text class="small ink" x="0" y="131">Merge Intervals · Insert Interval · Non-overlap Intervals</text></g>
+  </g>
+
+  <g transform="translate(60 650)"><rect class="card" width="470" height="270" rx="10"/><rect class="softr" width="470" height="42" rx="10"/>
+    <text class="label red" x="20" y="27">START / END EVENTS CREATE A TIMELINE</text><text class="name ink" x="20" y="76">SORT EVENTS → SWEEP LINE</text><text class="body muted" x="20" y="103">Update active count or state at each event.</text>
+    <g transform="translate(24 132)"><line class="line" x1="0" y1="32" x2="420" y2="32"/><circle cx="70" cy="32" r="8" fill="#27805a"/><circle cx="165" cy="32" r="8" fill="#d45242"/><circle cx="235" cy="32" r="8" fill="#27805a"/><circle cx="345" cy="32" r="8" fill="#d45242"/><text class="small green" x="55" y="17">+1</text><text class="small red" x="153" y="17">-1</text><text class="small green" x="220" y="17">+1</text><text class="small red" x="333" y="17">-1</text><text class="small ink" x="0" y="77">Tie rule matters: does an end free capacity before a start?</text><rect class="softr" y="94" width="420" height="40" rx="6"/><text class="small ink" x="12" y="119">Meeting Rooms II · Car Pooling · Skyline · My Calendar</text></g>
+  </g>
+  <g transform="translate(550 650)"><rect class="card" width="470" height="270" rx="10"/><rect class="softp" width="470" height="42" rx="10"/>
+    <text class="label purple" x="20" y="27">THE PROBLEM DEFINES “BEFORE”</text><text class="name ink" x="20" y="76">CUSTOM COMPARATOR</text><text class="body muted" x="20" y="103">Sort by the relationship that makes the final scan valid.</text>
+    <g transform="translate(24 132)"><rect class="softp" width="420" height="73" rx="7"/><text class="mono ink" x="14" y="29">Largest Number: compare a+b vs b+a</text><text class="mono ink" x="14" y="55">Queue Reconstruct: height ↓, k ↑</text><text class="small red" x="0" y="99">Comparator must be consistent and transitive.</text><text class="small ink" x="0" y="125">Largest Number · Reconstruct Queue · Russian Doll Envelopes</text></g>
+  </g>
+  <g transform="translate(1040 650)"><rect class="card" width="500" height="270" rx="10"/><rect class="softg" width="500" height="42" rx="10"/>
+    <text class="label green" x="20" y="27">NEED RANK / KTH, NOT FULL ORDER?</text><text class="name ink" x="20" y="76">SELECT INSTEAD OF FULL SORT</text><text class="body muted" x="20" y="103">Choose based on whether data is static, streaming, or bounded.</text>
+    <g transform="translate(24 132)"><text class="body green" x="0" y="18">Quickselect</text><text class="small ink" x="130" y="18">average O(n), static kth</text><text class="body blue" x="0" y="48">Heap size K</text><text class="small ink" x="130" y="48">O(n log K), stream / top K</text><text class="body gold" x="0" y="78">Buckets</text><text class="small ink" x="130" y="78">O(n + range), bounded keys</text><text class="small ink" x="0" y="115">Kth Largest · K Closest Points · Top K Frequent</text></g>
+  </g>
+
+  <!-- algorithm chooser -->
+  <g transform="translate(60 946)"><rect class="card" width="1480" height="284" rx="10"/><rect class="softy" width="1480" height="42" rx="10"/>
+    <text class="label gold" x="22" y="27">WHICH SORTING TOOL? DEFAULT TO THE LANGUAGE SORT UNLESS A PROPERTY MATTERS</text>
+    <g transform="translate(24 66)">
+      <text class="label muted" x="0" y="16">TOOL</text><text class="label muted" x="220" y="16">USE WHEN</text><text class="label muted" x="675" y="16">MEMORY HOOK</text><text class="label muted" x="1010" y="16">PROBLEMS INSPIRED BY IT</text>
+      <line class="line" x1="0" y1="30" x2="1428" y2="30"/>
+      <text class="body ink" x="0" y="59">Built-in sort</text><text class="small muted" x="220" y="59">You need order; no special requirement</text><text class="small green" x="675" y="59">“Order, then scan.”</text><text class="small ink" x="1010" y="59">3Sum · Intervals · Car Fleet</text>
+      <text class="body ink" x="0" y="93">Merge sort</text><text class="small muted" x="220" y="93">Stable order; count cross-half pairs</text><text class="small green" x="675" y="93">“Count while merging.”</text><text class="small ink" x="1010" y="93">Count Smaller After Self · Reverse Pairs</text>
+      <text class="body ink" x="0" y="127">Quickselect</text><text class="small muted" x="220" y="127">Only kth / partition, not all sorted</text><text class="small green" x="675" y="127">“Discard one partition.”</text><text class="small ink" x="1010" y="127">Kth Largest · K Closest</text>
+      <text class="body ink" x="0" y="161">Counting / bucket</text><text class="small muted" x="220" y="161">Small bounded key or frequency range</text><text class="small green" x="675" y="161">“Index is the key.”</text><text class="small ink" x="1010" y="161">Sort Colors · Top K Frequent · H-Index</text>
+      <text class="body ink" x="0" y="195">Heap</text><text class="small muted" x="220" y="195">Online data or repeatedly need next best</text><text class="small green" x="675" y="195">“Best stays on top.”</text><text class="small ink" x="1010" y="195">Merge K Lists · Task Scheduler</text>
+    </g>
+  </g>
+  <text class="sub ink" x="800" y="1276" text-anchor="middle">Sort when order destroys the inner search. Do not sort when original indices/order matter and cannot be carried along.</text>
+</svg>

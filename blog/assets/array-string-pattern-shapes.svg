@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1380" viewBox="0 0 1600 1380" role="img" aria-labelledby="title desc">
+  <title id="title">Array and string pattern recognition sheet</title>
+  <desc id="desc">Eight visual patterns for array and string interview problems with triggers, state, invariants, and examples.</desc>
+  <defs><style>
+    .bg{fill:#f7f7f3}.ink{fill:#14231d}.muted{fill:#5d6963}.card{fill:#fff;stroke:#d5dcd5;stroke-width:2}.head{fill:#183d31}.accent{fill:#e7533f}.soft{fill:#fff0ed}.t{font:800 46px Inter,system-ui,sans-serif}.sub{font:500 19px Inter,system-ui,sans-serif}.name{font:800 24px Inter,system-ui,sans-serif}.label{font:800 12px Inter,system-ui,sans-serif;letter-spacing:1.5px}.body{font:600 15px Inter,system-ui,sans-serif}.small{font:550 13px Inter,system-ui,sans-serif}.mono{font:700 14px ui-monospace,SFMono-Regular,Menlo,monospace}.num{font:700 16px ui-monospace,SFMono-Regular,Menlo,monospace}.line{stroke:#86948d;stroke-width:2;fill:none}.hot{stroke:#e7533f;stroke-width:4;fill:none}.box{fill:#fff;stroke:#aeb9b2;stroke-width:2}.hotbox{fill:#fff0ed;stroke:#e7533f;stroke-width:3}
+  </style><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M1 1L9 5 1 9Z" fill="#e7533f"/></marker></defs>
+  <rect class="bg" width="1600" height="1380"/>
+  <rect class="head" width="1600" height="146"/>
+  <text class="t" x="70" y="68" fill="#fff">ARRAYS &amp; STRINGS: SEE THE MOTION</text>
+  <text class="sub" x="70" y="108" fill="#bfd1c7">Don’t memorize code. Picture what moves, what is remembered, and why discarded work never returns.</text>
+
+  <!-- hash map -->
+  <g transform="translate(60 180)"><rect class="card" width="720" height="250" rx="10"/>
+    <text class="label" x="24" y="31" fill="#e7533f">01 · SEARCHING THE PAST AGAIN?</text><text class="name ink" x="24" y="64">HASH MAP: remember the answer to the inner search</text>
+    <text class="body muted" x="24" y="92">Trigger: complement · duplicate · frequency · group by key</text>
+    <g transform="translate(28 119)"><rect class="box" width="62" height="52"/><rect class="box" x="70" width="62" height="52"/><rect class="box" x="140" width="62" height="52"/><rect class="box" x="210" width="62" height="52"/><text class="num ink" x="31" y="32" text-anchor="middle">2</text><text class="num ink" x="101" y="32" text-anchor="middle">7</text><text class="num ink" x="171" y="32" text-anchor="middle">11</text><text class="num ink" x="241" y="32" text-anchor="middle">15</text><text class="small muted" x="0" y="78">target 9: at 7, need 2</text><path class="hot" d="M101 56C101 102 31 102 31 56" marker-end="url(#a)"/></g>
+    <g transform="translate(345 119)"><rect class="soft" width="340" height="94" rx="8"/><text class="label" x="16" y="22" fill="#e7533f">STATE</text><text class="mono ink" x="16" y="46">seen[value] = index / count</text><text class="label" x="16" y="69" fill="#e7533f">INVARIANT</text><text class="small ink" x="104" y="69">seen contains only earlier items</text><text class="small muted" x="16" y="88">Two Sum · Anagram · Longest Consecutive</text></g>
+  </g>
+
+  <!-- two pointers -->
+  <g transform="translate(820 180)"><rect class="card" width="720" height="250" rx="10"/>
+    <text class="label" x="24" y="31" fill="#e7533f">02 · SORTED + PAIR, OR BOTH ENDS?</text><text class="name ink" x="24" y="64">TWO POINTERS: movement has a known direction</text>
+    <text class="body muted" x="24" y="92">Trigger: pair/triplet · palindrome · opposing ends · in-place compaction</text>
+    <g transform="translate(28 128)"><text class="mono" x="0" y="18" fill="#e7533f">L →</text><text class="mono" x="320" y="18" fill="#e7533f">← R</text><g transform="translate(52 0)"><rect class="box" width="52" height="52"/><rect class="box" x="58" width="52" height="52"/><rect class="box" x="116" width="52" height="52"/><rect class="box" x="174" width="52" height="52"/><rect class="box" x="232" width="52" height="52"/><text class="num ink" x="26" y="32" text-anchor="middle">1</text><text class="num ink" x="84" y="32" text-anchor="middle">3</text><text class="num ink" x="142" y="32" text-anchor="middle">5</text><text class="num ink" x="200" y="32" text-anchor="middle">8</text><text class="num ink" x="258" y="32" text-anchor="middle">11</text></g><text class="small muted" x="0" y="80">sum small → L++    sum large → R--</text></g>
+    <g transform="translate(405 119)"><rect class="soft" width="280" height="94" rx="8"/><text class="label" x="16" y="22" fill="#e7533f">INVARIANT</text><text class="small ink" x="16" y="45">Everything outside [L, R]</text><text class="small ink" x="16" y="64">cannot be part of the answer.</text><text class="small muted" x="16" y="86">3Sum · Container · Palindrome</text></g>
+  </g>
+
+  <!-- sliding window -->
+  <g transform="translate(60 456)"><rect class="card" width="720" height="250" rx="10"/>
+    <text class="label" x="24" y="31" fill="#e7533f">03 · BEST CONTIGUOUS RANGE?</text><text class="name ink" x="24" y="64">SLIDING WINDOW: expand, then repair</text>
+    <text class="body muted" x="24" y="92">Trigger: longest/shortest substring or subarray · at most K · fixed length K</text>
+    <g transform="translate(28 124)"><text class="num ink" x="20" y="33">a</text><text class="num ink" x="74" y="33">b</text><text class="num ink" x="128" y="33">c</text><text class="num ink" x="182" y="33">a</text><text class="num ink" x="236" y="33">b</text><text class="num ink" x="290" y="33">b</text><path class="hot" d="M4 47V62H158V47"/><text class="small" x="82" y="82" text-anchor="middle" fill="#e7533f">valid</text><path class="line" d="M158 62H214V47"/><text class="small muted" x="250" y="82">repeat → move L</text></g>
+    <g transform="translate(370 119)"><rect class="soft" width="315" height="100" rx="8"/><text class="label" x="16" y="22" fill="#e7533f">STATE</text><text class="mono ink" x="16" y="45">[L..R] + counts / sum</text><text class="label" x="16" y="69" fill="#e7533f">INVARIANT</text><text class="small ink" x="104" y="69">window is valid after shrinking</text><text class="small muted" x="16" y="91">No-repeat · Min Window · Max Sum K</text></g>
+  </g>
+
+  <!-- prefix -->
+  <g transform="translate(820 456)"><rect class="card" width="720" height="250" rx="10"/>
+    <text class="label" x="24" y="31" fill="#e7533f">04 · EVERY INDEX ASKS THE SAME HISTORY QUESTION?</text><text class="name ink" x="24" y="64">PREFIX / SUFFIX: pay once, answer instantly</text>
+    <text class="body muted" x="24" y="92">Trigger: range sum · left/right max · except self · subarray sum count</text>
+    <g transform="translate(28 120)"><text class="small muted" x="0" y="18">nums</text><text class="mono ink" x="70" y="18">2   4   1   3</text><text class="small muted" x="0" y="48">prefix</text><text class="mono" x="70" y="48" fill="#e7533f">2   6   7  10</text><rect class="soft" x="0" y="65" width="310" height="34" rx="6"/><text class="mono ink" x="12" y="87">sum[L..R] = P[R+1] - P[L]</text></g>
+    <g transform="translate(370 119)"><rect class="soft" width="315" height="100" rx="8"/><text class="label" x="16" y="22" fill="#e7533f">STATE</text><text class="small ink" x="16" y="45">answer about everything before i</text><text class="label" x="16" y="69" fill="#e7533f">BOTH SIDES?</text><text class="small ink" x="116" y="69">prefix + suffix, then compress</text><text class="small muted" x="16" y="91">Rain Water · Product Except Self</text></g>
+  </g>
+
+  <!-- running state -->
+  <g transform="translate(60 732)"><rect class="card" width="720" height="250" rx="10"/>
+    <text class="label" x="24" y="31" fill="#e7533f">05 · ONLY THE BEST EARLIER VALUE MATTERS?</text><text class="name ink" x="24" y="64">RUNNING STATE: compress the entire past to one fact</text>
+    <text class="body muted" x="24" y="92">Trigger: best ordered pair · max ending here · min/max so far</text>
+    <g transform="translate(28 120)"><polyline class="line" points="0,15 58,45 116,62 174,32 232,66 290,5"/><circle cx="116" cy="62" r="7" fill="#e7533f"/><circle cx="290" cy="5" r="7" fill="#183d31"/><text class="small" x="116" y="88" text-anchor="middle" fill="#e7533f">cheapest buy</text><text class="small ink" x="290" y="88" text-anchor="middle">sell: price - min</text></g>
+    <g transform="translate(370 119)"><rect class="soft" width="315" height="100" rx="8"/><text class="mono ink" x="16" y="26">min_price = min(min_price, p)</text><text class="mono ink" x="16" y="50">profit = max(profit, p-min_price)</text><text class="label" x="16" y="75" fill="#e7533f">INVARIANT</text><text class="small ink" x="104" y="75">min is strictly earlier</text><text class="small muted" x="16" y="94">Stock · Kadane · Max Difference</text></g>
+  </g>
+
+  <!-- monotonic -->
+  <g transform="translate(820 732)"><rect class="card" width="720" height="250" rx="10"/>
+    <text class="label" x="24" y="31" fill="#e7533f">06 · NEAREST ELEMENT THAT DEFEATS ME?</text><text class="name ink" x="24" y="64">MONOTONIC STACK: keep only unresolved candidates</text>
+    <text class="body muted" x="24" y="92">Trigger: next greater/smaller · span · rectangle · collision</text>
+    <g transform="translate(28 116)"><rect class="box" x="0" y="42" width="54" height="58"/><rect class="box" x="64" y="26" width="54" height="74"/><rect class="box" x="128" y="10" width="54" height="90"/><rect class="hotbox" x="192" y="54" width="54" height="46"/><rect class="hotbox" x="256" y="66" width="54" height="34"/><rect class="box" x="320" y="38" width="54" height="62"/><path class="hot" d="M283 62C283 18 347 18 347 34" marker-end="url(#a)"/><text class="small muted" x="0" y="123">72 arrives: resolves 69, then 71; 75 still waits</text></g>
+    <g transform="translate(430 119)"><rect class="soft" width="255" height="100" rx="8"/><text class="label" x="16" y="22" fill="#e7533f">INVARIANT</text><text class="small ink" x="16" y="45">stack stays sorted;</text><text class="small ink" x="16" y="64">each item pushes and pops once</text><text class="small muted" x="16" y="91">Temperatures · Histogram</text></g>
+  </g>
+
+  <!-- binary search -->
+  <g transform="translate(60 1008)"><rect class="card" width="720" height="250" rx="10"/>
+    <text class="label" x="24" y="31" fill="#e7533f">07 · CAN I DISCARD HALF WITH ONE QUESTION?</text><text class="name ink" x="24" y="64">BINARY SEARCH: search a monotonic boundary</text>
+    <text class="body muted" x="24" y="92">Trigger: sorted · first/last · minimum feasible · maximize minimum</text>
+    <g transform="translate(28 123)"><rect class="box" width="48" height="50"/><rect class="box" x="52" width="48" height="50"/><rect class="box" x="104" width="48" height="50"/><rect class="hotbox" x="156" width="48" height="50"/><rect class="box" x="208" width="48" height="50"/><rect class="box" x="260" width="48" height="50"/><rect class="box" x="312" width="48" height="50"/><text class="small muted" x="0" y="77">F  F  F</text><text class="small" x="155" y="77" fill="#e7533f">first T</text><text class="small muted" x="252" y="77">T  T  T</text></g>
+    <g transform="translate(420 119)"><rect class="soft" width="265" height="100" rx="8"/><text class="label" x="16" y="22" fill="#e7533f">INVARIANT</text><text class="small ink" x="16" y="45">the answer is never outside</text><text class="mono ink" x="16" y="66">[lo, hi]</text><text class="small muted" x="16" y="91">Rotated Search · Koko</text></g>
+  </g>
+
+  <!-- sort / sweep -->
+  <g transform="translate(820 1008)"><rect class="card" width="720" height="250" rx="10"/>
+    <text class="label" x="24" y="31" fill="#e7533f">08 · WOULD ORDER REVEAL THE STRUCTURE?</text><text class="name ink" x="24" y="64">SORT + SWEEP: buy order, remove chaos</text>
+    <text class="body muted" x="24" y="92">Trigger: overlap · closest values · grouping · scheduling · deduplicate</text>
+    <g transform="translate(28 122)"><line class="line" x1="0" y1="18" x2="340" y2="18"/><rect x="15" y="5" width="145" height="26" rx="6" fill="#d9eee6"/><rect x="105" y="42" width="170" height="26" rx="6" fill="#fff0ed"/><rect x="260" y="5" width="72" height="26" rx="6" fill="#d9eee6"/><path class="hot" d="M15 88H275" marker-end="url(#a)"/><text class="small muted" x="0" y="111">sort starts → compare only with active / previous</text></g>
+    <g transform="translate(420 119)"><rect class="soft" width="265" height="100" rx="8"/><text class="label" x="16" y="22" fill="#e7533f">INVARIANT</text><text class="small ink" x="16" y="45">all earlier starts processed;</text><text class="small ink" x="16" y="64">keep only current frontier</text><text class="small muted" x="16" y="91">Merge Intervals · 3Sum</text></g>
+  </g>
+  <text class="sub ink" x="800" y="1332" text-anchor="middle">Memory cue: past → map · ends → pointers · range → window · history → prefix · unresolved → stack</text>
+</svg>
